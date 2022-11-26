@@ -1,96 +1,125 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html
+  lang="en"
+  class="light-style customizer-hide"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="../assets/"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
 
-    <head>
-        <meta charset="utf-8" />
-        <title>MARKETPLACE-FORGETPASSWORD PAGE</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="marketplace for projects" name="description" />
-        <meta content="teamname" name="author" />
-        <!-- App favicon -->
-        @include('dev/include/header')
-    </head>
+    <title>Forgot Password</title>
 
-    <body class="auth-body-bg">
-        <div class="home-btn d-none d-sm-block">
-            <a href="index.html"><i class="mdi mdi-home-variant h2 text-white"></i></a>
-        </div>
-        <div>
-            <div class="container-fluid p-0">
-                <div class="row g-0">
-                    <div class="col-lg-4">
-                        <div class="authentication-page-content p-4 d-flex align-items-center min-vh-100">
-                            <div class="w-100">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-9">
-                                        <div>
-                                            <div class="text-center">
-                                                <div>
-                                                    <a href="index.html" class="logo">
-                                                        <img src="{{ asset('public/assets/images/logo-dark.png') }}" height="20" alt="logo"></a>
-                                                </div>
+    <meta name="description" content="" />
 
-                                                <h4 class="font-size-18 mt-4">Welcome</h4>
-                                                <p class="text-muted">Sign in to continue to Marketplace.</p>
-                                            </div>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
 
-                                            <div class="p-2 mt-5">
-                                                <form id="login">
-                                                    @csrf
-                                                    <div class="mb-3 auth-form-group-custom mb-4">
-                                                        <i class="ri-user-2-line auti-custom-input-icon"></i>
-                                                        <label for="username">Email Id</label>
-                                                        <input type="text" class="form-control" name="username" placeholder="Enter username">
-                                                    </div>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
 
-                                                    <div class="mt-4 text-center">
-                                                        <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Log In</button>
-                                                    </div>
+    @include('dev.include.header')
+  </head>
 
-                                                    <div class="mt-4 text-center">
-                                                        <a href="" class="text-muted"><i class="mdi mdi-lock me-1"></i> Forgot your password?</a>
-                                                    </div>
-                                                </form>
-                                            </div>
+  <body>
+    <!-- Content -->
 
-                                            <div class="mt-5 text-center">
-                                                <p>Don't have an account ? <a href="auth-register.html" class="fw-medium text-primary"> Register </a> </p>
-                                                <p>© <script>document.write(new Date().getFullYear())</script> <i class="mdi mdi-heart text-danger"></i>Marketplace</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="authentication-bg">
-                            <div class="bg-overlay"></div>
-                        </div>
-                    </div>
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+          <!-- Register -->
+          <div class="card">
+            <div class="card-body">
+              <!-- Logo -->
+              <div class="app-brand justify-content-center">
+                <a href="index.html" class="app-brand-link gap-2">
+                  
+                  <span class="app-brand-text demo text-body fw-bolder">Sneat</span>
+                </a>
+              </div>
+              <!-- /Logo -->
+              <h4 class="mb-2">Welcome to Sneat!</h4>
+              <p class="mb-4">Please sign-in to your account and start the adventure</p>
+
+              <form id="login" >
+                @csrf
+                <div class="mb-3">
+                  <label for="username" class="form-label"> Username</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    autofocus
+                  />
                 </div>
+                <div class="mb-3 form-password-toggle">
+                  <div class="d-flex justify-content-between">
+                    <label class="form-label" for="password">Password</label>
+                    <a href="auth-forgot-password-basic.html">
+                      <small>Forgot Password?</small>
+                    </a>
+                  </div>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      id="password"
+                      class="form-control"
+                      name="password"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      aria-describedby="password"
+                    />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                </div>
+              </form>
+
+              <p class="text-center">
+                <span>New on our platform?</span>
+                <a href="auth-register-basic.html">
+                  <span>Create an account</span>
+                </a>
+              </p>
             </div>
+          </div>
+          <!-- /Register -->
         </div>
+      </div>
+    </div>
 
-
-
-        @include('dev/include/footer')
-        
-        <script>
+    <!-- / Content -->
+    <!-- Core JS -->
+    @include('dev.include.footer')
+    <script>
         $('#login').on('submit',function(e){
             e.preventDefault();
             axios.post(`${url}/dev/login`,new FormData(this)).then(function (response) {
                     // handle success
-                    sweetalert(response.data.message,response.data.type)
+                    show_Toaster(response.data.message,response.data.type)
                     if (response.data.type === 'success') {
                         setTimeout(() => {
-                            window.location.href = `${url}/dev/user`;
+                            window.location.href = `${url}/dev/home`;
                         }, 500);
                     }
                 }).catch(function (err) {
-                    sweetalert(err.response.data.message,'error')
+                    show_Toaster(err.response.data.message,'error')
             })
          });
         </script>
-    </body>
+  </body>
 </html>

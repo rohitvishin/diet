@@ -6,7 +6,7 @@ use App\Http\Controllers\DevController;
 use Illuminate\Support\Facades\Auth;
 
 // dev panel Routes
-Route::prefix("dev")->group(function(){
+Route::prefix("client")->group(function(){
     
     // register
     Route::get('register', function () {
@@ -31,7 +31,9 @@ Route::prefix("dev")->group(function(){
     });
 
     // home
-    Route::view('/home', 'dev.home')->middleware('devauth')->name('dashboard');
+    // Route::view('/home', 'dev.home')->middleware('devauth')->name('dashboard');
+    Route::view('/home', 'dev.home')->name('dashboard');
+    Route::view('/table', 'dev.tables.table');
     
     // account
     Route::get('/user', function () {
