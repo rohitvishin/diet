@@ -31,7 +31,9 @@ Route::prefix("client")->group(function(){
     });
 
     // home
-    Route::view('/home', 'dev.home')->middleware('devauth')->name('dashboard');
+    // Route::view('/home', 'dev.home')->middleware('devauth')->name('dashboard');
+    Route::view('/home', 'dev.home')->name('dashboard');
+    Route::view('/table', 'dev.tables.table');
     
     // account
     Route::get('/user', function () {
