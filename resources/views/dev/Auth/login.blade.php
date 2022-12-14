@@ -108,12 +108,12 @@
     <script>
         $('#login').on('submit',function(e){
             e.preventDefault();
-            axios.post(`${url}/dev/login`,new FormData(this)).then(function (response) {
+            axios.post(`${url}/client/login`,new FormData(this)).then(function (response) {
                     // handle success
                     show_Toaster(response.data.message,response.data.type)
                     if (response.data.type === 'success') {
                         setTimeout(() => {
-                            window.location.href = `${url}/dev/home`;
+                            window.location.href = `${url}/client/home`;
                         }, 500);
                     }
                 }).catch(function (err) {
