@@ -6,12 +6,12 @@ use App\Http\Controllers\DevController;
 use Illuminate\Support\Facades\Auth;
 
 // dev panel Routes
-Route::prefix("dev")->group(function(){
+Route::prefix("client")->group(function(){
     
     // register
     Route::get('register', function () {
         return view('dev.Auth.register');
-    });
+    })->name('register');
 
     Route::post('register', [DevController::class, 'register']);
     
