@@ -1,13 +1,13 @@
 <div class="main-sidebar sidebar-style-2">
   <aside id="sidebar-wrapper">
       <div class="sidebar-brand">
-          <a href="index.html">Mansi Padechia</a>
+          <a href="{{route('home')}}">Mansi Padechia</a>
       </div>
       <div class="sidebar-brand sidebar-brand-sm">
           <a href="index.html"><i class="fas fa-notes-medical"></i></a>
       </div>
       <ul class="sidebar-menu text-center">
-          <li><a class="nav-link text-left" href="index-0.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+          <li><a class="nav-link text-left" href="{{route('home')}}"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
 
           <li class="menu-header">Practice Management</li>
           <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-file"></i><span>Appointments</span></a></li>

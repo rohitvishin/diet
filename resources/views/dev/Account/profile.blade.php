@@ -1,5 +1,5 @@
-<?php include('includes/header.php') ?>
-<?php include('includes/sidebar.php') ?>
+@include('dev.include.header')
+@include('dev.include.sidebar')
 
 
 <div class="main-content">
@@ -143,4 +143,4 @@
     </section>
 </div>
 
-<?php include('includes/footer.php') ?>
+@include('dev.include.footer')
