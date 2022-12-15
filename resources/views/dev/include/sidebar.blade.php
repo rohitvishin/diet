@@ -1,53 +1,33 @@
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-    <div class="app-brand demo">
-      <a href="{{route('dashboard')}}" class="app-brand-link">
-        <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
-      </a>
+<div class="main-sidebar sidebar-style-2">
+  <aside id="sidebar-wrapper">
+      <div class="sidebar-brand">
+          <a href="index.html">Mansi Padechia</a>
+      </div>
+      <div class="sidebar-brand sidebar-brand-sm">
+          <a href="index.html"><i class="fas fa-notes-medical"></i></a>
+      </div>
+      <ul class="sidebar-menu text-center">
+          <li><a class="nav-link text-left" href="index-0.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
 
-      <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-        <i class="bx bx-chevron-left bx-sm align-middle"></i>
-      </a>
-    </div>
+          <li class="menu-header">Practice Management</li>
+          <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-file"></i><span>Appointments</span></a></li>
+          <li class="active"><a class="nav-link  text-left" href="clients.php"><i class="fas fa-user"></i><span>My Clients</span></a></li>
+          <li><a class="nav-link  text-left" href="layout-default.html"><i class="fas fa-box"></i><span>Packages</span></a></li>
+          <li><a class="nav-link  text-left" href="layout-default.html"><i class="fas fa-file-excel"></i><span>Reports</span></a></li>
 
-    <div class="menu-inner-shadow"></div>
+          <li class="menu-header">Resources Management</li>
+          <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-database"></i> <span>My Data</span></a></li>
+          <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-file-code"></i> <span>My Templates</span></a></li>
+          <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-user-circle"></i><span>My Profile</span></a></li>
 
-    <ul class="menu-inner py-1">
-      <!-- Dashboard -->
-      <li class="menu-item active">
-        <a href="{{route('dashboard')}}" class="menu-link">
-          <i class="menu-icon tf-icons bx bx-home-circle"></i>
-          <div data-i18n="Analytics">Dashboard</div>
-        </a>
-      </li>
+          <li class="menu-header">Sales Management</li>
+          <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-comment"></i> <span>Send Promotions</span></a></li>
+          <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-business-time"></i><span>Send Reminders</span> </a></li>
 
-      <!-- Project -->
-      <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-          <i class="menu-icon tf-icons bx bx-layout"></i>
-          <div data-i18n="Layouts">Projects</div>
-        </a>
-
-        <ul class="menu-sub">
-          <li class="menu-item">
-            <a href="{{route('dashboard')}}" class="menu-link">
-              <div data-i18n="Without menu">List Project</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="layouts-without-navbar.html" class="menu-link">
-              <div data-i18n="Without navbar">Manage Project</div>
-            </a>
-          </li>
-          
-        </ul>
-      </li>
-      <!-- Reports -->
-      <li class="menu-item">
-        <a href="{{route('dashboard')}}" class="menu-link">
-          <i class="menu-icon tf-icons bx bx-home-circle"></i>
-          <div data-i18n="Analytics">Reports</div>
-        </a>
-      </li>
-
-    </ul>
+          <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
+              <a href="https://getstisla.com/docs" class="btn btn-primary btn-md btn-block btn-icon-split">
+                  Logout
+              </a>
+          </div>
   </aside>
+</div>
