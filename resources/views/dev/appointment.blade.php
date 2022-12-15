@@ -1,8 +1,9 @@
-<?php include('includes/header.php') ?>
+@include('dev.include.header')
+
 <!-- fullcalender -->
 <link rel="stylesheet" href="assets/calender/lib/main.css">
 <script src="assets/calender/lib/main.js"></script>
-<?php include('includes/sidebar.php') ?>
+@include('dev.include.sidebar')
 
 
 <div class="main-content">
@@ -79,7 +80,7 @@
 </div>
 <!-- Modal  -->
 
-<?php include('includes/footer.php') ?>
+@include('dev.include.footer')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 

@@ -35,6 +35,7 @@ Route::prefix("client")->group(function(){
         Route::view('/home', 'dev.home')->name('home');
         Route::view('/table', 'dev.tables.table');
         Route::view('/profile', 'dev.Account.profile')->name('profile');
+        Route::view('/appointment', 'dev.appointment')->name('appointment');
         
         // account
         Route::get('/user', function () {
