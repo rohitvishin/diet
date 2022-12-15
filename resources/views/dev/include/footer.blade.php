@@ -11,6 +11,7 @@
   </div>
 
   <!-- General JS Scripts -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script src="{{asset('assets/modules/jquery.min.js')}}"></script>
   <script src="{{asset('assets/modules/popper.js')}}"></script>
   <script src="{{asset('assets/modules/tooltip.js')}}"></script>
