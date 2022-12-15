@@ -8,7 +8,7 @@
     const url = "{{ url('') }}";
     </script>
   <!-- General CSS Files -->
-  <link rel="stylesheet" href="{{asset('asset/modules/bootstrap/css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{asset('assets/modules/bootstrap/css/bootstrap.min.css')}}">
   <link rel="stylesheet" href="{{asset('assets/modules/fontawesome/css/all.min.css')}}">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <!-- CSS Libraries -->
