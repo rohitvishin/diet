@@ -83,14 +83,6 @@
 @include('dev.include.footer')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-
-        console.log(786)
-        console.log(window.innerWidth)
-        console.log(window.innerWidth > 786)
-
-
-
-
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var calendarEl = document.getElementById('calendar');
