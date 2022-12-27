@@ -80,6 +80,7 @@
   </div>
 
   @include('dev.include.footer')
+  
   <script>
     $('#login').on('submit',function(e){
         e.preventDefault();

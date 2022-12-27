@@ -31,12 +31,12 @@ Route::prefix("client")->group(function(){
     })->name('logout');
 
     // authentication require to access these routes
-    Route::middleware('devauth')->group(function(){
-        
+    // Route::middleware('devauth')->group(function(){
         Route::view('/home', 'dev.home')->name('home');
         Route::view('/table', 'dev.tables.table');
-        Route::view('/profile', 'dev.Account.profile')->name('profile');
+        Route::view('/profile', 'dev.profile.profile')->name('profile');
         Route::view('/appointment', 'dev.appointment')->name('appointment');
+        Route::view('/consultation', 'dev.consultant.consultation')->name('consultation');
         
         // account
         Route::get('/user', function () {
@@ -62,5 +62,5 @@ Route::prefix("client")->group(function(){
 
 
         Route::view('list-project','dev.Project.list')->name('list-project');
-    });
+    // });
  });

@@ -1,10 +1,9 @@
 @include('dev.include.header')
 
 <!-- fullcalender -->
-<link rel="stylesheet" href="assets/calender/lib/main.css">
-<script src="assets/calender/lib/main.js"></script>
+<link rel="stylesheet" href="{{asset('assets/calender/lib/main.css') }}">
+<script src="{{asset('assets/calender/lib/main.js') }}"></script>
 @include('dev.include.sidebar')
-
 
 <div class="main-content">
     <section class="section">
@@ -26,7 +25,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body p-2">
                             <div id='calendar'></div>
                         </div>
                     </div>
@@ -79,6 +78,7 @@
     </div>
 </div>
 <!-- Modal  -->
+<!-- Modal  -->
 
 @include('dev.include.footer')
 <script>
@@ -92,16 +92,16 @@
             scrollTime: '00:00', // undo default 6am scrollTime
             editable: true, // enable draggable events
             selectable: true,
-            aspectRatio: 2,
+            aspectRatio: 1.8,
             headerToolbar: {
                 left: 'title',
                 center: 'prev,next',
                 right: 'timeGridDay,timeGridWeek,dayGridMonth,listWeek'
             },
-            contentHeight: 600,
-            expandRows:true,
-            handleWindowResize:true,
+            height: 'auto',
+            dayMinWidth: 100,
             initialView: "dayGridMonth",
+            stickyFooterScrollbar : true,
 
             events: 'https://fullcalendar.io/api/demo-feeds/events.json'
         });

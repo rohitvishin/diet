@@ -1839,4 +1839,32 @@ vertical slots in both the header AND the body
   margin-left: 3px;
 }
 
-@media screen and (max-width:767px) { .fc-toolbar.fc-header-toolbar {font-size: 60%}}
+@media screen and (max-width: 767px) {
+  
+  .fc-view > table th {
+    padding: 0px;
+    font-size: 9px;
+  }
+  .fc .fc-button-group {
+    padding: 2px;
+  }
+
+  .fc-direction-ltr .fc-daygrid-event.fc-event-end,
+  .fc-direction-rtl .fc-daygrid-event.fc-event-start {
+    flex-wrap: wrap-reverse;
+  }
+  .fc-toolbar.fc-header-toolbar {
+    display: flex;
+    flex-direction: column;
+  }
+  .fc-toolbar.fc-header-toolbar .fc-left {
+    order: 3;
+  }
+  .fc-toolbar.fc-header-toolbar .fc-center {
+    order: 1;
+  }
+  .fc-toolbar.fc-header-toolbar .fc-right {
+    order: 2;
+  }
+
+}
