@@ -82,6 +82,9 @@
         axios.post(`${url}/client/updateProfile`,new FormData(this)).then(function (response) {
             // handle success
             show_Toaster(response.data.message,response.data.type)
+            setTimeout(() => {
+                        window.location.href = `${url}/client/profile`;
+                    }, 500);
             }).catch(function (err) {
                 show_Toaster(err.response.data.message,'error')
         })

@@ -28,7 +28,7 @@ Route::prefix("client")->group(function(){
     })->name('logout');
 
     // authentication require to access these routes
-    // Route::middleware('devauth')->group(function(){
+    Route::middleware('devauth')->group(function(){
         Route::view('/home', 'dev.home')->name('home');
         Route::view('/table', 'dev.tables.table');
         Route::view('/profile', 'dev.profile.profile')->name('profile');
@@ -48,10 +48,10 @@ Route::prefix("client")->group(function(){
         Route::view('/reports', 'dev.reports')->name('reports');
         Route::view('/mydata', 'dev.mydata')->name('mydata');
         Route::view('/mytemplate', 'dev.mytemplate')->name('mytemplate');
-        Route::view('/myprofile', 'dev.myprofile')->name('myprofile');
+        Route::get('/profile', [DevController::class,'getProfile'])->name('profile');
         Route::view('/sendpromotion', 'dev.sendpromotion')->name('sendpromotion');
         Route::view('/sendreminder', 'dev.sendreminder')->name('sendreminder');
-
+        
         // post Routes
         Route::post('/updateProfile',[DevController::class,'updateProfile']);        
 
@@ -59,5 +59,5 @@ Route::prefix("client")->group(function(){
 
 
         Route::view('list-project','dev.Project.list')->name('list-project');
-    // });
+    });
  });
