@@ -1,8 +1,7 @@
 <?php
-use Illuminate\Http\Request;
+use App\Http\Controllers\DevController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,20 +11,55 @@ use App\Http\Controllers\UserController;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
-Route::get('/', function(){
-    return "index";
+ */
+// register
+Route::get('register', function () {
+    return view('dev.Auth.register');
+})->name('register');
+
+Route::post('register', [DevController::class, 'register']);
+
+// login
+Route::get('/', function () {
+    return view('dev.Auth.login');
+})->name("login");
+
+Route::post('/login', [DevController::class, 'login']);
+
+Route::get('/login', function () {return redirect()->route("login");});
+
+// logout
+Route::get('logout', function () {
+    session()->flush();
+    return redirect()->route("login");
+})->name('logout');
+
+// authentication require to access these routes
+// Route::middleware('devauth')->group(function(){
+Route::view('/home', 'dev.home')->name('home');
+Route::view('/profile', 'dev.profile.profile')->name('profile');
+Route::view('/appointment', 'dev.appointment')->name('appointment');
+Route::get('/consultation', [DevController::class, 'Consultation']);
+Route::get('/medicalMaster', [DevController::class, 'MedicalMasterList']);
+Route::get('/activityMaster', [DevController::class, 'ActivityMasterList']);
+Route::view('/clients', 'dev.clients.clients')->name('clients');
+
+// account
+Route::get('/user', function () {
+    return Auth::guard('dev')->user();
 });
-Route::get('/test', function(){
-    return "index";
-});
-Route::get('login',function(){
-    return 'login page';
-});
-Route::get('projects', [Users::class, 'getProjects']);
-Route::get('projects/{id}', [Users::class, 'getProjectDetails']);
-Route::group(['middleware' => 'auth:api'], function() {
-    Route::get('user', [AuthController::class, 'user']);
-    Route::get('logout', [AuthController::class, 'logout']);
-    
-});
+
+// get Routes
+Route::view('/dashboard', 'dev.dashboard')->name('dashboard');
+Route::view('/appointments', 'dev.appointment')->name('appointment');
+Route::view('/packages', 'dev.packages')->name('packages');
+Route::view('/reports', 'dev.reports')->name('reports');
+Route::view('/mydata', 'dev.mydata')->name('mydata');
+Route::view('/mytemplate', 'dev.mytemplate')->name('mytemplate');
+Route::view('/myprofile', 'dev.myprofile')->name('myprofile');
+Route::view('/sendpromotion', 'dev.sendpromotion')->name('sendpromotion');
+Route::view('/sendreminder', 'dev.sendreminder')->name('sendreminder');
+
+// post Routes
+
+Route::view('list-project', 'dev.Project.list')->name('list-project');

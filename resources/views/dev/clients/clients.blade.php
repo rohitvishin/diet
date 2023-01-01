@@ -28,14 +28,17 @@
                                         <input type="text" class="form-control" placeholder="Search By Date">
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" placeholder="Search By Contact Number">
+                                        <input type="text" class="form-control"
+                                            placeholder="Search By Contact Number">
                                     </div>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control" placeholder="Search By Refered By">
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="submit" name="search_client" class="btn btn-lg btn-primary">Search</button>
-                                        <button type="submit" name="search_client" class="btn btn-lg btn-primary">Clear Feilds</button>
+                                        <button type="submit" name="search_client"
+                                            class="btn btn-lg btn-primary">Search</button>
+                                        <button type="submit" name="search_client" class="btn btn-lg btn-primary">Clear
+                                            Feilds</button>
                                     </div>
                                 </div>
                             </form>
@@ -58,77 +61,65 @@
                                                     <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
                                                 </div>
                                             </th> -->
-                                            <th>File Number</th>
                                             <th>Fullname</th>
                                             <th>Email</th>
                                             <th>Phone Number</th>
+                                            <th>Age</th>
                                             <th>Address</th>
                                             <th>Reference</th>
-                                            <th>Profession</th>
-                                            <th>Work Timming</th>
-                                            <th>Instagram Profile</th>
+                                            <th>Register Date</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>12345</td>
                                             <td>Shrikunj Vyas</td>
                                             <td>shreevyas65@gmail.com</td>
                                             <td>7066498174</td>
+                                            <td>25</td>
                                             <td>MIRA ROAD</td>
                                             <td>Rohit Vishwakarma</td>
-                                            <td>Software Engineer</td>
-                                            <td>7am - 9pm</td>
-                                            <td>iamshreevyas</td>
+                                            <td>25 Dec 2022</td>
                                             <td><a href="#" class="btn btn-primary">Detail</a></td>
                                         </tr>
                                         <tr>
-                                            <td>12345</td>
                                             <td>Shrikunj Vyas</td>
                                             <td>shreevyas65@gmail.com</td>
                                             <td>7066498174</td>
+                                            <td>25</td>
                                             <td>MIRA ROAD</td>
                                             <td>Rohit Vishwakarma</td>
-                                            <td>Software Engineer</td>
-                                            <td>7am - 9pm</td>
-                                            <td>iamshreevyas</td>
+                                            <td>25 Dec 2022</td>
                                             <td><a href="#" class="btn btn-primary">Detail</a></td>
                                         </tr>
                                         <tr>
-                                            <td>12345</td>
                                             <td>Shrikunj Vyas</td>
                                             <td>shreevyas65@gmail.com</td>
                                             <td>7066498174</td>
+                                            <td>25</td>
                                             <td>MIRA ROAD</td>
                                             <td>Rohit Vishwakarma</td>
-                                            <td>Software Engineer</td>
-                                            <td>7am - 9pm</td>
-                                            <td>iamshreevyas</td>
+                                            <td>25 Dec 2022</td>
                                             <td><a href="#" class="btn btn-primary">Detail</a></td>
                                         </tr>
                                         <tr>
-                                            <td>12345</td>
                                             <td>Shrikunj Vyas</td>
                                             <td>shreevyas65@gmail.com</td>
                                             <td>7066498174</td>
+                                            <td>25</td>
                                             <td>MIRA ROAD</td>
                                             <td>Rohit Vishwakarma</td>
-                                            <td>Software Engineer</td>
-                                            <td>7am - 9pm</td>
-                                            <td>iamshreevyas</td>
+                                            <td>25 Dec 2022</td>
                                             <td><a href="#" class="btn btn-primary">Detail</a></td>
                                         </tr>
                                         <tr>
-                                            <td>12345</td>
                                             <td>Shrikunj Vyas</td>
                                             <td>shreevyas65@gmail.com</td>
                                             <td>7066498174</td>
+                                            <td>25</td>
                                             <td>MIRA ROAD</td>
                                             <td>Rohit Vishwakarma</td>
-                                            <td>Software Engineer</td>
-                                            <td>7am - 9pm</td>
-                                            <td>iamshreevyas</td>
+                                            <td>25 Dec 2022</td>
                                             <td><a href="#" class="btn btn-primary">Detail</a></td>
                                         </tr>
                                     </tbody>

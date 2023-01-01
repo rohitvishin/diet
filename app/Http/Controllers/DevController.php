@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\AuthDev;
 use App\Models\Dev;
+use App\Models\MedicalMaster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class DevController extends Controller
 {
-    //
     public function hello()
     {
         return "hey from dev controller";
@@ -21,16 +19,18 @@ class DevController extends Controller
     {
         $credentials = $request->validate([
             'username' => 'required|string',
-            'password' => 'required'
+            'password' => 'required',
         ]);
-        if (!Auth::guard('dev')->attempt($credentials))
+        if (!Auth::guard('dev')->attempt($credentials)) {
             return response()->json([
                 'message' => 'Invalid Username or password',
-                'type' => 'error'
+                'type' => 'error',
             ], 401);
+        }
+
         return response()->json([
             'message' => 'Welcome',
-            'type' => 'success'
+            'type' => 'success',
         ]);
     }
 
@@ -53,7 +53,7 @@ class DevController extends Controller
             'username' => $request->username,
             'register_ip' => $request->ip(), // need to make it dynamic
             'wallet' => 0,
-            'status' => 1
+            'status' => 1,
         ]);
 
         if ($user->save()) {
@@ -63,7 +63,31 @@ class DevController extends Controller
         }
     }
 
-    public function dashboard(Request  $request)
+    public function dashboard(Request $request)
     {
+    }
+
+    public function Consultation(Request $request)
+    {
+        $lastType_id = MedicalMaster::select('type_id')->latest()->first()['type_id'];
+        $data = [];
+        for ($i = 0; $i < $lastType_id; $i++) {
+            $data['data'][$i] = MedicalMaster::where('type_id', $i + 1)->get();
+        }
+        return view('dev.consultant.consultation', $data);
+    }
+
+    public function MedicalMasterList()
+    {
+        $data['lastType_id'] = MedicalMaster::select('type_id')->latest()->first()['type_id'];
+        $data['data'] = MedicalMaster::orderBy('id', 'desc')->get();
+        return view('dev.masters.medicalmaster', $data);
+    }
+    
+    public function ActivityMasterList()
+    {
+        $data['lastType_id'] = MedicalMaster::select('type_id')->latest()->first()['type_id'];
+        $data['data'] = MedicalMaster::orderBy('id', 'desc')->get();
+        return view('dev.masters.activitymaster', $data);
     }
 }
