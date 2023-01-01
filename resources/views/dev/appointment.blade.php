@@ -43,6 +43,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
+           <form id="addAppointment">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Add Details</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -53,30 +54,31 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="">Enter Client Name</label>
-                        <input type="text" name="" id="" class="form-control"
+                        <input type="text" name="client" id="" class="form-control"
                             placeholder="Enter Client Name">
                     </div>
                     <div class="col-md-6">
                         <label for="">Select Appointment Date</label>
-                        <input type="text" class="form-control datepicker">
+                        <input type="text" name="date" class="form-control datepicker">
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-6">
                         <label for="">Select Appointment Start Time</label>
-                        <input type="text" class="form-control timepicker">
+                        <input type="text" name="start_time" class="form-control timepicker">
                     </div>
                     <div class="col-md-6">
                         <label for="">Select Appointment End Time</label>
-                        <input type="text" class="form-control timepicker">
+                        <input type="text" name="end_time" class="form-control timepicker">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
             </div>
+            </form> 
         </div>
     </div>
 </div>
@@ -84,6 +86,20 @@
 <!-- Modal  -->
 
 @include('dev.include.footer')
+<script>
+$('#addAppointment').on('submit',function(e){
+        e.preventDefault();
+        axios.post(`${url}/client/addAppointment`,new FormData(this)).then(function (response) {
+            // handle success
+            show_Toaster(response.data.message,response.data.type)
+            setTimeout(() => {
+                        window.location.href = `${url}/client/appointments`;
+                    }, 500);
+            }).catch(function (err) {
+                show_Toaster(err.response.data.message,'error')
+        })
+     });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var today = new Date();

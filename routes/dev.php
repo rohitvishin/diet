@@ -43,6 +43,7 @@ Route::prefix("client")->group(function(){
         // get Routes
         Route::view('/dashboard', 'dev.dashboard')->name('dashboard');
         Route::view('/appointments', 'dev.appointment')->name('appointment');
+        
         Route::view('/clients', 'dev.clients')->name('clients');
         Route::view('/packages', 'dev.packages')->name('packages');
         Route::view('/reports', 'dev.reports')->name('reports');
@@ -54,7 +55,7 @@ Route::prefix("client")->group(function(){
         
         // post Routes
         Route::post('/updateProfile',[DevController::class,'updateProfile']);        
-
+        Route::post('/addAppointment',[DevController::class,'addAppointment']);
 
 
 

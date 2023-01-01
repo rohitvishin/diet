@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Dev;
 use App\Models\MedicalMaster;
 use Illuminate\Http\Request;
@@ -113,7 +114,29 @@ class DevController extends Controller
                 'type' => 'error',
             ], 401);
         }
-
-        
+    }
+    public function addAppointment(Request $request){
+        $appointment = $request->validate([
+            'client' => 'required|string',
+            'date' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required'
+            
+        ]);
+        $appointment['doc_id']=Auth::guard('dev')->user()->id;
+        $appointment['status']=0;
+        $addAppoint=Appointment::create($appointment);
+        if($addAppoint->save()){
+            return response()->json([
+                'message' => 'Appointment Added',
+                'type' => 'success',
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
+        }
     }
 }
