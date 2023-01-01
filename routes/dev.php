@@ -12,16 +12,13 @@ Route::prefix("client")->group(function(){
     Route::get('register', function () {
         return view('dev.Auth.register');
     })->name('register');
-
     Route::post('register', [DevController::class, 'register']);
     
     // login
     Route::get('/', function () {
         return view('dev.Auth.login');
     })->name("login");
-
     Route::post('/login',[DevController::class,'login']);
-
     Route::get('/login', function(){ return redirect()->route("login"); } );
 
     // logout
@@ -56,7 +53,7 @@ Route::prefix("client")->group(function(){
         Route::view('/sendreminder', 'dev.sendreminder')->name('sendreminder');
 
         // post Routes
-        
+        Route::post('/updateProfile',[DevController::class,'updateProfile']);        
 
 
 

@@ -74,7 +74,7 @@ class DevController extends Controller
         for ($i = 0; $i < $lastType_id; $i++) {
             $data['data'][$i] = MedicalMaster::where('type_id', $i + 1)->get();
         }
-        return view('dev.consultant.consultation', $data);
+        return view('dev.consultant.consultation',$data);
     }
 
     public function MedicalMasterList()
@@ -89,5 +89,31 @@ class DevController extends Controller
         $data['lastType_id'] = MedicalMaster::select('type_id')->latest()->first()['type_id'];
         $data['data'] = MedicalMaster::orderBy('id', 'desc')->get();
         return view('dev.masters.activitymaster', $data);
+    }
+    public function getProfile(){
+        $user=Dev::where('id',Auth::guard('dev')->user()->id)->first();
+        return view('dev.profile.profile',['user'=>$user]);
+    }
+    public function updateProfile(Request $request)
+    {
+        $profile = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'mobile' => 'required',
+        ]);
+        if(Dev::where('id',Auth::guard('dev')->user()->id)->update($profile)){
+            return response()->json([
+                'message' => 'Profile Updated Successfully',
+                'type' => 'success',
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Update Failed',
+                'type' => 'error',
+            ], 401);
+        }
+
+        
     }
 }
