@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('project_comment', function (Blueprint $table) {
+        Schema::create('activity_masters', function (Blueprint $table) {
             $table->id();
-            $table->integer('project_id');
-            $table->mediumText('comment');
-            $table->mediumText('reply');
+            $table->string('name');
             $table->timestamps();
             $table->integer('status');
         });
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_comment');
+        Schema::dropIfExists('activity_masters');
     }
 };

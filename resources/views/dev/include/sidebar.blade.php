@@ -16,6 +16,10 @@
           <li><a class="nav-link  text-left" href="layout-default.html"><i class="fas fa-file-excel"></i><span>Reports</span></a></li>
 
           <li class="menu-header">Resources Management</li>
+          <li><a class="nav-link text-left" href="medicalMaster"><i class="fas fa-database"></i> <span>Medical Master</span></a></li>
+          <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-database"></i> <span>Recipes Master</span></a></li>
+          <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-database"></i> <span>Activity Master</span></a></li>
+          <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-database"></i> <span>Food Master</span></a></li>
           <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-database"></i> <span>My Data</span></a></li>
           <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-file-code"></i> <span>My Templates</span></a></li>
           <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-user-circle"></i><span>My Profile</span></a></li>

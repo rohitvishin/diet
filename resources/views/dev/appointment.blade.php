@@ -1,8 +1,8 @@
 @include('dev.include.header')
 
 <!-- fullcalender -->
-<link rel="stylesheet" href="{{asset('assets/calender/lib/main.css') }}">
-<script src="{{asset('assets/calender/lib/main.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('assets/calender/lib/main.css') }}">
+<script src="{{ asset('assets/calender/lib/main.js') }}"></script>
 @include('dev.include.sidebar')
 
 <div class="main-content">
@@ -16,7 +16,8 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <button type="button" onclick="show_modal()" class="btn btn-primary"> Add New Appointment </button>
+                            <button type="button" onclick="show_modal()" class="btn btn-primary"> Add New Appointment
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -38,7 +39,8 @@
 
 
 <!-- Modal  -->
-<div class="modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -51,7 +53,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="">Enter Client Name</label>
-                        <input type="text" name="" id="" class="form-control" placeholder="Enter Client Name">
+                        <input type="text" name="" id="" class="form-control"
+                            placeholder="Enter Client Name">
                     </div>
                     <div class="col-md-6">
                         <label for="">Select Appointment Date</label>
@@ -101,7 +104,7 @@
             height: 'auto',
             dayMinWidth: 100,
             initialView: "dayGridMonth",
-            stickyFooterScrollbar : true,
+            stickyFooterScrollbar: true,
 
             events: 'https://fullcalendar.io/api/demo-feeds/events.json'
         });

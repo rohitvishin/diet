@@ -4,7 +4,7 @@
           Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://nauval.in/">Shree Vyas</a>
         </div>
         <div class="footer-right">
-          
+
         </div>
       </footer>
     </div>
@@ -19,7 +19,7 @@
   <script src="{{asset('assets/modules/nicescroll/jquery.nicescroll.min.js')}}"></script>
   <script src="{{asset('assets/modules/moment.min.js')}}"></script>
   <script src="{{asset('assets/js/stisla.js')}}"></script>
-  
+
   <!-- JS Libraies -->
   <script src="{{asset('assets/modules/jquery.sparkline.min.js')}}"></script>
   <script src="{{asset('assets/modules/chart.min.js')}}"></script>
@@ -36,9 +36,16 @@
   <script src="{{asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js')}}"></script>
   <script src="{{asset('assets/modules/jquery-ui/jquery-ui.min.js')}}"></script>
   <script src="{{asset('assets/js/page/modules-datatables.js')}}"></script>
-  
+
   <script src="{{asset('assets/modules/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
   <script src="{{asset('assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}"></script>
+
+
+  <script src="{{asset('assets/modules/select2/dist/js/select2.full.min.js')}}"></script>
+
+  <!-- Page Specific JS File -->
+  <script src="{{asset('assets/js/page/forms-advanced-forms.js')}}"></script>
+
   <!-- Template JS File -->
   <script src="{{asset('assets/js/scripts.js')}}"></script>
   <script src="{{asset('assets/js/custom.js')}}"></script>
@@ -47,7 +54,7 @@
         var success = "#00b09b, #96c93d";
         var error = "#a7202d, #ff4044";
         var ColorCode = type == "success" ? success : error;
-    
+
         return Toastify({
             text: message,
             duration: 3000,
@@ -61,6 +68,6 @@
         }).showToast();
     }
     </script>
-  
+
 </body>
 </html>
