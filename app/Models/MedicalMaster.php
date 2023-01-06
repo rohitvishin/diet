@@ -10,4 +10,11 @@ class MedicalMaster extends Model
     use HasFactory;
 
     protected $table = 'medical_masters';
+    protected $fillable = [
+        'type',
+        'type_id',
+        'name',
+        'status'
+    ];
+
 }

@@ -82,9 +82,10 @@ class DevController extends Controller
     {
         $data['lastType_id'] = MedicalMaster::select('type_id')->latest()->first()['type_id'];
         $data['data'] = MedicalMaster::orderBy('id', 'desc')->get();
+        $data['forSelect'] = MedicalMaster::select('type_id','type')->groupBy('type_id','type')->get();
         return view('dev.masters.medicalmaster', $data);
     }
-    
+
     public function ActivityMasterList()
     {
         $data['lastType_id'] = MedicalMaster::select('type_id')->latest()->first()['type_id'];
@@ -137,6 +138,51 @@ class DevController extends Controller
                 'message' => 'Opps! Process Failed',
                 'type' => 'error',
             ], 401);
+        }
+    }
+
+    public function addMedicalMaster(Request $request){
+        $medicine = $request->validate([
+            'type_id' => 'required',
+            'type' => 'required|string',
+            'name' => 'required|string',
+        ]);
+        $medicine['status']=1;
+        $addMedicine=MedicalMaster::create($medicine);
+        if($addMedicine->save()){
+            return response()->json([
+                'message' => 'Medicine Added',
+                'type' => 'success',
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
+        }
+        }
+        public function updateMedicalMaster(Request $request){
+            $type_id = $request->validate([
+                'type_id' => 'required',
+            ]);
+            $status=MedicalMaster::where('id',$type_id)->first();
+            if($status['status']==0)
+            $update=MedicalMaster::where('id',$type_id)->update(['status'=>1]);
+            else
+            $update=MedicalMaster::where('id',$type_id)->update(['status'=>0]);
+            if($update){
+                return response()->json([
+                    'message' => 'Type updated',
+                    'type' => 'success',
+                    'status'=>$status['status']
+                ]);
+            }
+            else{
+                return response()->json([
+                    'message' => 'Opps! Process Failed',
+                    'type' => 'error',
+                ], 401);
         }
     }
 }

@@ -43,7 +43,6 @@ Route::prefix("client")->group(function(){
         // get Routes
         Route::view('/dashboard', 'dev.dashboard')->name('dashboard');
         Route::view('/appointments', 'dev.appointment')->name('appointment');
-        
         Route::view('/clients', 'dev.clients')->name('clients');
         Route::view('/packages', 'dev.packages')->name('packages');
         Route::view('/reports', 'dev.reports')->name('reports');
@@ -52,10 +51,12 @@ Route::prefix("client")->group(function(){
         Route::get('/profile', [DevController::class,'getProfile'])->name('profile');
         Route::view('/sendpromotion', 'dev.sendpromotion')->name('sendpromotion');
         Route::view('/sendreminder', 'dev.sendreminder')->name('sendreminder');
-        
+        Route::get('/medicalMaster', [DevController::class, 'MedicalMasterList']);
         // post Routes
         Route::post('/updateProfile',[DevController::class,'updateProfile']);        
         Route::post('/addAppointment',[DevController::class,'addAppointment']);
+        Route::post('/addMedicalMaster',[DevController::class,'addMedicalMaster']);
+        Route::post('/updateMedicalMaster',[DevController::class,'updateMedicalMaster']);
 
 
 
