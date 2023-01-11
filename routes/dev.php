@@ -52,12 +52,14 @@ Route::prefix("client")->group(function(){
         Route::view('/sendpromotion', 'dev.sendpromotion')->name('sendpromotion');
         Route::view('/sendreminder', 'dev.sendreminder')->name('sendreminder');
         Route::get('/medicalMaster', [DevController::class, 'MedicalMasterList']);
+        Route::get('/activityMaster', [DevController::class, 'ActivityMasterList']);
         // post Routes
         Route::post('/updateProfile',[DevController::class,'updateProfile']);        
         Route::post('/addAppointment',[DevController::class,'addAppointment']);
         Route::post('/addMedicalMaster',[DevController::class,'addMedicalMaster']);
         Route::post('/updateMedicalMaster',[DevController::class,'updateMedicalMaster']);
-
+        Route::post('/addActivityMaster',[DevController::class,'addActivityMaster']);
+        Route::post('/updateActivityMaster',[DevController::class,'updateActivityMaster']);
 
 
         Route::view('list-project','dev.Project.list')->name('list-project');

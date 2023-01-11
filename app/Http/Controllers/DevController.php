@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityMaster;
 use App\Models\Appointment;
 use App\Models\Dev;
 use App\Models\MedicalMaster;
@@ -88,8 +89,7 @@ class DevController extends Controller
 
     public function ActivityMasterList()
     {
-        $data['lastType_id'] = MedicalMaster::select('type_id')->latest()->first()['type_id'];
-        $data['data'] = MedicalMaster::orderBy('id', 'desc')->get();
+        $data['data'] = ActivityMaster::orderBy('id', 'desc')->get();
         return view('dev.masters.activitymaster', $data);
     }
     public function getProfile(){
@@ -174,6 +174,48 @@ class DevController extends Controller
             if($update){
                 return response()->json([
                     'message' => 'Type updated',
+                    'type' => 'success',
+                    'status'=>$status['status']
+                ]);
+            }
+            else{
+                return response()->json([
+                    'message' => 'Opps! Process Failed',
+                    'type' => 'error',
+                ], 401);
+        }
+    }
+    public function addActivityMaster(Request $request){
+        $activity = $request->validate([
+            'name' => 'required|string',
+        ]);
+        $activity['status']=1;
+        $addMActivity=ActivityMaster::create($activity);
+        if($addMActivity->save()){
+            return response()->json([
+                'message' => 'Activity Added',
+                'type' => 'success',
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
+        }
+    }
+    public function updateActivityMaster(Request $request){
+            $type_id = $request->validate([
+                'type_id' => 'required',
+            ]);
+            $status=ActivityMaster::where('id',$type_id)->first();
+            if($status['status']==0)
+            $update=ActivityMaster::where('id',$type_id)->update(['status'=>1]);
+            else
+            $update=ActivityMaster::where('id',$type_id)->update(['status'=>0]);
+            if($update){
+                return response()->json([
+                    'message' => 'Activity updated',
                     'type' => 'success',
                     'status'=>$status['status']
                 ]);
