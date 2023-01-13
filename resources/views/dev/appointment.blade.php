@@ -53,8 +53,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="">Enter Client Name</label>
-                        <input type="text" name="" id="" class="form-control"
-                            placeholder="Enter Client Name">
+                        <input type="text" name="" id="" class="form-control" placeholder="Enter Client Name">
                     </div>
                     <div class="col-md-6">
                         <label for="">Select Appointment Date</label>
@@ -85,7 +84,7 @@
 
 @include('dev.include.footer')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var calendarEl = document.getElementById('calendar');

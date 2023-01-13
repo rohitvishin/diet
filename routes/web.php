@@ -41,6 +41,8 @@ Route::view('/profile', 'dev.profile.profile')->name('profile');
 Route::view('/appointment', 'dev.appointment')->name('appointment');
 Route::get('/consultation', [DevController::class, 'Consultation']);
 Route::get('/medicalMaster', [DevController::class, 'MedicalMasterList']);
+Route::get('/foodMaster', [DevController::class, 'FoodMasterList']);
+Route::get('/labMaster', [DevController::class, 'LabMasterList']);
 Route::get('/activityMaster', [DevController::class, 'ActivityMasterList']);
 Route::view('/clients', 'dev.clients.clients')->name('clients');
 

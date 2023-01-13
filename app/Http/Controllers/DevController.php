@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dev;
 use App\Models\MedicalMaster;
+use App\Models\LabMaster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -89,5 +90,17 @@ class DevController extends Controller
         $data['lastType_id'] = MedicalMaster::select('type_id')->latest()->first()['type_id'];
         $data['data'] = MedicalMaster::orderBy('id', 'desc')->get();
         return view('dev.masters.activitymaster', $data);
+    }
+
+    public function FoodMasterList()
+    {
+        $data['data'] = MedicalMaster::orderBy('id', 'desc')->get();
+        return view('dev.masters.foodmaster', $data);
+    }
+
+    public function LabMasterList()
+    {
+        $data['data'] = LabMaster::orderBy('id', 'desc')->get();
+        return view('dev.masters.labmaster', $data);
     }
 }
