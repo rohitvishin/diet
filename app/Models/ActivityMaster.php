@@ -10,4 +10,8 @@ class ActivityMaster extends Model
     use HasFactory;
 
     protected $table = 'activity_masters';
+    protected $fillable = [
+        'name',
+        'status'
+    ];
 }

@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MedicalMaster extends Model
+class Appointment extends Model
 {
     use HasFactory;
-
-    protected $table = 'medical_masters';
+    public $timestamps = false;
     protected $fillable = [
-        'type',
-        'type_id',
-        'name',
-        'status'
+        'doc_id',
+        'client',
+        'date',
+        'start_time',
+        'end_time',
+        'status',
     ];
-
 }

@@ -35,9 +35,9 @@ Route::get('logout', function () {
 })->name('logout');
 
 // authentication require to access these routes
-// Route::middleware('devauth')->group(function(){
+Route::middleware('devauth')->group(function(){
 Route::view('/home', 'dev.home')->name('home');
-Route::view('/profile', 'dev.profile.profile')->name('profile');
+Route::get('/profile', [DevController::class,'getProfile'])->name('profile');
 Route::view('/appointment', 'dev.appointment')->name('appointment');
 Route::get('/consultation', [DevController::class, 'Consultation']);
 Route::get('/medicalMaster', [DevController::class, 'MedicalMasterList']);
@@ -65,3 +65,4 @@ Route::view('/sendreminder', 'dev.sendreminder')->name('sendreminder');
 // post Routes
 
 Route::view('list-project', 'dev.Project.list')->name('list-project');
+});
