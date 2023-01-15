@@ -41,10 +41,17 @@ Route::get('/profile', [DevController::class,'getProfile'])->name('profile');
 Route::view('/appointment', 'dev.appointment')->name('appointment');
 Route::get('/consultation', [DevController::class, 'Consultation']);
 Route::get('/medicalMaster', [DevController::class, 'MedicalMasterList']);
-Route::get('/foodMaster', [DevController::class, 'FoodMasterList']);
 Route::get('/labMaster', [DevController::class, 'LabMasterList']);
 Route::get('/activityMaster', [DevController::class, 'ActivityMasterList']);
 Route::view('/clients', 'dev.clients.clients')->name('clients');
+
+Route::get('/packageMaster', [DevController::class, 'PackageMasterList']);
+Route::post('/packagePost', [DevController::class, 'packagePost']);
+Route::post('/updatePackageStatus', [DevController::class, 'updatePackageStatus']);
+
+Route::get('/foodMaster', [DevController::class, 'FoodMasterList']);
+Route::post('/foodPost', [DevController::class, 'foodMasterPost']);
+Route::post('/updateFoodMasterStatus', [DevController::class, 'updateFoodMasterStatus']);
 
 // account
 Route::get('/user', function () {

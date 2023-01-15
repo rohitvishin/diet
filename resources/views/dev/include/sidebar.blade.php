@@ -29,7 +29,7 @@
                         Master</span></a></li>
             <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-database"></i> <span>Activity
                         Master</span></a></li>
-            <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-database"></i> <span>Food
+            <li><a class="nav-link text-left" href="{{ url('foodMaster') }}"><i class="fas fa-database"></i> <span>Food
                         Master</span></a></li>
             <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-database"></i> <span>My
                         Data</span></a></li>

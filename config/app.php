@@ -56,7 +56,7 @@ return [
 
     'url' => env('APP_URL', 'http://localhost/'),
 
-    'asset_url' => 'http://localhost/diet/public',
+    'asset_url' => 'http://localhost/freelance/learning/learning/diet/public',
 
     /*
     |--------------------------------------------------------------------------

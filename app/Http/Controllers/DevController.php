@@ -7,9 +7,12 @@ use App\Models\Appointment;
 use App\Models\Dev;
 use App\Models\MedicalMaster;
 use App\Models\LabMaster;
+use App\Models\PackageMaster;
+use App\Models\FoodMaster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\db;
 
 class DevController extends Controller
 {
@@ -94,12 +97,6 @@ class DevController extends Controller
         return view('dev.masters.activitymaster', $data);
     }
 
-    public function FoodMasterList()
-    {
-        $data['data'] = MedicalMaster::orderBy('id', 'desc')->get();
-        return view('dev.masters.foodmaster', $data);
-    }
-
     public function LabMasterList()
     {
         $data['data'] = LabMaster::orderBy('id', 'desc')->get();
@@ -110,6 +107,7 @@ class DevController extends Controller
         $user=Dev::where('id',Auth::guard('dev')->user()->id)->first();
         return view('dev.profile.profile',['user'=>$user]);
     }
+    
     public function updateProfile(Request $request)
     {
         $profile = $request->validate([
@@ -130,6 +128,7 @@ class DevController extends Controller
             ], 401);
         }
     }
+    
     public function addAppointment(Request $request){
         $appointment = $request->validate([
             'client' => 'required|string',
@@ -176,6 +175,7 @@ class DevController extends Controller
             ], 401);
         }
     }
+    
     public function updateMedicalMaster(Request $request){
         $type_id = $request->validate([
             'type_id' => 'required',
@@ -199,6 +199,7 @@ class DevController extends Controller
             ], 401);
         }
     }
+
     public function addActivityMaster(Request $request){
         $activity = $request->validate([
             'name' => 'required|string',
@@ -218,6 +219,7 @@ class DevController extends Controller
             ], 401);
         }
     }
+
     public function updateActivityMaster(Request $request){
             $type_id = $request->validate([
                 'type_id' => 'required',
@@ -239,6 +241,144 @@ class DevController extends Controller
                     'message' => 'Opps! Process Failed',
                     'type' => 'error',
                 ], 401);
+        }
+    }
+
+    public function PackageMasterList(){
+        $data['data'] = PackageMaster::orderBy('id', 'desc')->get();
+        return view('dev.masters.packagemaster', $data);
+    }
+
+    public function packagePost(Request $request){
+        $package = $request->validate([
+            'plan_name' => 'required',
+            'duration' => 'required|string',
+            'discount' => 'required|string',
+            'amount' => 'required|string',
+            'currency' => 'required|string',
+            'tax' => 'required|string',
+        ]);
+        
+        $package['status'] = 1;
+        
+        if($request->processAction == 'add'){
+            $package['created_at']= date('d-m-Y H:i:s');
+            $addPackage=PackageMaster::create($package);
+        }
+        else if($request->processAction == 'edit'){
+            $package['updated_at'] = date('Y-m-d H:i:s');
+            
+            $id = $request->validate([
+                'id' => 'required',
+            ]);
+
+            $addPackage = PackageMaster::where('id', $request->id)->update($package);
+        }
+
+        if($request->processAction == 'edit' ?  $addPackage : $addPackage->save()){
+            return response()->json([
+                'message' => 'Package '.($request->processAction == 'edit' ?  'Updated' : 'Added'),
+                'type' => 'success',
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
+        }
+    }
+
+    public function updatePackageStatus(Request $request){
+        $type_id = $request->validate([
+            'type_id' => 'required',
+        ]);
+        $status=PackageMaster::where('id',$type_id)->first();
+        $newStatus = $status['status'] == 0 ? 1 : 0;
+        $update = PackageMaster::where('id',$type_id)->update(['status'=> $newStatus]);
+        
+        if($update){
+            return response()->json([
+                'message' => 'Activity updated',
+                'type' => 'success',
+                'status'=>$newStatus
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
+        }
+    }
+
+    public function FoodMasterList(){
+        $data['data'] = FoodMaster::orderBy('id', 'desc')->get();
+        return view('dev.masters.foodmaster', $data);
+    }
+
+    public function foodMasterPost(Request $request){
+        $food = $request->validate([
+            'food_name' => 'required',
+            'calories' => 'required|string',
+            'protein' => 'required|string',
+            'carbs' => 'required|string',
+            'fats' => 'required|string',
+            'fiber' => 'required|string'
+        ]);
+        
+        $food['status'] = 1;
+        
+        if($request->processAction == 'add'){
+            $food['created_at']= date('d-m-Y H:i:s');
+            $addFood=FoodMaster::create($food);
+        }
+        else if($request->processAction == 'edit'){
+            $food['updated_at'] = date('Y-m-d H:i:s');
+            
+            $id = $request->validate([
+                'id' => 'required',
+            ]);
+
+            $addFood = FoodMaster::where('id', $request->id)->update($food);
+        }
+
+        if($request->processAction == 'edit' ?  $addFood : $addFood->save()){
+            return response()->json([
+                'message' => 'Food '.($request->processAction == 'edit' ?  'Updated' : 'Added'),
+                'type' => 'success',
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
+        }
+    }
+
+    public function updateFoodMasterStatus(Request $request){
+        $type_id = $request->validate([
+            'type_id' => 'required',
+        ]);
+        
+        $status=FoodMaster::where('id',$type_id)->first();
+
+        $newStatus = $status['status'] == 0 ? 1 : 0;
+        $update = FoodMaster::where('id',$type_id)->update(['status'=> $newStatus]);
+        
+        if($update){
+            return response()->json([
+                'message' => 'Food updated',
+                'type' => 'success',
+                'status'=> $newStatus
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
         }
     }
 }

@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Arr;
 
 return new class extends Migration
 {
@@ -14,20 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('devs', function (Blueprint $table) {
+        Schema::create('package_masters', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
-            $table->string('password');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('mobile')->unique();
-            $table->string('last_login_time')->nullable();
-            $table->string('register_ip');
-            $table->integer('wallet');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->rememberToken();
+            $table->string('plan_name');
+            $table->integer('duration');
+            $table->integer('discount');
+            $table->string('amount');
+            $table->string('currency');
+            $table->string('tax');
             $table->timestamps();
-            $table->integer('status');
+            $table->tinyInteger('status')->default(1);
         });
     }
 
@@ -38,16 +33,16 @@ return new class extends Migration
      */
     public function down()
     {
-        $data = DB::table('devs')->select('*')->get()->toArray();
+        $data = DB::table('package_masters')->select('*')->get()->toArray();
         if(count($data) > 0){
 
             $dataquery = '
-            -- Devs
+            -- Package Master 
             
             ';
             [$keys, $valuess] = Arr::divide(json_decode(json_encode($data[0]),true));
             
-            $query1 = "INSERT INTO `devs` (" . implode(', ', $keys) . ") ";
+            $query1 = "INSERT INTO `package_masters` (" . implode(', ', $keys) . ") ";
             $query2 = 'VALUES ';
             if(count($data) > 0){
                 foreach($data as $key => $singleData){
@@ -68,7 +63,6 @@ return new class extends Migration
             $disk->append('all_queries.txt', $dataquery);
         }
 
-
-        Schema::dropIfExists('devs');
+        Schema::dropIfExists('package_masters');
     }
 };
