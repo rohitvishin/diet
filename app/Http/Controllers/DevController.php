@@ -199,6 +199,29 @@ class DevController extends Controller
             ], 401);
         }
     }
+    public function updateLabMaster(Request $request){
+        $id = $request->validate([
+            'id' => 'required',
+        ]);
+        $status=LabMaster::where('id',$id)->first();
+        if($status['status']==0)
+        $update=LabMaster::where('id',$id)->update(['status'=>1]);
+        else
+        $update=LabMaster::where('id',$id)->update(['status'=>0]);
+        if($update){
+            return response()->json([
+                'message' => 'Type updated',
+                'type' => 'success',
+                'status'=>$status['status']
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
+        }
+    }
     public function addActivityMaster(Request $request){
         $activity = $request->validate([
             'name' => 'required|string',
@@ -239,6 +262,30 @@ class DevController extends Controller
                     'message' => 'Opps! Process Failed',
                     'type' => 'error',
                 ], 401);
+        }
+    }
+    public function addLabMaster(Request $request){
+        $data = $request->validate([
+            'test_type' => 'required',
+            'test_name' => 'required',
+            'subject' => 'required',
+            'subject_value_action' => 'required',
+            'result_low_range' => 'required',
+            'result_high_range' => 'required',
+            'unit' => 'required',
+        ]);
+        $addLabMaster=LabMaster::create($data);
+        if($addLabMaster->save()){
+            return response()->json([
+                'message' => 'Lab Master Added',
+                'type' => 'success',
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
         }
     }
 }
