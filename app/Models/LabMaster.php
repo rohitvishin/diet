@@ -9,4 +9,14 @@ class LabMaster extends Model
 {
     use HasFactory;
     protected $table = 'lab_masters';
+    protected $fillable = [
+        'test_type',
+        'test_name',
+        'subject',
+        'subject_value',
+        'subject_value_action',
+        'result_low_range',
+        'result_high_range',
+        'unit'
+    ];
 }

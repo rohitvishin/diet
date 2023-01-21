@@ -18,13 +18,11 @@ use Illuminate\Support\Facades\db;
 
 class DevController extends Controller
 {
-    public function hello()
-    {
+    public function hello(){
         return "hey from dev controller";
     }
 
-    public function login(Request $request)
-    {
+    public function login(Request $request){
         $credentials = $request->validate([
             'username' => 'required|string',
             'password' => 'required',
@@ -42,8 +40,7 @@ class DevController extends Controller
         ]);
     }
 
-    public function register(Request $request)
-    {
+    public function register(Request $request){
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
@@ -71,12 +68,10 @@ class DevController extends Controller
         }
     }
 
-    public function dashboard(Request $request)
-    {
+    public function dashboard(Request $request){
     }
 
-    public function Consultation(Request $request)
-    {
+    public function Consultation(Request $request){
         $lastType_id = MedicalMaster::select('type_id')->latest()->first()['type_id'];
         $data = [];
         for ($i = 0; $i < $lastType_id; $i++) {
@@ -85,22 +80,19 @@ class DevController extends Controller
         return view('dev.consultant.consultation',$data);
     }
 
-    public function MedicalMasterList()
-    {
+    public function MedicalMasterList(){
         $data['lastType_id'] = MedicalMaster::select('type_id')->latest()->first()['type_id'];
         $data['data'] = MedicalMaster::orderBy('id', 'desc')->get();
         $data['forSelect'] = MedicalMaster::select('type_id','type')->groupBy('type_id','type')->get();
         return view('dev.masters.medicalmaster', $data);
     }
 
-    public function ActivityMasterList()
-    {
+    public function ActivityMasterList(){
         $data['data'] = ActivityMaster::orderBy('id', 'desc')->get();
         return view('dev.masters.activitymaster', $data);
     }
 
-    public function LabMasterList()
-    {
+    public function LabMasterList(){
         $data['data'] = LabMaster::orderBy('id', 'desc')->get();
         return view('dev.masters.labmaster', $data);
     }
@@ -110,8 +102,7 @@ class DevController extends Controller
         return view('dev.profile.profile',['user'=>$user]);
     }
     
-    public function updateProfile(Request $request)
-    {
+    public function updateProfile(Request $request){
         $profile = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
@@ -243,6 +234,55 @@ class DevController extends Controller
                     'message' => 'Opps! Process Failed',
                     'type' => 'error',
                 ], 401);
+        }
+    }
+
+    public function addLabMaster(Request $request){
+        $data = $request->validate([
+            'test_type' => 'required',
+            'test_name' => 'required',
+            'subject' => 'required',
+            'subject_value_action' => 'required',
+            'result_low_range' => 'required',
+            'result_high_range' => 'required',
+            'unit' => 'required',
+        ]);
+        $addLabMaster=LabMaster::create($data);
+        if($addLabMaster->save()){
+            return response()->json([
+                'message' => 'Lab Master Added',
+                'type' => 'success',
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
+        }
+    }
+
+    public function updateLabMaster(Request $request){
+        $id = $request->validate([
+            'id' => 'required',
+        ]);
+        $status=LabMaster::where('id',$id)->first();
+        if($status['status']==0)
+        $update=LabMaster::where('id',$id)->update(['status'=>1]);
+        else
+        $update=LabMaster::where('id',$id)->update(['status'=>0]);
+        if($update){
+            return response()->json([
+                'message' => 'Type updated',
+                'type' => 'success',
+                'status'=>$status['status']
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
         }
     }
 

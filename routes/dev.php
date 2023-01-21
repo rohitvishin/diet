@@ -53,6 +53,7 @@ Route::prefix("client")->group(function(){
         Route::view('/sendreminder', 'dev.sendreminder')->name('sendreminder');
         Route::get('/medicalMaster', [DevController::class, 'MedicalMasterList']);
         Route::get('/activityMaster', [DevController::class, 'ActivityMasterList']);
+        Route::get('/labMaster', [DevController::class, 'LabMasterList']);
         // post Routes
         Route::post('/updateProfile',[DevController::class,'updateProfile']);        
         Route::post('/addAppointment',[DevController::class,'addAppointment']);
@@ -60,6 +61,8 @@ Route::prefix("client")->group(function(){
         Route::post('/updateMedicalMaster',[DevController::class,'updateMedicalMaster']);
         Route::post('/addActivityMaster',[DevController::class,'addActivityMaster']);
         Route::post('/updateActivityMaster',[DevController::class,'updateActivityMaster']);
+        Route::post('/addLabMaster',[DevController::class,'addLabMaster']);
+        Route::post('/updateLabMaster',[DevController::class,'updateLabMaster']);
 
 
         Route::view('list-project','dev.Project.list')->name('list-project');

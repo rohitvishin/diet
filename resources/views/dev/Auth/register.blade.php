@@ -7,17 +7,45 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Register Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
-
-    <meta name="description" content="" />
-
-    <!-- Favicon -->
-
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/modules/fontawesome/css/all.min.css') }}">
+    <script>
+    const url = "{{ url('') }}";
+    </script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap-social/bootstrap-social.css') }}">
 
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+    <!-- Start GA -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <script src="{{ asset('assets/js/axios.min.js') }}"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    <
+    !--Favicon-- >
+
+    <
+    !--General CSS Files-- >
+    <
+    link rel = "stylesheet"
+    href = "{{ asset('assets/modules/bootstrap/css/bootstrap.min.css') }}" >
+        <
+        link rel = "stylesheet"
+    href = "{{ asset('assets/modules/fontawesome/css/all.min.css') }}" >
+
+        <
+        script src = "{{ asset('assets/js/axios.min.js') }}" >
+    </script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <!-- CSS Libraries -->
@@ -112,7 +140,7 @@
 
                         <p class="text-center">
                             <span>Already registered?</span>
-                            <a href="{{route('login')}}">
+                            <a href="{{ route('login') }}">
                                 <span>Login</span>
                             </a>
                         </p>
