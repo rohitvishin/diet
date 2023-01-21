@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('medical_masters', function (Blueprint $table) {
+        Schema::create('product_masters', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
-            $table->integer('type_id');
-            $table->string('name');
+            $table->string('product_name');
+            $table->string('unit');
+            $table->string('amount');
+            $table->string('qty');
+            $table->string('discount');
             $table->timestamps();
             $table->tinyInteger('status')->default(1);
         });
@@ -30,17 +32,16 @@ return new class extends Migration
      */
     public function down()
     {
-        
-        $data = DB::table('medical_masters')->select('*')->get()->toArray();
+        $data = DB::table('product_masters')->select('*')->get()->toArray();
         if(count($data) > 0){
 
             $dataquery = '
-            -- Medical Master
+            -- Product Master 
             
             ';
             [$keys, $valuess] = Arr::divide(json_decode(json_encode($data[0]),true));
             
-            $query1 = "INSERT INTO `medical_masters` (" . implode(', ', $keys) . ") ";
+            $query1 = "INSERT INTO `product_masters` (" . implode(', ', $keys) . ") ";
             $query2 = 'VALUES ';
             if(count($data) > 0){
                 foreach($data as $key => $singleData){
@@ -61,7 +62,6 @@ return new class extends Migration
             $disk->append('all_queries.txt', $dataquery);
         }
 
-        
-        Schema::dropIfExists('medical_masters');
+        Schema::dropIfExists('product_masters');
     }
 };

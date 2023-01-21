@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('date');
             $table->string('start_time');
             $table->string('end_time');
-            $table->string('status')->comment("0=created,1=done,2=cancelled")->default(0);
+            $table->tinyInteger('status')->comment("0=created,1=done,2=cancelled")->default(0);
             
         });
     }

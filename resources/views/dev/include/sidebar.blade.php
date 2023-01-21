@@ -11,32 +11,33 @@
                     <span>Dashboard</span></a></li>
 
             <li class="menu-header">Practice Management</li>
-            <li><a class="nav-link text-left" href="layout-default.html"><i
+            <li><a class="nav-link text-left" href="{{ url('appointments') }}"><i
                         class="fas fa-file"></i><span>Appointments</span></a></li>
             <li class="active"><a class="nav-link  text-left" href="clients.php"><i class="fas fa-user"></i><span>My
                         Clients</span></a></li>
-            <li><a class="nav-link  text-left" href="layout-default.html"><i
+            <li><a class="nav-link  text-left" href="{{ url('packageMaster') }}"><i
                         class="fas fa-box"></i><span>Packages</span></a></li>
-            <li><a class="nav-link  text-left" href="layout-default.html"><i
-                        class="fas fa-file-excel"></i><span>Reports</span></a></li>
 
             <li class="menu-header">Resources Management</li>
-            <li><a class="nav-link text-left" href="medicalMaster"><i class="fas fa-database"></i> <span>Medical
+            <li><a class="nav-link text-left" href="{{ url('medicalMaster') }}"><i class="fas fa-database"></i>
+                    <span>Medical
                         Master</span></a></li>
-            <li><a class="nav-link text-left" href="medicalMaster"><i class="fas fa-database"></i> <span>Lab
+            <li><a class="nav-link text-left" href="{{ url('labMaster') }}"><i class="fas fa-database"></i> <span>Lab
                         Master</span></a></li>
-            <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-database"></i> <span>Recipes
-                        Master</span></a></li>
-            <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-database"></i> <span>Activity
+            <li><a class="nav-link text-left" href="{{ url('activityMaster') }}"><i class="fas fa-database"></i>
+                    <span>Activity
                         Master</span></a></li>
             <li><a class="nav-link text-left" href="{{ url('foodMaster') }}"><i class="fas fa-database"></i> <span>Food
                         Master</span></a></li>
-            <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-database"></i> <span>My
-                        Data</span></a></li>
-            <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-file-code"></i> <span>My
+            <li><a class="nav-link text-left" href="{{ url('productMaster') }}"><i
+                        class="fas fa-user-circle"></i><span>Product
+                        Master</span></a></li>
+            <li><a class="nav-link text-left" href="{{ url('dietTemplateMaster') }}"><i class="fas fa-file-code"></i>
+                    <span>My
                         Templates</span></a></li>
-            <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-user-circle"></i><span>My
+            <li><a class="nav-link text-left" href="{{ url('profile') }}"><i class="fas fa-user-circle"></i><span>My
                         Profile</span></a></li>
+
 
             <li class="menu-header">Sales Management</li>
             <li><a class="nav-link text-left" href="layout-default.html"><i class="fas fa-comment"></i> <span>Send

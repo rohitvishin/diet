@@ -9,6 +9,8 @@ use App\Models\MedicalMaster;
 use App\Models\LabMaster;
 use App\Models\PackageMaster;
 use App\Models\FoodMaster;
+use App\Models\DietTemplateMaster;
+use App\Models\ProductMaster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -104,7 +106,7 @@ class DevController extends Controller
     }
 
     public function getProfile(){
-        $user=Dev::where('id',Auth::guard('dev')->user()->id)->first();
+        $user = Dev::where('id',Auth::guard('dev')->user()->id)->first();
         return view('dev.profile.profile',['user'=>$user]);
     }
     
@@ -370,6 +372,91 @@ class DevController extends Controller
         if($update){
             return response()->json([
                 'message' => 'Food updated',
+                'type' => 'success',
+                'status'=> $newStatus
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
+        }
+    }
+
+    public function DietTemplateMasterList(){
+        $data['data'] = DietTemplateMaster::orderBy('id', 'desc')->get();
+        return view('dev.masters.diettemplatemaster', $data);
+    }
+
+    public function ProductMasterList(){
+        $data['data'] = ProductMaster::orderBy('id', 'desc')->get();
+        return view('dev.masters.productmaster', $data);
+    }
+    
+    public function productMasterPost(Request $request){
+        $product = $request->validate([
+            'product_name' => 'required',
+            'unit' => 'required|string',
+            'amount' => 'required|string',
+            'qty' => 'required|numeric',
+            'discount' => 'required|string',
+            
+        ]);
+
+        $request->validate([
+            'processAction' => 'required'
+        ]);
+        
+        $product['status'] = 1;
+        
+        if($request->processAction == 'add'){
+            $product['created_at']= date('d-m-Y H:i:s');
+            $addProductMaster=ProductMaster::create($product);
+        }
+        else if($request->processAction == 'edit'){
+            $product['updated_at'] = date('Y-m-d H:i:s');
+            
+            $id = $request->validate([
+                'id' => 'required',
+            ]);
+
+            $addProductMaster = ProductMaster::where('id', $request->id)->update($product);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
+        }
+
+        if($request->processAction == 'edit' ?  $addProductMaster : $addProductMaster->save()){
+            return response()->json([
+                'message' => 'Product '.($request->processAction == 'edit' ?  'Updated' : 'Added'),
+                'type' => 'success',
+            ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Opps! Process Failed',
+                'type' => 'error',
+            ], 401);
+        }
+    }
+
+    public function updateProductMasterStatus(Request $request){
+        $type_id = $request->validate([
+            'type_id' => 'required',
+        ]);
+        
+        $status=ProductMaster::where('id',$type_id)->first();
+
+        $newStatus = $status['status'] == 0 ? 1 : 0;
+        $update = ProductMaster::where('id',$type_id)->update(['status'=> $newStatus]);
+        
+        if($update){
+            return response()->json([
+                'message' => 'Product updated',
                 'type' => 'success',
                 'status'=> $newStatus
             ]);

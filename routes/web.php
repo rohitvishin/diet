@@ -53,6 +53,14 @@ Route::get('/foodMaster', [DevController::class, 'FoodMasterList']);
 Route::post('/foodPost', [DevController::class, 'foodMasterPost']);
 Route::post('/updateFoodMasterStatus', [DevController::class, 'updateFoodMasterStatus']);
 
+Route::get('/dietTemplateMaster', [DevController::class, 'DietTemplateMasterList']);
+Route::post('/dietTemplatePost', [DevController::class, 'dietTemplatePost']);
+Route::post('/updateDietTemplateStatus', [DevController::class, 'updateDietTemplateStatus']);
+
+Route::get('/productMaster', [DevController::class, 'ProductMasterList']);
+Route::post('/productMasterPost', [DevController::class, 'productMasterPost']);
+Route::post('/updateProductMasterStatus', [DevController::class, 'updateProductMasterStatus']);
+
 // account
 Route::get('/user', function () {
     return Auth::guard('dev')->user();

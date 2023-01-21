@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('fats');
             $table->string('fiber');
             $table->timestamps();
-            $table->string('status');
+            $table->tinyInteger('status')->default(1);
         });
     }
 

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('range_match_action')->comment('0:less, 1:high, 2:between, 3:upto');
             $table->string('unit');
             $table->timestamps();
-            $table->integer('status');
+            $table->tinyInteger('status')->default(1);
         });
     }
 
