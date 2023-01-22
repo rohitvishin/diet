@@ -33,7 +33,7 @@ Route::prefix("client")->group(function(){
         Route::view('/table', 'dev.tables.table');
         Route::view('/profile', 'dev.profile.profile')->name('profile');
         Route::view('/appointment', 'dev.appointment')->name('appointment');
-        Route::view('/consultation', 'dev.consultant.consultation')->name('consultation');
+        Route::get('/consultation', [DevController::class, 'Consultation']);
         
         // account
         Route::get('/user', function () {
@@ -54,6 +54,9 @@ Route::prefix("client")->group(function(){
         Route::get('/medicalMaster', [DevController::class, 'MedicalMasterList']);
         Route::get('/activityMaster', [DevController::class, 'ActivityMasterList']);
         Route::get('/labMaster', [DevController::class, 'LabMasterList']);
+        Route::get('/get_user/{mobile}',[DevController::class,'get_user']);
+
+
         // post Routes
         Route::post('/updateProfile',[DevController::class,'updateProfile']);        
         Route::post('/addAppointment',[DevController::class,'addAppointment']);
@@ -63,6 +66,8 @@ Route::prefix("client")->group(function(){
         Route::post('/updateActivityMaster',[DevController::class,'updateActivityMaster']);
         Route::post('/addLabMaster',[DevController::class,'addLabMaster']);
         Route::post('/updateLabMaster',[DevController::class,'updateLabMaster']);
+        Route::post('/save_user',[DevController::class,'save_user']);
+        
 
 
         Route::view('list-project','dev.Project.list')->name('list-project');

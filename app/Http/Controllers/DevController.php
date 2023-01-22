@@ -11,6 +11,7 @@ use App\Models\PackageMaster;
 use App\Models\FoodMaster;
 use App\Models\DietTemplateMaster;
 use App\Models\ProductMaster;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -41,10 +42,11 @@ class DevController extends Controller
     }
 
     public function register(Request $request){
+        
         $request->validate([
             'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'username' => 'required|string|unique:users',
+            'email' => 'required|string|email|unique:devs',
+            'username' => 'required|string|unique:devs',
             'password' => 'required|string|',
             'c_password' => 'required|same:password',
             'mobile' => 'required|string',
@@ -68,6 +70,59 @@ class DevController extends Controller
         }
     }
 
+    public function save_user(Request $request)
+    {
+        if($request->input('client_id')>0){
+            $data=$request->validate([
+                'name' => 'required|string',
+                'referrer' => 'required|string',
+                'email' => 'required|string|email',
+                'mobile' => 'required|string',
+                'address' => 'required|string',
+                'gender' => 'required|string',
+                'city' => 'required|string',
+                'state' => 'required|string',
+                'pincode' => 'required|string',
+                'dob' => 'required|string',
+                'age' => 'required|string',
+                'maritalstatus' => 'required|string',
+                'purpose' => 'required|string',
+            ]);
+            $update=User::where('id',$request->input('client_id'))->update($data);
+            if($update) {
+                return response()->json(['type' => 'success', 'message' => 'Client Updated']);
+            } else {
+                return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+            }            
+        }else{
+            $data=$request->validate([
+                'name' => 'required|string',
+                'referrer' => 'required|string',
+                'email' => 'required|string|email|unique:users',
+                'mobile' => 'required|string|unique:users',
+                'address' => 'required|string',
+                'gender' => 'required|string',
+                'city' => 'required|string',
+                'state' => 'required|string',
+                'pincode' => 'required|string',
+                'dob' => 'required|string',
+                'age' => 'required|string',
+                'maritalstatus' => 'required|string',
+                'purpose' => 'required|string',
+            ]);
+            $user = new User($data);
+            if ($user->save()) {
+                return response()->json(['type' => 'success', 'message' => 'Client Added']);
+            } else {
+                return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+            }
+        }
+        
+    }
+    public function get_user($mobile){
+        $data=User::where('mobile',$mobile)->first();
+        echo $data;        
+    }
     public function dashboard(Request $request){
     }
 
