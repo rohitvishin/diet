@@ -1,0 +1,29 @@
+
+
+            -- Product Master 
+            
+            INSERT INTO `product_masters` (id, product_name, unit, amount, qty, discount, created_at, updated_at, status) VALUES  ('1', 'Test Product', '500 ML', '200', '150', '250', '2023-01-21 05:08:57', '2023-01-21 05:32:07', '1');
+
+            -- Food Master 
+            
+            INSERT INTO `food_masters` (id, food_name, calories, protein, carbs, fats, fiber, created_at, updated_at, status) VALUES  ('1', 'Roti', '5.5', '200', '250', '150', '36', '2023-01-14 17:46:19', '2023-01-14 18:18:28', '1'), ('2', 'Bajra Roti', '250', '550', '120', '120', '110', '2023-01-14 17:47:18', '2023-01-14 18:17:04', '1');
+
+            -- Package Master 
+            
+            INSERT INTO `package_masters` (id, plan_name, duration, discount, amount, currency, tax, created_at, updated_at, status) VALUES  ('1', '1st  time Visit', '1', '5', '5000', 'inr', '2', '2023-01-14 13:28:55', '2023-01-14 17:52:12', '1'), ('2', '1 week plan', '7', '5', '5500', 'inr', '2', '2023-01-14 16:06:31', '2023-01-14 16:06:31', '1'), ('3', '1st  time Visit', '1', '2', '5600', 'inr', '2', '2023-01-14 16:06:40', '2023-01-14 16:16:40', '1'), ('4', '1st  time Visit', '1', '5', '5500', 'inr', '2', '2023-01-14 16:08:33', '2023-01-14 16:16:32', '1');
+
+            -- Lab Master
+            
+            INSERT INTO `lab_masters` (id, test_type, test_name, subject, subject_value, subject_value_action, result_low_range, result_high_range, unit, created_at, updated_at, status) VALUES  ('1', 'BRD', 'HB', 'age', '60', '1', '12', '32', 'HR', '2023-01-14 13:24:05', '2023-01-15 05:17:17', '0'), ('2', 'BRD', 'RE', 'gender', 'male', '-1', '12', '32', '34', '2023-01-15 04:49:38', '2023-01-15 04:49:38', '1'), ('3', 'BRD', 'RE', '0', '', '0', '43', '65', '51', '2023-01-15 04:58:57', '2023-01-15 04:58:57', '1');
+
+            -- Medical Master
+            
+            INSERT INTO `medical_masters` (id, type, type_id, name, created_at, updated_at, status) VALUES  ('1', 'Chronic diseases', '1', 'High Blood Pressure', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('2', 'Chronic diseases', '1', 'Diabetes Mellitus', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('3', 'Chronic diseases', '1', 'High Cholesterol', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('4', 'Chronic diseases', '1', 'Polycystic Ovarian 
+Syndrome', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('5', 'Chronic diseases', '1', 'Thyroid', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('6', 'Chronic diseases', '1', 'Kidney Problem', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('7', 'Chronic diseases', '1', 'Heart Problem', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('8', 'Chronic diseases', '1', 'Insulin Resistance', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('9', 'Chronic diseases', '1', 'Cancer', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('10', 'Chronic diseases', '1', 'Depression', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('11', 'Bone health', '2', 'Knee Pain', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('12', 'Bone health', '2', 'Back Pain 
+(Upper/Lower)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('13', 'Bone health', '2', 'Osteoporosis', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('14', 'Bone health', '2', 'Osteoarthritis', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('15', 'Bone health', '2', 'Rheumatoid 
+Arthritis', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('16', 'Bone health', '2', 'Gout', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('17', 'Bone health', '2', 'Spondylitis', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('18', 'Gastro-Instestinal', '3', 'Flatulence (Gas)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('19', 'Gastro-Instestinal', '3', 'Heartburn 
+(Acidity)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('20', 'Gastro-Instestinal', '3', 'Nausea 
+(Vomiting)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('21', 'Gastro-Instestinal', '3', 'Hiatus Hernia', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('22', 'Gastro-Instestinal', '3', 'Constipation', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('23', 'Gastro-Instestinal', '3', 'Irritable Bowel 
+Syndrome', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('24', 'Gastro-Instestinal', '3', 'Acid Reflux', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('25', 'Others', '4', 'Migraine', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('26', 'Others', '4', 'Asthma', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('27', 'Others', '4', 'Vertigo', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('28', 'Others', '4', 'Hair Fall (Severe/Mild)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('29', 'Others', '4', 'Water Retention 
+(Swelling)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('30', 'Others', '4', 'Allergies', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('31', 'Others', '4', 'Thalassemia 
+Minor', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('32', 'Others', '4', 'Sleep Disorder', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1');

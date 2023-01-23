@@ -684,3 +684,76 @@ function show_diet_modal() {
     $('.diet').modal('show');
 }
 </script>
+<script>
+    $('#saveUser').on('click',function(){
+        if($('#client_id').val()>0){
+            var client_id = $('#client_id').val();
+        }else{
+            var client_id=0;
+        }
+        console.log(client_id);
+        const name = $('input[name="name"]').val();
+        const referrer = $('input[name="referrer"]').val();
+        const gender = $('#gender').val();
+        const mobile = $('input[name="mobile"]').val();
+        const email = $('input[name="email"]').val();
+        const address = $('#address').val();
+        const city = $('input[name="city"]').val();
+        const state = $('input[name="state"]').val();
+        const pincode = $('input[name="pincode"]').val();
+        const dob = $('input[name="dob"]').val();
+        const age = $('input[name="age"]').val();
+        const maritalstatus = $('#maritalstatus').val();
+        const purpose = $('#purpose').val();
+        var data = {name:name,referrer:referrer,gender:gender,mobile,email:email,address:address,city:city,state:state,pincode:pincode,dob:dob,age:age,maritalstatus:maritalstatus,purpose:purpose,client_id:client_id};
+        axios.post(`${url}/client/save_user`,data,{headers: {
+            'Content-Type': 'application/json',
+        }}).then(function (response) {
+                // handle success
+                if (response.data.type === 'success') {
+                    show_Toaster(response.data.message,response.data.type);
+                    $('#profile-tab3').click();
+                }
+            }).catch(function (err) {
+                show_Toaster(err.response.data.message,'error')
+        })
+    });
+    $('#mobile').keyup(function(){
+        var mobile=$('#mobile').val();
+        if(mobile.length>=10){
+            $('#client_id').val(0);
+            axios.get(`${url}/client/get_user/`+mobile).then(function (response) {
+                if (response.data.mobile == mobile) {
+                    $('input[name="name"]').val(response.data.name);
+                    $('input[name="referrer"]').val(response.data.referrer);
+                    $('#gender').val(response.data.gender);
+                    $('input[name="email"]').val(response.data.email);
+                    $('#address').val(response.data.address);
+                    $('input[name="city"]').val(response.data.city);
+                    $('input[name="state"]').val(response.data.state);
+                    $('input[name="pincode"]').val(response.data.pincode);
+                    $('input[name="dob"]').val(response.data.dob);
+                    $('input[name="age"]').val(response.data.age);
+                    $('#maritalstatus').val(response.data.maritalstatus);
+                    $('#purpose').val(response.data.purpose);
+                    $('#client_id').val(response.data.id);
+                }else{
+                    $('#client_id').val(0);
+                }
+            }).catch(function (err) {
+                show_Toaster(err.response.data.message,'error')
+            })
+        }
+    });
+    // $('#purpose').change(function(){
+    //     if($('#purpose').val()=='other'){
+    //         $('#otherPurpose').show();
+    //         $('#inputForPurpose').attr('name','purpose');
+    //         $('#purpose').attr('name','');
+    //     }else{
+    //         $('#otherPurpose').hide();
+    //         $('#inputForPurpose').attr('name','');
+    //         $('#purpose').attr('name','purpose');
+    //     }
+    // });
+</script>
