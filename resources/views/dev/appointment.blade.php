@@ -54,8 +54,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="">Enter Client Name</label>
-                            <input type="text" name="client" id="" class="form-control"
-                                placeholder="Enter Client Name">
+                            <input type="text" name="client" id="" class="form-control" placeholder="Enter Client Name">
                         </div>
                         <div class="col-md-6">
                             <label for="">Select Appointment Date</label>
@@ -87,55 +86,52 @@
 
 @include('dev.include.footer')
 <script>
-    << << << < HEAD
-    document.addEventListener('DOMContentLoaded', function() {
-                ===
-                === =
-                $('#addAppointment').on('submit', function(e) {
-                    e.preventDefault();
-                    axios.post(`${url}/client/addAppointment`, new FormData(this)).then(function(response) {
-                        // handle success
-                        show_Toaster(response.data.message, response.data.type)
-                        setTimeout(() => {
-                            window.location.href = `${url}/client/appointments`;
-                        }, 500);
-                    }).catch(function(err) {
-                        show_Toaster(err.response.data.message, 'error')
-                    })
-                });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        >>>
-        >>> > 92 bd6fdc96467a4c743d6784d4efc8122bd1d04d
-        var today = new Date();
-        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-            now: date,
-            scrollTime: '00:00', // undo default 6am scrollTime
-            editable: true, // enable draggable events
-            selectable: true,
-            aspectRatio: 1.8,
-            headerToolbar: {
-                left: 'title',
-                center: 'prev,next',
-                right: 'timeGridDay,timeGridWeek,dayGridMonth,listWeek'
-            },
-            height: 'auto',
-            dayMinWidth: 100,
-            initialView: "dayGridMonth",
-            stickyFooterScrollbar: true,
+$('#addAppointment').on('submit', function(e) {
+    e.preventDefault();
+    axios.post(`${url}/client/addAppointment`, new FormData(this)).then(function(response) {
+        // handle success
+        show_Toaster(response.data.message, response.data.type)
+        setTimeout(() => {
+            window.location.href = `${url}/client/appointments`;
+        }, 500);
+    }).catch(function(err) {
+        show_Toaster(err.response.data.message, 'error')
+    })
+});
+document.addEventListener('DOMContentLoaded', function() {
 
-            events: 'https://fullcalendar.io/api/demo-feeds/events.json'
-        });
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    var date = yyyy + '-' + mm + '-' + dd;
 
-        calendar.render();
+    // var date = '2023-01-21';
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+        now: date,
+        scrollTime: '00:00', // undo default 6am scrollTime
+        editable: true, // enable draggable events
+        selectable: true,
+        aspectRatio: 1.8,
+        headerToolbar: {
+            left: 'title',
+            center: 'prev,next',
+            right: 'timeGridDay,timeGridWeek,dayGridMonth,listWeek'
+        },
+        height: 'auto',
+        dayMinWidth: 100,
+        initialView: "dayGridMonth",
+        stickyFooterScrollbar: true,
+
+        events: 'https://fullcalendar.io/api/demo-feeds/events.json'
     });
-</script>
-<script>
-    function show_modal() {
-        $('.modal').modal('show');
-    }
+
+    calendar.render();
+});
+
+function show_modal() {
+    $('.modal').modal('show');
+}
 </script>
