@@ -11,7 +11,8 @@ class Appointment extends Model
     public $timestamps = false;
     protected $fillable = [
         'doc_id',
-        'client',
+        'customer_name',
+        'customer_mobile',
         'date',
         'start_time',
         'end_time',

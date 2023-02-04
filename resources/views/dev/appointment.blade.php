@@ -53,21 +53,31 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="">Enter Client Name</label>
-                            <input type="text" name="client" id="" class="form-control"
-                                placeholder="Enter Client Name">
+                            <label for="">Client Mobile</label>
+                            <input type="text" name="customer_mobile" id="customer_mobile" class="form-control"
+                                placeholder="Enter Client Number">
                         </div>
                         <div class="col-md-6">
-                            <label for="">Select Appointment Date</label>
-                            <input type="text" name="date" class="form-control datepicker">
+                            <label for="">Client Name</label>
+                            <input type="text" name="customer_name" id="customer_name" class="form-control"
+                                placeholder="Enter Client Name">
                         </div>
                     </div>
                     <br>
                     <div class="row">
+
+                        <div class="col-md-6">
+                            <label for="">Select Appointment Date</label>
+                            <input type="text" name="date" class="form-control datepicker">
+                        </div>
                         <div class="col-md-6">
                             <label for="">Select Appointment Start Time</label>
                             <input type="text" name="start_time" class="form-control timepicker">
                         </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        
                         <div class="col-md-6">
                             <label for="">Select Appointment End Time</label>
                             <input type="text" name="end_time" class="form-control timepicker">
@@ -87,27 +97,38 @@
 
 @include('dev.include.footer')
 <script>
-    << << << < HEAD
-    document.addEventListener('DOMContentLoaded', function() {
-                ===
-                === =
-                $('#addAppointment').on('submit', function(e) {
-                    e.preventDefault();
-                    axios.post(`${url}/client/addAppointment`, new FormData(this)).then(function(response) {
-                        // handle success
-                        show_Toaster(response.data.message, response.data.type)
-                        setTimeout(() => {
-                            window.location.href = `${url}/client/appointments`;
-                        }, 500);
-                    }).catch(function(err) {
-                        show_Toaster(err.response.data.message, 'error')
-                    })
-                });
+$('#addAppointment').on('submit', function(e) {
+    e.preventDefault();
+    axios.post(`${url}/client/addAppointment`, new FormData(this)).then(function(response) {
+        // handle success
+        show_Toaster(response.data.message, response.data.type)
+        setTimeout(() => {
+            window.location.href = `${url}/client/appointments`;
+        }, 500);
+    }).catch(function(err) {
+        show_Toaster(err.response.data.message, 'error')
+    })
+});
+$('#customer_mobile').keyup(function(){
+    var mobile=$('#customer_mobile').val();
+        if(mobile.length>=10){
+            $('#client_id').val(0);
+            axios.get(`${url}/client/get_user/`+mobile).then(function (response) {
+                if (response.data.mobile == mobile) {
+                    $('input[name="customer_name"]').val(response.data.name);    
+                    show_Toaster("user found",'success')                
+                }else{
+                    $('input[name="customer_name"]').val('');
+                    show_Toaster("new client",'error')
+                }
+            }).catch(function (err) {
+                show_Toaster(err.response.data.message,'error')
+            })
+        }
+});
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        >>>
-        >>> > 92 bd6fdc96467a4c743d6784d4efc8122bd1d04d
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var calendarEl = document.getElementById('calendar');
@@ -138,4 +159,5 @@
     function show_modal() {
         $('.modal').modal('show');
     }
+    
 </script>

@@ -692,19 +692,19 @@ function show_diet_modal() {
             var client_id=0;
         }
         console.log(client_id);
-        const name = $('input[name="name"]').val();
-        const referrer = $('input[name="referrer"]').val();
-        const gender = $('#gender').val();
-        const mobile = $('input[name="mobile"]').val();
-        const email = $('input[name="email"]').val();
-        const address = $('#address').val();
-        const city = $('input[name="city"]').val();
-        const state = $('input[name="state"]').val();
-        const pincode = $('input[name="pincode"]').val();
-        const dob = $('input[name="dob"]').val();
-        const age = $('input[name="age"]').val();
-        const maritalstatus = $('#maritalstatus').val();
-        const purpose = $('#purpose').val();
+        var name = $('input[name="name"]').val();
+        var referrer = $('input[name="referrer"]').val();
+        var gender = $('#gender').val();
+        var mobile = $('input[name="mobile"]').val();
+        var email = $('input[name="email"]').val();
+        var address = $('#address').val();
+        var city = $('input[name="city"]').val();
+        var state = $('input[name="state"]').val();
+        var pincode = $('input[name="pincode"]').val();
+        var dob = $('input[name="dob"]').val();
+        var age = $('input[name="age"]').val();
+        var maritalstatus = $('#maritalstatus').val();
+        var purpose = $('#purpose').val();
         var data = {name:name,referrer:referrer,gender:gender,mobile,email:email,address:address,city:city,state:state,pincode:pincode,dob:dob,age:age,maritalstatus:maritalstatus,purpose:purpose,client_id:client_id};
         axios.post(`${url}/client/save_user`,data,{headers: {
             'Content-Type': 'application/json',
@@ -744,6 +744,33 @@ function show_diet_modal() {
                 show_Toaster(err.response.data.message,'error')
             })
         }
+    });
+    $('#saveMedicalHistory').click(function(){
+        var ques1 = $('#1').val();
+        var ques2 = $('#2').val();
+        var ques3 = $('#3').val();
+        var ques4 = $('#4').val();
+        var ques5 = $('#5').val();
+        var ques6 = $('#6').val();
+        var ques7 = $('#7').val();
+        var ques8 = $('#8').val();
+        var ques9 = $('#9').val();
+        var ques10 = $('#10').val();
+        var ques11 = $('#11').val();
+        var ques12 = $('#12').val();
+        var mobile = $('input[name="mobile"]').val();
+        var data = {ques1:ques1,ques2:ques2,ques3:ques3,ques4:ques4,ques5:ques5,ques6:ques6,ques7:ques7,ques8:ques8,ques9:ques9,ques10:ques10,ques11:ques11,ques12:ques12,mobile:mobile}
+        axios.post(`${url}/client/saveMedicalHistory`,data,{headers: {
+            'Content-Type': 'application/json',
+        }}).then(function (response) {
+                // handle success
+                if (response.data.type === 'success') {
+                    show_Toaster(response.data.message,response.data.type);
+                    $('#profile-tab3').click();
+                }
+            }).catch(function (err) {
+                show_Toaster(err.response.data.message,'error')
+        })
     });
     // $('#purpose').change(function(){
     //     if($('#purpose').val()=='other'){

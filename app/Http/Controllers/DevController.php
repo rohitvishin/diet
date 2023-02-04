@@ -10,6 +10,8 @@ use App\Models\LabMaster;
 use App\Models\PackageMaster;
 use App\Models\FoodMaster;
 use App\Models\DietTemplateMaster;
+use App\Models\Medical_history;
+use App\Models\MedicalHistory;
 use App\Models\ProductMaster;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -179,14 +181,18 @@ class DevController extends Controller
     
     public function addAppointment(Request $request){
         $appointment = $request->validate([
-            'client' => 'required|string',
+            'customer_name' => 'required|string',
+            'customer_mobile' => 'required|string',
             'date' => 'required',
             'start_time' => 'required',
             'end_time' => 'required'
-            
         ]);
         $appointment['doc_id']=Auth::guard('dev')->user()->id;
         $appointment['status']=0;
+        $isExisting=User::where('mobile',$appointment['customer_mobile'])->count();
+        if($isExisting==0){
+            DB::insert('insert into users (name, mobile) values (?, ?)', [$appointment['customer_name'],$appointment['customer_mobile']]);
+        }
         $addAppoint=Appointment::create($appointment);
         if($addAppoint->save()){
             return response()->json([
@@ -562,5 +568,48 @@ class DevController extends Controller
                 'type' => 'error',
             ], 401);
         }
+    }
+    public function saveMedicalHistory(Request $request){
+        $questions=$request->validate([
+            'ques1'=> 'required',
+            'ques2'=> 'required',
+            'ques3'=> 'required',
+            'ques4'=> 'required',
+            'ques5'=> 'required',
+            'ques6'=> 'required',
+            'ques7'=> 'required',
+            'ques8'=> 'required',
+            'ques9'=> 'required',
+            'ques10'=> 'required',
+            'ques11'=> 'required',
+            'ques12'=> 'required',
+            'ques13'=> 'required',
+        ]);
+        foreach($questions as $key=>$ques){
+            $data[]=array(
+                'doctor_id'=>Auth::guard('dev')->user()->id,
+                'user_id'=>$request->input('mobile'),
+                'question_id'=>$key+1,
+                'answer'=>$ques
+            );
+        }
+        $status=MedicalHistory::where('user_id',$request->input('mobile'))->first();
+        if($status){
+            $saveQuestion=new MedicalHistory($data);
+            if($saveQuestion->save()){
+                return response()->json([
+                    'message' => 'Question updated',
+                    'type' => 'success',
+                    'status'=> $newStatus
+                ]);
+            }
+        }else{
+            return response()->json([
+                'message' => 'Product updated',
+                'type' => 'success',
+                'status'=> $newStatus
+            ]);
+        }
+        
     }
 }

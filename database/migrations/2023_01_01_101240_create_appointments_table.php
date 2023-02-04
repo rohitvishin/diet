@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->string('doc_id');
-            $table->string('client');
+            $table->string('customer_name');
+            $table->string('customer_mobile');
             $table->string('date');
             $table->string('start_time');
             $table->string('end_time');
