@@ -28,8 +28,7 @@
                                         <input type="text" class="form-control" placeholder="Search By Date">
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control"
-                                            placeholder="Search By Contact Number">
+                                        <input type="text" class="form-control" placeholder="Search By Contact Number">
                                     </div>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control" placeholder="Search By Refered By">
@@ -72,56 +71,34 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+
+                                        @if($clientData && !empty($clientData) && isset($clientData))
+                                        @if(count($clientData) > 0)
+
+                                        @php( $i = 1 )
+                                        @foreach($clientData as $singleClient)
                                         <tr>
-                                            <td>Shrikunj Vyas</td>
-                                            <td>shreevyas65@gmail.com</td>
-                                            <td>7066498174</td>
-                                            <td>25</td>
-                                            <td>MIRA ROAD</td>
-                                            <td>Rohit Vishwakarma</td>
-                                            <td>25 Dec 2022</td>
-                                            <td><a href="#" class="btn btn-primary">Detail</a></td>
+                                            <td>{{ $i++ }}
+                                            </td>
+                                            <td><a
+                                                    href="{{ url('/startAppointment/'.str_replace(' ','_',$singleClient['name']).'/basic_details/main') }}">{{ isset($singleClient['name']) && $singleClient['name'] ? $singleClient['name'] : '' }}</a>
+                                            </td>
+                                            <td>{{ isset($singleClient['email']) && $singleClient['email'] ? $singleClient['email'] : '' }}
+                                            </td>
+                                            <td>{{ isset($singleClient['mobile']) && $singleClient['mobile'] ? $singleClient['mobile'] : '' }}
+                                            </td>
+                                            <td>{{ isset($singleClient['age']) && $singleClient['age'] ? $singleClient['age'] : '' }}
+                                            </td>
+                                            <td>{{ isset($singleClient['address']) && $singleClient['address'] ? $singleClient['address'] : '' }}
+                                            </td>
+                                            <td>{{ isset($singleClient['referrer']) && $singleClient['referrer'] ? $singleClient['referrer'] : '' }}
+                                            </td>
+                                            <td>{{ isset($singleClient['created_at']) && $singleClient['created_at'] ? date('D, M Y', strtotime($singleClient['created_at'])) : '' }}
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td>Shrikunj Vyas</td>
-                                            <td>shreevyas65@gmail.com</td>
-                                            <td>7066498174</td>
-                                            <td>25</td>
-                                            <td>MIRA ROAD</td>
-                                            <td>Rohit Vishwakarma</td>
-                                            <td>25 Dec 2022</td>
-                                            <td><a href="#" class="btn btn-primary">Detail</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Shrikunj Vyas</td>
-                                            <td>shreevyas65@gmail.com</td>
-                                            <td>7066498174</td>
-                                            <td>25</td>
-                                            <td>MIRA ROAD</td>
-                                            <td>Rohit Vishwakarma</td>
-                                            <td>25 Dec 2022</td>
-                                            <td><a href="#" class="btn btn-primary">Detail</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Shrikunj Vyas</td>
-                                            <td>shreevyas65@gmail.com</td>
-                                            <td>7066498174</td>
-                                            <td>25</td>
-                                            <td>MIRA ROAD</td>
-                                            <td>Rohit Vishwakarma</td>
-                                            <td>25 Dec 2022</td>
-                                            <td><a href="#" class="btn btn-primary">Detail</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Shrikunj Vyas</td>
-                                            <td>shreevyas65@gmail.com</td>
-                                            <td>7066498174</td>
-                                            <td>25</td>
-                                            <td>MIRA ROAD</td>
-                                            <td>Rohit Vishwakarma</td>
-                                            <td>25 Dec 2022</td>
-                                            <td><a href="#" class="btn btn-primary">Detail</a></td>
-                                        </tr>
+                                        @endforeach
+                                        @endif
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

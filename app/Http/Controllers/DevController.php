@@ -12,10 +12,17 @@ use App\Models\FoodMaster;
 use App\Models\DietTemplateMaster;
 use App\Models\ProductMaster;
 use App\Models\User;
+use App\Models\Remarks;
+use App\Models\Documents;
+use App\Models\Anthropometric_data;
+use App\Models\Exercise_data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\db;
+use Illuminate\Http\File;
+
+use Illuminate\Support\Facades\Storage;
 
 class DevController extends Controller
 {
@@ -119,11 +126,25 @@ class DevController extends Controller
         }
         
     }
+
     public function get_user($mobile){
         $data=User::where('mobile',$mobile)->first();
         echo $data;        
     }
-    public function dashboard(Request $request){
+
+    public function dashbaord(){
+        $data['clientData'] = User::take(10)->orderBy('id', 'desc')->get();
+        $data['appointMentData'] = Appointment::orderBy('date', 'desc')->take(10)->get();
+        $data['todayAppointment'] = Appointment::where('date', date('Y-m-d'))->orderBy('date', 'desc')->take(10)->get();
+        $data['payemntData'] = array();
+        $data['pendingPayment'] = array();
+        
+        return view('dev.home', $data);
+    }
+
+    public function ClientList(){
+        $data['clientData'] = User::orderBy('id','desc')->get();
+        return view('dev.clients.clients', $data);
     }
 
     public function Consultation(Request $request){
@@ -133,6 +154,73 @@ class DevController extends Controller
             $data['data'][$i] = MedicalMaster::where('type_id', $i + 1)->get();
         }
         return view('dev.consultant.consultation',$data);
+    }
+
+    public function startAppointment($username = '', $page = 'basic_details', $subpage = 'anthropometric'){
+        $data = []; 
+        $data['user_data'] = [];
+        $data['user_id'] = 0;
+        $data['username'] = $username;
+        
+        if($username != ''){
+
+            $res = User::where('name', str_replace('_',' ',$username))->first();
+            if($res != ''){
+                $data['user_id'] = $res['id'];
+                $res = $this->getDataAccordingToPageName($data['user_id'], $page, $subpage);
+                $data['user_data'] = $res['user_data'];
+                $data['data'] = $res['data'] ?? '';
+            }
+        }
+        
+        $data['url'] = $page;
+        $data['suburl'] = $subpage;
+
+        // dd($data);
+        return view('dev.consultant.pages.'.$page, $data);
+        
+    }
+
+
+    public function getDataAccordingToPageName($userid, $page, $subpage){
+
+        $data = [];
+        $data['user_data'] = [];
+        
+        if($page == 'basic_details')
+            $data['user_data'] = User::where('id', $userid)->first();
+            
+        else if($page == 'medical_info'){
+            $lastType_id = MedicalMaster::select('type_id')->latest()->first()['type_id'];
+            for ($i = 0; $i < $lastType_id; $i++) {
+                $data['data'][$i] = MedicalMaster::where('type_id', $i + 1)->get();
+            }
+            $data['user_data'] = User::where('id', $userid)->first();
+        }
+        else if($page == 'package_payment')
+            $data['user_data'] = User::where('id', $userid)->first();
+        else if($page == 'diet_chart')
+            $data['user_data'] = User::where('id', $userid)->first();
+        else if($page == 'remark')
+            $data['user_data'] = Remarks::where('client_id', $userid)->orderBy('remark_date','desc')->get();
+        else if($page == 'follow_up'){
+
+            if($subpage == 'anthropometric')
+                $data['user_data'] = Anthropometric_data::where('client_id', $userid)->get()->toArray();
+            else if($subpage == 'exercise')
+                $data['user_data'] = Exercise_data::where('client_id', $userid)->get()->toArray();
+            else if($subpage == 'diet_followed')
+                $data['user_data'] = User::where('id', $userid)->first()->toArray();
+            else if($subpage == 'lab_data')
+                $data['user_data'] = User::where('id', $userid)->first()->toArray();
+            else if($subpage == 'medication')
+                $data['user_data'] = User::where('id', $userid)->first()->toArray();
+                
+        }
+        else if($page == 'documents')
+            $data['user_data'] = Documents::where('client_id', $userid)->orderBy('document_date','desc')->get();
+
+        return $data;
     }
 
     public function MedicalMasterList(){
@@ -563,4 +651,178 @@ class DevController extends Controller
             ], 401);
         }
     }
+
+    // Consultation Update Functions
+    public function UpdateBasicDetails(Request $request)
+    {
+        $data=$request->validate([
+            'name' => 'required|string',
+            'referrer' => 'required|string',
+            'email' => 'required|string|email',
+            'mobile' => 'required|string',
+            'profession' => 'required|string',
+            'working_hours' => 'required|string',
+            'social_media' => 'required|string',
+            'mobile' => 'required|string',
+            'address' => 'required|string',
+            'gender' => 'required|string',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'pincode' => 'required|string',
+            'dob' => 'required|string',
+            'age' => 'required|string',
+            'maritalstatus' => 'required|string',
+            'purpose' => 'required|string',
+        ]);
+
+        
+
+        if($request->input('purpose') == 'other'){
+            $request->validate([
+                'purpose_other' => 'required|string'
+            ]);
+        }
+
+        $data['purpose_other'] = $request->input('purpose_other');
+            
+        if($request->input('client_id') > 0){
+            $data['updated_at'] = date('Y-m-d H:i:s');
+            $response=User::where('id',$request->input('client_id'))->update($data);
+        }else{
+            $data['created_at'] = date('Y-m-d H:i:s');
+            $response = new User($data);
+        }
+
+        
+        if($request->input('client_id') == 0 ? $response->save() : $response)
+            return response()->json(['type' => 'success', 'message' => 'Basic Details Updated']);
+        else
+            return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+        
+    }
+
+    public function saveFollowupData(Request $request){
+        
+        // dd($request->all());
+        $data = $request->all();
+        unset($data['type']);
+        unset($data['process']);
+
+        if($request->type == 'anthro')
+            $response = Anthropometric_data::insert($data);
+
+        else if($request->type == 'exercise'){
+            unset($data['exercise_date']);
+            unset($data['client_id']);
+            
+            if($request->exercise_date == '')
+                return response()->json(['type' => 'error', 'message' => 'All Feilds Are Mandatory']);
+
+            foreach($data['exercise'] as $key => $singleExercise){
+                if($singleExercise['exercise_name'] == '' || $singleExercise['exercise_unit'] == '' || $singleExercise['exercise_duration'] == '')
+                    return response()->json(['type' => 'error', 'message' => 'All Feilds Are Mandatory']);
+                $data['exercise'][$key]['exercise_date'] = $request->exercise_date;
+                $data['exercise'][$key]['client_id'] = $request->client_id;
+            }
+            $response = Exercise_data::insert($data['exercise']);
+        }
+
+        if($response)
+            return response()->json(['type' => 'success', 'message' => ucwords($request->type).' Added']);
+        else
+            return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+        
+    }
+
+    public function editFollowupData(Request $request){
+        $data = $request->all();
+
+        if($request->type == 'anthro')
+            $response = Anthropometric_data::insert($data);
+
+        else if($request->type == 'exercise'){
+
+            dd($request->exercise_date);
+            if($request->exercise_date == '')
+                return response()->json(['type' => 'error', 'message' => 'All Feilds Are Mandatory']);
+
+            foreach($data['exercise'] as $key => $singleExercise){
+                if($singleExercise['exercise_name'] == '' || $singleExercise['exercise_unit'] == '' || $singleExercise['exercise_duration'] == '')
+                    return response()->json(['type' => 'error', 'message' => 'All Feilds Are Mandatory']);
+                $data['exercise'][$key]['exercise_date'] = $request->exercise_date;
+            }
+            $response = Exercise_data::where(['id' => $request->id, 'client_id' => $request->client_id])->update($data['exercise'][0]);
+        }
+
+        if($response)
+            return response()->json(['type' => 'success', 'message' => ucwords($request->type).' Added']);
+        else
+            return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+    }
+
+    public function UpdateRemarks(Request $request){
+        $data=$request->validate([
+            'remark_date' => 'required|string',
+            'remark' => 'required|string',
+            'client_id' => 'required|string',
+        ]);
+
+        if($request->input('process') == 'update'){
+            $request->validate([
+                'id' => 'required|string'
+            ]);
+        }
+            
+        if($request->input('process') == 'update'){
+            $data['updated_at'] = date('Y-m-d H:i:s');
+            $response = Remarks::where(['id' => $request->input('id'), 'client_id' => $request->input('client_id')])->update($data);
+        }else{
+            $data['created_at'] = date('Y-m-d H:i:s');
+            $response = new Remarks($data);
+        }
+        
+        if($request->input('process') == 'add' ? $response->save() : $response)
+            return response()->json(['type' => 'success', 'message' => 'Remarks Updated']);
+        else
+            return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+    }
+
+    public function UpdateDocuments(Request $request){
+
+        $data = $request->validate([
+            'document_date' => 'required|string',
+            'document_name' => 'required|string',
+            'client_id' => 'required|string',
+        ]);
+        
+        if($request->file('document')) {
+            $request->validate([
+                'document' => 'required|mimes:csv,txt,xlx,xls,pdf,png,jpg,JPEG,PNG|max:2048'
+            ]);
+
+            $fileName = time().'_'.$data['client_id'].'_'.$request->file('document')->getClientOriginalName();
+            Storage::putFileAs('photos', $request->file('document'), $fileName, 'public');
+            Storage::url($fileName);
+            // $path = $request->file('document')->store('avatars');
+            $data['document_url'] = $fileName;
+        }
+
+        $data['created_at'] = date('Y-m-d H:i:s');
+        $response = new Documents($data);
+        if($response->save())
+            return response()->json(['type' => 'success', 'message' => 'Documents Updated']);
+        else
+            return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+    }
+
+    public function DownloadFile($filename = '', $documentName = ''){
+        
+        $info = pathinfo(storage_path().'photos/'.$filename);
+        $ext = $info['extension'];
+        return Storage::download('photos/'.$filename, $documentName.'.'.$ext);
+        if($filename != ''){
+            Storage::download('/files/'.trim($filename));
+        }
+    }
+
 }

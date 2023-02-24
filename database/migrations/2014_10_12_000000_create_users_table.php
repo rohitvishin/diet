@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('name',50);
             $table->string('email',70)->unique();
             $table->string('mobile',12)->unique();
+            $table->string('profession');
+            $table->string('working_hours');
+            $table->string('social_media');
             $table->string('referrer',70);
             $table->string('gender',20);
             $table->integer('age');
@@ -28,6 +31,7 @@ return new class extends Migration
             $table->date('dob');
             $table->string('maritalstatus',25);
             $table->string('purpose');
+            $table->string('purpose_other')->nullable();
             $table->timestamps();
             $table->tinyInteger('status')->default(1);
         });

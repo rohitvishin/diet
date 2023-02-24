@@ -13,7 +13,7 @@
             <li class="menu-header">Practice Management</li>
             <li><a class="nav-link text-left" href="{{ url('appointments') }}"><i
                         class="fas fa-file"></i><span>Appointments</span></a></li>
-            <li class="active"><a class="nav-link  text-left" href="{{ url('clients') }}"><i
+            <li class="active"><a class="nav-link  text-left" href="{{ url('clientList') }}"><i
                         class="fas fa-user"></i><span>My
                         Clients</span></a></li>
             <li><a class="nav-link  text-left" href="{{ url('packageMaster') }}"><i

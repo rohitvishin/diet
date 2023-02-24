@@ -36,14 +36,22 @@ Route::get('logout', function () {
 
 // authentication require to access these routes
 Route::middleware('devauth')->group(function(){
-Route::view('/home', 'dev.home')->name('home');
-Route::get('/profile', [DevController::class,'getProfile'])->name('profile');
+    
+Route::get('/home', [DevController::class, 'dashbaord'])->name('home');
+// Route::view('/dashboard', [DevController::class,'dashbaord'])->name('home');
+Route::get('/profile', [DevController::class, 'getProfile'])->name('profile');
 Route::view('/appointment', 'dev.appointment')->name('appointment');
 Route::get('/consultation', [DevController::class, 'Consultation']);
+Route::get('/consultation2/{type}/{user_id}/{page}/{submenu}', [DevController::class, 'Consultation2']);
+
+Route::get('/startAppointment/{patient_name}/{page}/{submenu?}', [DevController::class, 'startAppointment']);
+Route::post('/save_followup_data', [DevController::class, 'saveFollowupData']);
+Route::post('/edit_followup_data', [DevController::class, 'editFollowupData']);
+
 Route::get('/medicalMaster', [DevController::class, 'MedicalMasterList']);
 Route::get('/labMaster', [DevController::class, 'LabMasterList']);
 Route::get('/activityMaster', [DevController::class, 'ActivityMasterList']);
-Route::view('/clients', 'dev.clients.clients')->name('clients');
+Route::get('/clientList', [DevController::class, 'ClientList']);
 
 Route::get('/packageMaster', [DevController::class, 'PackageMasterList']);
 Route::post('/packagePost', [DevController::class, 'packagePost']);
@@ -60,6 +68,13 @@ Route::post('/updateDietTemplateStatus', [DevController::class, 'updateDietTempl
 Route::get('/productMaster', [DevController::class, 'ProductMasterList']);
 Route::post('/productMasterPost', [DevController::class, 'productMasterPost']);
 Route::post('/updateProductMasterStatus', [DevController::class, 'updateProductMasterStatus']);
+
+
+// Consultation Pages Function POST
+Route::post('/save_basic_details',[DevController::class,'UpdateBasicDetails']);
+Route::post('/save_remarks',[DevController::class,'UpdateRemarks']);
+Route::post('/save_documents',[DevController::class,'UpdateDocuments']);
+Route::get('/downloadFile/{filename}/{documentName}',[DevController::class,'DownloadFile']);
 
 // account
 Route::get('/user', function () {

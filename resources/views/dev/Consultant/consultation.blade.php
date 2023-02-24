@@ -2,88 +2,88 @@
 
 @include('dev.include.header')
 <style>
-.select2-container {
-    display: unset !important;
-}
-
-.select2-dropdown--above {
-    width: max-content !important;
-}
-
-.select2-dropdown--below {
-    width: max-content !important;
-}
-
-.followUpAnthroCard {
-    max-height: 550px;
-    overflow-x: auto;
-}
-
-.followUpAnthro ul {
-    list-style: none;
-    padding-inline-start: 5px
-}
-
-.followUpAnthro ul li {
-    list-style: none;
-    border: 1px solid #eee;
-    padding-inline-start: 5px
-}
-
-.nav .nav-item {
-    display: grid;
-    justify-content: center;
-    align-content: center;
-}
-
-.nav .nav-item .nav-link i {
-    display: none;
-}
-
-.nav .nav-item .nav-link span {
-    display: inline;
-}
-
-.nav-pills .nav-item .nav-link {
-    box-shadow: 0 2px 6px #acb5f6;
-    color: #fff;
-    background-color: #5db3f7;
-    margin: 5px;
-}
-
-@media screen and (max-width:480px) {
-    .nav {
-        flex-wrap: unset !important;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+    .select2-container {
+        display: unset !important;
     }
 
-    .nav .nav-item .nav-link span {
+    .select2-dropdown--above {
+        width: max-content !important;
+    }
+
+    .select2-dropdown--below {
+        width: max-content !important;
+    }
+
+    .followUpAnthroCard {
+        max-height: 550px;
+        overflow-x: auto;
+    }
+
+    .followUpAnthro ul {
+        list-style: none;
+        padding-inline-start: 5px
+    }
+
+    .followUpAnthro ul li {
+        list-style: none;
+        border: 1px solid #eee;
+        padding-inline-start: 5px
+    }
+
+    .nav .nav-item {
+        display: grid;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .nav .nav-item .nav-link i {
         display: none;
     }
 
-    .nav .nav-item .nav-link .tab-icon {
+    .nav .nav-item .nav-link span {
         display: inline;
     }
 
-    .card .card-header,
-    .card .card-body,
-    .card .card-footer {
-        padding: 20px 10px !important;
+    .nav-pills .nav-item .nav-link {
+        box-shadow: 0 2px 6px #acb5f6;
+        color: #fff;
+        background-color: #5db3f7;
+        margin: 5px;
     }
-}
 
-.nav-pills .nav-item .nav-link.active {
-    background-color: #660b95 !important;
-}
+    @media screen and (max-width:480px) {
+        .nav {
+            flex-wrap: unset !important;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
 
-.nav-pills .nav-item .nav-link:hover {
-    background-color: #660b95 !important;
-}
+        .nav .nav-item .nav-link span {
+            display: none;
+        }
 
-.hover-text-black:hover {
-    color: black !important
-}
+        .nav .nav-item .nav-link .tab-icon {
+            display: inline;
+        }
+
+        .card .card-header,
+        .card .card-body,
+        .card .card-footer {
+            padding: 20px 10px !important;
+        }
+    }
+
+    .nav-pills .nav-item .nav-link.active {
+        background-color: #660b95 !important;
+    }
+
+    .nav-pills .nav-item .nav-link:hover {
+        background-color: #660b95 !important;
+    }
+
+    .hover-text-black:hover {
+        color: black !important
+    }
 </style>
 
 
@@ -134,33 +134,33 @@
                                             history</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="contact-tab3" data-toggle="tab" href="#payment" role="tab"
-                                        aria-controls="contact" aria-selected="false"><i
+                                    <a class="nav-link" id="contact-tab3" data-toggle="tab" href="#payment"
+                                        role="tab" aria-controls="contact" aria-selected="false"><i
                                             class="fa fa-box-open tab-icon fa-2x"></i>
                                         <span>Package &
                                             Payment</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="contact-tab3" data-toggle="tab" href="#contact3" role="tab"
-                                        aria-controls="contact" aria-selected="false"><i
+                                    <a class="nav-link" id="contact-tab3" data-toggle="tab" href="#contact3"
+                                        role="tab" aria-controls="contact" aria-selected="false"><i
                                             class="fa fa-notes-medical tab-icon fa-2x"></i>
                                         <span>Diet Chart</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="contact-tab3" data-toggle="tab" href="#remark" role="tab"
-                                        aria-controls="contact" aria-selected="false"><i
+                                    <a class="nav-link" id="contact-tab3" data-toggle="tab" href="#remark"
+                                        role="tab" aria-controls="contact" aria-selected="false"><i
                                             class="fa fa-sticky-note tab-icon fa-2x"></i>
                                         <span>Remarks</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="contact-tab3" data-toggle="tab" href="#followup" role="tab"
-                                        aria-controls="contact" aria-selected="false"><i
+                                    <a class="nav-link" id="contact-tab3" data-toggle="tab" href="#followup"
+                                        role="tab" aria-controls="contact" aria-selected="false"><i
                                             class="fa fa-comment tab-icon fa-2x"></i>
                                         <span>Follow ups</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="contact-tab3" data-toggle="tab" href="#documents" role="tab"
-                                        aria-controls="contact" aria-selected="false"><i
+                                    <a class="nav-link" id="contact-tab3" data-toggle="tab" href="#documents"
+                                        role="tab" aria-controls="contact" aria-selected="false"><i
                                             class="fa fa-paperclip tab-icon fa-2x"></i>
                                         <span>Documents &
                                             Photos</span></a>
@@ -182,7 +182,8 @@
 
 
                                 <!-- Payment -->
-                                <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="contact-tab3">
+                                <div class="tab-pane fade" id="payment" role="tabpanel"
+                                    aria-labelledby="contact-tab3">
                                     @include('dev.consultant.components.payment')
                                 </div>
 
@@ -193,13 +194,15 @@
 
 
                                 <!-- Remarks -->
-                                <div class="tab-pane fade" id="remark" role="tabpanel" aria-labelledby="contact-tab3">
+                                <div class="tab-pane fade" id="remark" role="tabpanel"
+                                    aria-labelledby="contact-tab3">
                                     @include('dev.consultant.components.remarks')
                                 </div>
 
 
                                 <!-- Follow Up -->
-                                <div class="tab-pane fade" id="followup" role="tabpanel" aria-labelledby="contact-tab3">
+                                <div class="tab-pane fade" id="followup" role="tabpanel"
+                                    aria-labelledby="contact-tab3">
                                     @include('dev.consultant.components.followup_exercise')
                                 </div>
 
@@ -313,14 +316,16 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="">Enter Date</label>
-                            <input type="date" name="" id="" class="form-control" placeholder="Enter Client Name">
+                            <input type="date" name="" id="" class="form-control"
+                                placeholder="Enter Client Name">
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="">Enter Time</label>
-                            <input type="number" name="" id="" class="form-control" placeholder="Enter Client Name">
+                            <input type="number" name="" id="" class="form-control"
+                                placeholder="Enter Client Name">
                         </div>
                         <div class="col-md-6">
                             <label for="">No of Days.</label>
@@ -356,14 +361,16 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="">Enter Date</label>
-                            <input type="date" name="" id="" class="form-control" placeholder="Enter Client Name">
+                            <input type="date" name="" id="" class="form-control"
+                                placeholder="Enter Client Name">
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="">Name of Medicine</label>
-                            <input type="number" name="" id="" class="form-control" placeholder="Enter Client Name">
+                            <input type="number" name="" id="" class="form-control"
+                                placeholder="Enter Client Name">
                         </div>
                         <div class="col-md-6">
                             <label for="">Time Taken</label>
@@ -399,14 +406,16 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="">Enter Date</label>
-                            <input type="date" name="" id="" class="form-control" placeholder="Enter Client Name">
+                            <input type="date" name="" id="" class="form-control"
+                                placeholder="Enter Client Name">
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="">Name of Document</label>
-                            <input type="number" name="" id="" class="form-control" placeholder="Enter Client Name">
+                            <input type="number" name="" id="" class="form-control"
+                                placeholder="Enter Client Name">
                         </div>
                         <div class="col-md-6">
                             <label for="">Upload Document</label>
@@ -439,15 +448,15 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="">Enter Date</label>
-                            <input type="date" name="" id="" class="form-control" placeholder="Enter Client Name">
+                            <input type="date" name="" id="" class="form-control"
+                                placeholder="Enter Client Name">
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-md-12">
                             <label for="">Remarks</label>
-                            <textarea type="text" name="" id="" class="form-control"
-                                placeholder="Enter Remark"></textarea>
+                            <textarea type="text" name="" id="" class="form-control" placeholder="Enter Remark"></textarea>
                         </div>
                     </div>
                 </div>
@@ -579,26 +588,26 @@
 <script src="{{ asset('assets/js/page/features-setting-detail.js') }}"></script>
 
 <script>
-// Common Functions
-function removeDiv(id) {
-    $(`#${id}`).remove();
-}
+    // Common Functions
+    function removeDiv(id) {
+        $(`#${id}`).remove();
+    }
 
 
-// Anthro Tab Functions
-function show_anthro_modal() {
-    $('.anthro').modal('show');
-}
+    // Anthro Tab Functions
+    function show_anthro_modal() {
+        $('.anthro').modal('show');
+    }
 
 
-// Exercise Tab Functions
-function show_exercise_modal() {
-    $('.exercise').modal('show');
-}
+    // Exercise Tab Functions
+    function show_exercise_modal() {
+        $('.exercise').modal('show');
+    }
 
-function add_new_exercise_feilds(e) {
-    var newkey = parseInt($(e).val()) + 1;
-    $('.exercise-modal-body').append(`
+    function add_new_exercise_feilds(e) {
+        var newkey = parseInt($(e).val()) + 1;
+        $('.exercise-modal-body').append(`
     
         <div class="row mt-4 mb-2 p-2 new_exercise_feild" style="border-top:1px solid #eee" id="exercise_feild_div-${newkey}">
             <div class="col-md-5 col-sm-12">
@@ -615,25 +624,25 @@ function add_new_exercise_feilds(e) {
             </div>
         </div>
     `);
-    $(e).val(newkey);
-}
+        $(e).val(newkey);
+    }
 
-function close_exercise_modal() {
-    document.getElementById("exercise_form").reset();
-    $('.new_exercise_feild').remove();
-    $('#add_new_exercise_feild').val(0);
-    $('.exercise').modal('hide');
-}
+    function close_exercise_modal() {
+        document.getElementById("exercise_form").reset();
+        $('.new_exercise_feild').remove();
+        $('#add_new_exercise_feild').val(0);
+        $('.exercise').modal('hide');
+    }
 
 
-// Medicine Tab Functions
-function show_medicine_modal() {
-    $('.medicine').modal('show');
-}
+    // Medicine Tab Functions
+    function show_medicine_modal() {
+        $('.medicine').modal('show');
+    }
 
-function add_new_medicine_feilds(e) {
-    var newkey = parseInt($(e).val()) + 1;
-    $('.medicine-modal-body').append(`
+    function add_new_medicine_feilds(e) {
+        var newkey = parseInt($(e).val()) + 1;
+        $('.medicine-modal-body').append(`
     
         <div class="row mt-4 mb-2 p-2 new_medicine_feild" style="border-top:1px solid #eee" id="medicine_feild_div-${newkey}">
             <div class="col-md-5 col-sm-12">
@@ -650,46 +659,47 @@ function add_new_medicine_feilds(e) {
             </div>
         </div>
     `);
-    $(e).val(newkey);
-}
+        $(e).val(newkey);
+    }
 
-function close_medicine_modal() {
-    document.getElementById("medicine_form").reset();
-    $('.new_medicine_feild').remove();
-    $('#add_new_medicine_feild').val(0);
-    $('.medicine').modal('hide');
-}
+    function close_medicine_modal() {
+        document.getElementById("medicine_form").reset();
+        $('.new_medicine_feild').remove();
+        $('#add_new_medicine_feild').val(0);
+        $('.medicine').modal('hide');
+    }
 
-// Document Tab
-function show_document_modal() {
-    $('.document').modal('show');
-}
+    // Document Tab
+    function show_document_modal() {
+        $('.document').modal('show');
+    }
 
-function close_document_modal() {
-    $('.document').modal('hide');
-}
+    function close_document_modal() {
+        $('.document').modal('hide');
+    }
 
-// Remarks Tab
-function show_remark_modal() {
-    $('.remark').modal('show');
-}
+    // Remarks Tab
+    function show_remark_modal() {
+        $('.remark').modal('show');
+    }
 
-function close_remark_modal() {
-    $('.remark').modal('hide');
-}
+    function close_remark_modal() {
+        $('.remark').modal('hide');
+    }
 
 
-// Add Diet Followed Modal
-function show_diet_modal() {
-    $('.diet').modal('show');
-}
+    // Add Diet Followed Modal
+    function show_diet_modal() {
+        $('.diet').modal('show');
+    }
 </script>
+
 <script>
-    $('#saveUser').on('click',function(){
-        if($('#client_id').val()>0){
+    $('#saveUser').on('click', function() {
+        if ($('#client_id').val() > 0) {
             var client_id = $('#client_id').val();
-        }else{
-            var client_id=0;
+        } else {
+            var client_id = 0;
         }
         console.log(client_id);
         const name = $('input[name="name"]').val();
@@ -705,24 +715,42 @@ function show_diet_modal() {
         const age = $('input[name="age"]').val();
         const maritalstatus = $('#maritalstatus').val();
         const purpose = $('#purpose').val();
-        var data = {name:name,referrer:referrer,gender:gender,mobile,email:email,address:address,city:city,state:state,pincode:pincode,dob:dob,age:age,maritalstatus:maritalstatus,purpose:purpose,client_id:client_id};
-        axios.post(`${url}/client/save_user`,data,{headers: {
-            'Content-Type': 'application/json',
-        }}).then(function (response) {
-                // handle success
-                if (response.data.type === 'success') {
-                    show_Toaster(response.data.message,response.data.type);
-                    $('#profile-tab3').click();
-                }
-            }).catch(function (err) {
-                show_Toaster(err.response.data.message,'error')
+        var data = {
+            name,
+            referrer,
+            gender,
+            mobile,
+            email: email,
+            address: address,
+            city: city,
+            state: state,
+            pincode: pincode,
+            dob: dob,
+            age: age,
+            maritalstatus: maritalstatus,
+            purpose: purpose,
+            client_id: client_id
+        };
+        axios.post(`${url}/client/save_user`, data, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(function(response) {
+            // handle success
+            if (response.data.type === 'success') {
+                show_Toaster(response.data.message, response.data.type);
+                $('#profile-tab3').click();
+            }
+        }).catch(function(err) {
+            show_Toaster(err.response.data.message, 'error')
         })
     });
-    $('#mobile').keyup(function(){
-        var mobile=$('#mobile').val();
-        if(mobile.length>=10){
+
+    $('#mobile').keyup(function() {
+        var mobile = $('#mobile').val();
+        if (mobile.length >= 10) {
             $('#client_id').val(0);
-            axios.get(`${url}/client/get_user/`+mobile).then(function (response) {
+            axios.get(`${url}/client/get_user/` + mobile).then(function(response) {
                 if (response.data.mobile == mobile) {
                     $('input[name="name"]').val(response.data.name);
                     $('input[name="referrer"]').val(response.data.referrer);
@@ -737,14 +765,16 @@ function show_diet_modal() {
                     $('#maritalstatus').val(response.data.maritalstatus);
                     $('#purpose').val(response.data.purpose);
                     $('#client_id').val(response.data.id);
-                }else{
+                } else {
                     $('#client_id').val(0);
                 }
-            }).catch(function (err) {
-                show_Toaster(err.response.data.message,'error')
+            }).catch(function(err) {
+                show_Toaster(err.response.data.message, 'error')
             })
         }
     });
+
+
     // $('#purpose').change(function(){
     //     if($('#purpose').val()=='other'){
     //         $('#otherPurpose').show();
