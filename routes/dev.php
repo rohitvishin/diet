@@ -29,7 +29,7 @@ Route::prefix("client")->group(function(){
 
     // authentication require to access these routes
     Route::middleware('devauth')->group(function(){
-        Route::view('/home', 'dev.home')->name('home');
+        // Route::view('/home', 'dev.home')->name('home');
         Route::view('/table', 'dev.tables.table');
         Route::view('/profile', 'dev.profile.profile')->name('profile');
         Route::view('/appointment', 'dev.appointment')->name('appointment');

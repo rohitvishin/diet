@@ -1,5 +1,4 @@
 <div class="card">
-
     <div class="card-header">
         <button class="btn btn-primary" onclick="show_document_modal()">Add New Document</button>
     </div>
@@ -10,45 +9,26 @@
                 <thead class="bg-primary">
                     <th>Date</th>
                     <th>Document Name</th>
+                    <th>Document</th>
                     <th>Action</th>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>12/12/2022</td>
-                        <td>Before Photo</td>
-                        <td>
-                            <a class="btn btn-primary" href="">View</a>
-                            <a class="btn btn-danger" href="">Delete</a>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>12/12/2022</td>
-                        <td>After Photo</td>
-                        <td>
-                            <a class="btn btn-primary" href="">View</a>
-                            <a class="btn btn-danger" href="">Delete</a>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>12/12/2022</td>
-                        <td>Before Photo</td>
-                        <td>
-                            <a class="btn btn-primary" href="">View</a>
-                            <a class="btn btn-danger" href="">Delete</a>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>12/12/2022</td>
-                        <td>Before Photo</td>
-                        <td>
-                            <a class="btn btn-primary" href="">View</a>
-                            <a class="btn btn-danger" href="">Delete</a>
-
-                        </td>
-                    </tr>
+                    @if (count($user_data) > 0)
+                        @foreach ($user_data as $single_data)
+                            <tr>
+                                <td>{{ $single_data['document_date'] }}</td>
+                                <td>{{ $single_data['document_name'] }}</td>
+                                <td><a
+                                        href="{{ url('/downloadFile/' . urlencode($single_data['document_url']) . '/' . str_replace(' ', '_', $single_data['document_name'])) }}">{{ $single_data['document_url'] }}</a>
+                                </td>
+                                <td><a class="btn btn-primary text-white"
+                                        onclick="show_remark_modal('{{ $single_data['id'] }}','delete')">Delete</a></td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <th>No Data Found..
+                        </th>
+                    @endif
                 </tbody>
             </table>
         </div>

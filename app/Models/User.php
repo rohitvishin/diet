@@ -20,6 +20,9 @@ class User extends Authenticatable
         'name',
         'email',
         'mobile',
+        'profession',
+        'working_hours',
+        'social_media',
         'referrer',
         'gender',
         'age',
@@ -30,6 +33,10 @@ class User extends Authenticatable
         'dob',
         'maritalstatus',
         'purpose',
+        'purpose_other',
+        'updated_at',
+        'created_at',
+        'status',
     ];
 
 

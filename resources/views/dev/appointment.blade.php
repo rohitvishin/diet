@@ -53,31 +53,20 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="">Client Mobile</label>
-                            <input type="text" name="customer_mobile" id="customer_mobile" class="form-control"
-                                placeholder="Enter Client Number">
+                            <label for="">Enter Client Name</label>
+                            <input type="text" name="client" id="" class="form-control" placeholder="Enter Client Name">
                         </div>
-                        <div class="col-md-6">
-                            <label for="">Client Name</label>
-                            <input type="text" name="customer_name" id="customer_name" class="form-control"
-                                placeholder="Enter Client Name">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-
                         <div class="col-md-6">
                             <label for="">Select Appointment Date</label>
                             <input type="text" name="date" class="form-control datepicker">
                         </div>
+                    </div>
+                    <br>
+                    <div class="row">
                         <div class="col-md-6">
                             <label for="">Select Appointment Start Time</label>
                             <input type="text" name="start_time" class="form-control timepicker">
                         </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        
                         <div class="col-md-6">
                             <label for="">Select Appointment End Time</label>
                             <input type="text" name="end_time" class="form-control timepicker">
@@ -109,55 +98,40 @@ $('#addAppointment').on('submit', function(e) {
         show_Toaster(err.response.data.message, 'error')
     })
 });
-$('#customer_mobile').keyup(function(){
-    var mobile=$('#customer_mobile').val();
-        if(mobile.length>=10){
-            $('#client_id').val(0);
-            axios.get(`${url}/client/get_user/`+mobile).then(function (response) {
-                if (response.data.mobile == mobile) {
-                    $('input[name="customer_name"]').val(response.data.name);    
-                    show_Toaster("user found",'success')                
-                }else{
-                    $('input[name="customer_name"]').val('');
-                    show_Toaster("new client",'error')
-                }
-            }).catch(function (err) {
-                show_Toaster(err.response.data.message,'error')
-            })
-        }
-});
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var today = new Date();
-        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-            now: date,
-            scrollTime: '00:00', // undo default 6am scrollTime
-            editable: true, // enable draggable events
-            selectable: true,
-            aspectRatio: 1.8,
-            headerToolbar: {
-                left: 'title',
-                center: 'prev,next',
-                right: 'timeGridDay,timeGridWeek,dayGridMonth,listWeek'
-            },
-            height: 'auto',
-            dayMinWidth: 100,
-            initialView: "dayGridMonth",
-            stickyFooterScrollbar: true,
+document.addEventListener('DOMContentLoaded', function() {
 
-            events: 'https://fullcalendar.io/api/demo-feeds/events.json'
-        });
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    var date = yyyy + '-' + mm + '-' + dd;
 
-        calendar.render();
+    // var date = '2023-01-21';
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+        now: date,
+        scrollTime: '00:00', // undo default 6am scrollTime
+        editable: true, // enable draggable events
+        selectable: true,
+        aspectRatio: 1.8,
+        headerToolbar: {
+            left: 'title',
+            center: 'prev,next',
+            right: 'timeGridDay,timeGridWeek,dayGridMonth,listWeek'
+        },
+        height: 'auto',
+        dayMinWidth: 100,
+        initialView: "dayGridMonth",
+        stickyFooterScrollbar: true,
+
+        events: 'https://fullcalendar.io/api/demo-feeds/events.json'
     });
-</script>
-<script>
-    function show_modal() {
-        $('.modal').modal('show');
-    }
-    
+
+    calendar.render();
+});
+
+function show_modal() {
+    $('.modal').modal('show');
+}
 </script>

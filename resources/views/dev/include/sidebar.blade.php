@@ -4,7 +4,7 @@
             <a href="{{route('home')}}">Mansi Padechia</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html"><i class="fas fa-notes-medical"></i></a>
+            <a href="{{route('home')}}"><i class="fas fa-notes-medical"></i></a>
         </div>
         <ul class="sidebar-menu text-center">
             <li><a class="nav-link text-left" href="{{route('home')}}"><i class="fas fa-home"></i>
@@ -13,7 +13,8 @@
             <li class="menu-header">Practice Management</li>
             <li><a class="nav-link text-left" href="{{ url('appointments') }}"><i
                         class="fas fa-file"></i><span>Appointments</span></a></li>
-            <li class="active"><a class="nav-link  text-left" href="clients.php"><i class="fas fa-user"></i><span>My
+            <li class="active"><a class="nav-link  text-left" href="{{ url('clientList') }}"><i
+                        class="fas fa-user"></i><span>My
                         Clients</span></a></li>
             <li><a class="nav-link  text-left" href="{{ url('packageMaster') }}"><i
                         class="fas fa-box"></i><span>Packages</span></a></li>

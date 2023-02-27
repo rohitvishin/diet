@@ -1,7 +1,7 @@
 <div class="card">
 
     <div class="card-header">
-        <button class="btn btn-primary" onclick="show_remark_modal()">Add New Remark</button>
+        <button class="btn btn-primary" onclick="show_remark_modal('','add')">Add New Remark</button>
     </div>
     <div class="card-body">
 
@@ -13,21 +13,20 @@
                     <th>Action</th>
                 </thead>
                 <tbody>
+
+                    @if(count($user_data) > 0)
+                    @foreach($user_data as $single_data)
                     <tr>
-                        <td>12/12/2022</td>
-                        <td>Before Photo</td>
-                        <td><a class="btn btn-danger" href="">Delete</a></td>
+                        <td>{{ $single_data['remark_date'] }}</td>
+                        <td>{{ $single_data['remark'] }}</td>
+                        <td><a class="btn btn-primary text-white"
+                                onclick="show_remark_modal('{{ $single_data }}','update')">Edit</a></td>
                     </tr>
-                    <tr>
-                        <td>12/12/2022</td>
-                        <td>Before Photo</td>
-                        <td><a class="btn btn-danger" href="">Delete</a></td>
-                    </tr>
-                    <tr>
-                        <td>12/12/2022</td>
-                        <td>Before Photo</td>
-                        <td><a class="btn btn-danger" href="">Delete</a></td>
-                    </tr>
+                    @endforeach
+                    @else
+                    <th>No Data Found..
+                    </th>
+                    @endif
                 </tbody>
             </table>
         </div>

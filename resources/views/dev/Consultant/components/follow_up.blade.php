@@ -3,29 +3,31 @@
 
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#Anthropometric" role="tab"
-                    aria-controls="home" aria-selected="true">Anthropometric</a>
+                <a class="nav-link {{ $suburl == 'anthropometric' ? 'active' : '' }}" id="home-tab"
+                    href="anthropometric">Anthropometric</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#Exercise" role="tab"
-                    aria-controls="profile" aria-selected="false">Exercise</a>
+                <a class="nav-link {{ $suburl == 'exercise' ? 'active' : '' }}" id="profile-tab"
+                    href="exercise">Exercise</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#DietFollowed" role="tab"
-                    aria-controls="contact" aria-selected="false">Diet Followed</a>
+                <a class="nav-link {{ $suburl == 'diet_followed' ? 'active' : '' }}" id="contact-tab"
+                    href="diet_followed">Diet Followed</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#LabData" role="tab"
-                    aria-controls="contact" aria-selected="false">Lab Data</a>
+                <a class="nav-link {{ $suburl == 'lab_data' ? 'active' : '' }}" id="contact-tab" href="lab_data">Lab
+                    Data</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#Medication" role="tab"
-                    aria-controls="contact" aria-selected="false">Medication</a>
+                <a class="nav-link {{ $suburl == 'medication' ? 'active' : '' }}" id="contact-tab"
+                    href="medication">Medication</a>
             </li>
         </ul>
 
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="Anthropometric" role="tabpanel" aria-labelledby="home-tab">
+
+            <div class="tab-pane fade {{ $suburl == 'anthropometric' ? 'show active' : '' }}" id="Anthropometric"
+                role="tabpanel" aria-labelledby="home-tab">
                 <div class="col-md-12 mt-5">
                     <button class="btn btn-primary" onclick="show_anthro_modal()">Add New Anthropometric
                         Data</button>
@@ -49,35 +51,44 @@
                                     <li>Height</li>
                                 </ul>
                             </div>
+                            @if(count($user_data) > 0 && $suburl == 'anthropometric')
+                            @foreach($user_data as $single_data)
                             <div class="col-md-2 followUpAnthro">
+
+
                                 <ul>
-                                    <li class="bg-primary text-white">26-12-2022 <a
+                                    <li class="bg-primary text-white">{{ $single_data['anthro_date'] }} <a
                                             class="btn btn-sm btn-default hover-text-black float-right"
-                                            onclick="show_anthro_modal()"><i class="fas fa-pencil-alt"></i></a>
+                                            onclick="show_anthro_modal('{{ json_encode($single_data) }}', 'edit')"><i
+                                                class="fas fa-pencil-alt"></i></a>
                                     </li>
-                                    <li>56</li>
-                                    <li>240</li>
-                                    <li>3</li>
-                                    <li>15</li>
-                                    <li>35</li>
-                                    <li>35</li>
-                                    <li>35</li>
-                                    <li>26</li>
-                                    <li>32</li>
-                                    <li>45</li>
-                                    <li>45</li>
+                                    <li>{{ $single_data['weight'] }}</li>
+                                    <li>{{ $single_data['fat'] }}</li>
+                                    <li>{{ $single_data['body_water'] }}</li>
+                                    <li>{{ $single_data['muscle_mass'] }}</li>
+                                    <li>{{ $single_data['chest'] }}</li>
+                                    <li>{{ $single_data['upper_waist'] }}</li>
+                                    <li>{{ $single_data['hips'] }}</li>
+                                    <li>{{ $single_data['lower_waist'] }}</li>
+                                    <li>{{ $single_data['bmr'] }}</li>
+                                    <li>{{ $single_data['height_cm'] }}</li>
+                                    <li>{{ $single_data['height'] }}</li>
                                 </ul>
+
                             </div>
+                            @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Exercise -->
-            <div class="tab-pane fade" id="Exercise" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="tab-pane fade {{ $suburl == 'exercise' ? 'show active' : '' }}" id="Exercise" role="tabpanel"
+                aria-labelledby="profile-tab">
 
                 <div class="col-md-12 mt-5">
-                    <button class="btn btn-primary" onclick="show_exercise_modal()">Add New Excercise
+                    <button class="btn btn-primary" onclick="show_exercise_modal('', 'add')">Add New Excercise
                         Data</button>
                 </div>
                 <div class="card followUpAnthroCard border mt-5 p-0">
@@ -85,58 +96,30 @@
                         <div class="row">
 
                             <table class="table table-bordered table-sm">
-                                <h5>Date : 12 Dec 2022</h5>
-                                <thead class="bg-primary">
-                                    <th>Exercise</th>
-                                    <th>Units</th>
+                                <thead class="bg-primary text-white">
+                                    <th>Exercise Date</th>
+                                    <th>Exercise Name</th>
+                                    <th>Exercise Unit</th>
+                                    <th>Exercise Duration</th>
+                                    <th>Action</th>
                                 </thead>
                                 <tbody>
+                                    @if(count($user_data) > 0 && $suburl == 'exercise')
+                                    @foreach($user_data as $single_data)
                                     <tr>
-                                        <td>Yoga</td>
-                                        <td>12 Min</td>
+                                        <td>{{ $single_data['exercise_date'] }}</td>
+                                        <td>{{ $single_data['exercise_name'] }}</td>
+                                        <td>{{ $single_data['exercise_unit'] }}</td>
+                                        <td>{{ $single_data['exercise_duration'] }}</td>
+                                        <td><button type="button" class="btn btn-sm btn-primary"
+                                                onclick="show_exercise_modal('{{ json_encode($single_data) }}','edit')">Edit</button>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>Walking</td>
-                                        <td>12 Min</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Treadmil</td>
-                                        <td>12 Min</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Air Cycling</td>
-                                        <td>12 Min</td>
-                                    </tr>
+                                    @endforeach
+                                    @endif
+
                                 </tbody>
                             </table>
-
-
-                            <table class="table table-bordered table-sm">
-                                <h5>Date: 14 Dec 2022</h5>
-                                <thead class="bg-primary">
-                                    <th>Exercise</th>
-                                    <th>Units</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Yoga</td>
-                                        <td>12 Min</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Walking</td>
-                                        <td>20 Min</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Treadmil</td>
-                                        <td>5 Min</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Air Cycling</td>
-                                        <td>5 Min</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
                         </div>
                     </div>
                 </div>
@@ -144,7 +127,8 @@
             </div>
 
             <!-- Diet Followed -->
-            <div class="tab-pane fade" id="DietFollowed" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="tab-pane fade {{ $suburl == 'diet_followed' ? 'show active' : '' }}" id="DietFollowed"
+                role="tabpanel" aria-labelledby="contact-tab">
 
                 <div class="col-md-12 mt-5">
                     <button class="btn btn-primary" onclick="show_diet_modal()">Add New Diet Followed
@@ -209,7 +193,8 @@
             </div>
 
             <!-- Lab Data -->
-            <div class="tab-pane fade" id="LabData" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="tab-pane fade {{ $suburl == 'lab_data' ? 'show active' : '' }}" id="LabData" role="tabpanel"
+                aria-labelledby="contact-tab">
                 <div class="col-md-12 mt-5">
                     <button class="btn btn-primary" onclick="show_exercise_modal()">Add New Lab
                         Data</button>
@@ -261,7 +246,8 @@
             </div>
 
             <!-- Medications  -->
-            <div class="tab-pane fade" id="Medication" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="tab-pane fade {{ $suburl == 'medication' ? 'show active' : '' }}" id="Medication"
+                role="tabpanel" aria-labelledby="contact-tab">
 
                 <div class="col-md-12 mt-5">
                     <button class="btn btn-primary" onclick="show_medicine_modal()">Add New Medicine
