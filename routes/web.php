@@ -42,6 +42,8 @@ Route::get('/home', [DevController::class, 'dashbaord'])->name('home');
 Route::get('/profile', [DevController::class, 'getProfile'])->name('profile');
 Route::view('/appointment', 'dev.appointment')->name('appointment');
 Route::get('/consultation', [DevController::class, 'Consultation']);
+Route::get('/package_plan', [DevController::class, 'packagePlan']);
+
 Route::get('/consultation2/{type}/{user_id}/{page}/{submenu}', [DevController::class, 'Consultation2']);
 
 Route::get('/startAppointment/{patient_name}/{page}/{submenu?}', [DevController::class, 'startAppointment']);

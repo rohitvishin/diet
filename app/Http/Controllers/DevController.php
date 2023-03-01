@@ -830,5 +830,8 @@ class DevController extends Controller
             Storage::download('/files/'.trim($filename));
         }
     }
-
+    public function packagePlan(){
+        $packageMaster=packageMaster::where('status',1)->get();
+        echo $packageMaster;
+    }
 }

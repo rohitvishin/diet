@@ -246,3 +246,54 @@ function checkSelectedValue(value) {
 
 }
 </script>
+<script>
+    $(document).ready(function(){
+        $('#add_container').click(function(){
+            var html='<div class="row installation"><i class="fa fa-trash" onclick="removeContainer(this)"></i><div class="col-md-5"><div class="form-group"><label for="">Installment Amount</label><input type="d" name="" class="form-control" placeholder="Enter Amount" id=""></div></div><div class="col-md-5"><div class="form-group"><label for="">Installment Date</label><input type="date" name="" class="form-control" placeholder="Installment Date" id=""></div></div></div>';
+        $('#main_container').append(html);
+        })
+    });
+    function removeContainer(e){
+        console.log('sdf');
+        $(e).closest('.installation').remove();
+    }
+    
+    $('#package_masters').change(function(){
+        console.log('in');
+        if ($('#package_masters').val()=='package_masters') {
+            axios.get(`${url}/package_plan`).then(function(response) {
+                (response.data).forEach((plans)=>{
+                    var html='<option value='+plans.id+' data-duration='+plans.duration+' data-discount='+plans.discount+' data-currency='+plans.currency+' data-amount='+plans.amount+' data-tax='+plans.tax+' >'+plans.plan_name+'</option>';
+                    $('#select_package').append(html);
+                });
+            }).catch(function(err) {
+                show_Toaster(err.response.data.message, 'error')
+            })
+        }else{
+            $('#select_package').empty();
+        }
+    })
+
+    $('#select_package').change(function(){
+        $("#duration").empty();
+        $("#currency").empty();
+        $("#duration").prepend("<option value="+$('#select_package option:selected').data('duration')+">"+$('#select_package option:selected').data('duration')+"</option>");
+        $("#currency").prepend("<option value="+$('#select_package option:selected').data('currency')+">"+$('#select_package option:selected').data('currency')+"</option>");
+
+        $('#discount').val($('#select_package option:selected').data('discount'));
+        $('#amount').val($('#select_package option:selected').data('amount'));
+        $('#tax').val($('#select_package option:selected').data('tax'));
+        $('#final').val($('#select_package option:selected').data('tax')+$('#select_package option:selected').data('amount')-$('#select_package option:selected').data('discount'));
+    });
+    $('#down_payment').keyup(function(){
+        $('#main_container').empty();
+        var balance=$('#final').val()-$('#down_payment').val();
+        var emi_no=$('#installment_no').val();
+        var emi=balance/$('#installment_no').val();
+        while(emi_no>0){
+            var html='<div class="row installation"><i class="fa fa-trash" onclick="removeContainer(this)"></i><div class="col-md-5"><div class="form-group"><label for="">Installment Amount</label><input type="d" name="i_amount[]" class="form-control" value='+emi+' placeholder="Enter Amount" id=""></div></div><div class="col-md-5"><div class="form-group"><label for="">Installment Date</label><input type="date" name="i_date[]" class="form-control" placeholder="Installment Date" id=""></div></div></div>';
+            $('#main_container').append(html);
+            emi_no--;
+        }
+    });
+</script>

@@ -162,7 +162,7 @@
             show_Toaster(response.data.message, response.data.type)
             if (response.data.type === 'success') {
                 setTimeout(() => {
-                    window.location.href = `/home`;
+                    window.location.href = `${url}/home`;
                 }, 500);
             }
         }).catch(function(err) {
