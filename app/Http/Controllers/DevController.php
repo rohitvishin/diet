@@ -18,6 +18,8 @@ use App\Models\Remarks;
 use App\Models\Documents;
 use App\Models\Anthropometric_data;
 use App\Models\Exercise_data;
+use App\Models\PackagePayment;
+use App\Models\PaymentEmi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -833,5 +835,41 @@ class DevController extends Controller
     public function packagePlan(){
         $packageMaster=packageMaster::where('status',1)->get();
         echo $packageMaster;
+    }
+    public function save_package(Request $request){
+        $package_data = $request->validate([
+            'package_id'=> 'required',
+            'final_amt'=> 'required',
+            'start_date'=> 'required',
+            'confirmation_date'=> 'required',
+            'transaction_id'=> 'required',
+            'no_emi'=> 'required',
+            'payment_method'=> 'required',
+            'down_payment'=> 'required'
+        ]);
+        $package_data['user_id']=1;
+        $package_data['appointment_id']=1;
+        $package_data['dev_id']=Auth::guard('dev')->user()->id;
+        $save=new PackagePayment($package_data);
+        if($save->save()){
+            $no_emi=$request->no_emi;
+            for($i=0;$i<$no_emi;$i++){
+                $payment_emi=array(
+                    'dev_id'=>1,
+                    'user_id'=>1,
+                    'appointment_id'=>1,
+                    'pay_id'=>$save->id,
+                    'emi_amt'=>$request->i_amount[$i],
+                    'emi_date'=>$request->i_date[$i]
+                );
+                $emi_save=new PaymentEmi($payment_emi);
+                $emi_save->save();
+            }
+            //for each emi here
+            return response()->json(['type' => 'success', 'message' => 'Payment Added']);
+
+        }else{
+            return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+        }
     }
 }

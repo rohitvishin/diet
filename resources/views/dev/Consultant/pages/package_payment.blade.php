@@ -262,6 +262,7 @@ function checkSelectedValue(value) {
         console.log('in');
         if ($('#package_masters').val()=='package_masters') {
             axios.get(`${url}/package_plan`).then(function(response) {
+                $('#select_package').empty();
                 (response.data).forEach((plans)=>{
                     var html='<option value='+plans.id+' data-duration='+plans.duration+' data-discount='+plans.discount+' data-currency='+plans.currency+' data-amount='+plans.amount+' data-tax='+plans.tax+' >'+plans.plan_name+'</option>';
                     $('#select_package').append(html);
@@ -271,6 +272,8 @@ function checkSelectedValue(value) {
             })
         }else{
             $('#select_package').empty();
+            var html='<option value="">Diet Program</option><option value="">Weight Program</option>';
+            $('#select_package').append(html);
         }
     })
 
@@ -290,10 +293,23 @@ function checkSelectedValue(value) {
         var balance=$('#final').val()-$('#down_payment').val();
         var emi_no=$('#installment_no').val();
         var emi=balance/$('#installment_no').val();
-        while(emi_no>0){
+        while(emi_no>0){ 
             var html='<div class="row installation"><i class="fa fa-trash" onclick="removeContainer(this)"></i><div class="col-md-5"><div class="form-group"><label for="">Installment Amount</label><input type="d" name="i_amount[]" class="form-control" value='+emi+' placeholder="Enter Amount" id=""></div></div><div class="col-md-5"><div class="form-group"><label for="">Installment Date</label><input type="date" name="i_date[]" class="form-control" placeholder="Installment Date" id=""></div></div></div>';
             $('#main_container').append(html);
             emi_no--;
         }
+    });
+
+    $('#packageForm').submit(function(e){
+        e.preventDefault();
+        axios.post(`${url}/save_package`, new FormData(this)).then(function(response) {
+            // handle success
+            if (response.data.type === 'success') {
+                show_Toaster(response.data.message, response.data.type);
+                $('#profile-tab3').click();
+            }
+        }).catch(function(err) {
+            show_Toaster(err.response.data.message, 'error')
+        })
     });
 </script>

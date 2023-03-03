@@ -77,6 +77,7 @@ Route::post('/save_basic_details',[DevController::class,'UpdateBasicDetails']);
 Route::post('/save_remarks',[DevController::class,'UpdateRemarks']);
 Route::post('/save_documents',[DevController::class,'UpdateDocuments']);
 Route::get('/downloadFile/{filename}/{documentName}',[DevController::class,'DownloadFile']);
+Route::post('/save_package',[DevController::class,'save_package']);
 
 // account
 Route::get('/user', function () {
