@@ -43,6 +43,8 @@ Route::post('/addAppointment',[DevController::class,'addAppointment']);
 Route::get('/appointments', [DevController::class, 'Appointments'])->name('appointments');
 Route::post('/getClientName', [DevController::class, 'getClientName']);
 Route::get('/consultation', [DevController::class, 'Consultation']);
+Route::get('/package_plan', [DevController::class, 'packagePlan']);
+
 Route::get('/consultation2/{type}/{user_id}/{page}/{submenu}', [DevController::class, 'Consultation2']);
 
 Route::get('/startAppointment/{patient_name}/{page}/{submenu?}', [DevController::class, 'startAppointment']);
@@ -76,6 +78,7 @@ Route::post('/save_basic_details',[DevController::class,'UpdateBasicDetails']);
 Route::post('/save_remarks',[DevController::class,'UpdateRemarks']);
 Route::post('/save_documents',[DevController::class,'UpdateDocuments']);
 Route::get('/downloadFile/{filename}/{documentName}',[DevController::class,'DownloadFile']);
+Route::post('/save_package',[DevController::class,'save_package']);
 
 // account
 Route::get('/user', function () {

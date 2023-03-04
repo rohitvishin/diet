@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\ActivityMaster;
 use App\Models\Appointment;
 use App\Models\Dev;
@@ -10,6 +8,8 @@ use App\Models\LabMaster;
 use App\Models\PackageMaster;
 use App\Models\FoodMaster;
 use App\Models\DietTemplateMaster;
+use App\Models\Medical_history;
+use App\Models\MedicalHistory;
 use App\Models\ProductMaster;
 use App\Models\User;
 use App\Models\Remarks;
@@ -17,6 +17,8 @@ use App\Models\Documents;
 use App\Models\Anthropometric_data;
 use App\Models\Exercise_data;
 use App\Models\diet_chart_data;
+use App\Models\PackagePayment;
+use App\Models\PaymentEmi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -315,52 +317,19 @@ class DevController extends Controller
         $client_mobile = '';
 
         $appointment = $request->validate([
-            'appointment_date' => 'required',
+            'customer_name' => 'required|string',
+            'customer_mobile' => 'required|string',
+            'date' => 'required',
             'start_time' => 'required',
             'end_time' => 'required'
         ]);
-
-        if($request->client_id != 0){
-            $request->validate([
-                'client_name' => 'required|string',
-                'client_id' => 'required|numeric',
-                'client_mobile' => 'required|numeric',
-            ]);
-            $user = User::where('id',$request->client_id)->get();
-
-            if($user->isEmpty())
-            return response()->json([
-                'message' => 'Invalid Access, User Not Found',
-                'type' => 'success',
-            ]);
-
-            $client_id = $request->client_id;
-            $client_mobile = $request->client_mobile;
-            $client_name = $request->client_name;
+        $appointment['doc_id']=Auth::guard('dev')->user()->id;
+        $appointment['status']=0;
+        $isExisting=User::where('mobile',$appointment['customer_mobile'])->count();
+        if($isExisting==0){
+            DB::insert('insert into users (name, mobile) values (?, ?)', [$appointment['customer_name'],$appointment['customer_mobile']]);
         }
-        else{
-            $request->validate([
-                'new_client_name' => 'required|string',
-                'new_client_mobile' => 'required|numeric',
-            ]);
-
-            $data['name'] = $request->new_client_name;
-            $data['mobile'] = $request->new_client_mobile;
-            $user = new User($data);
-            $user->save();
-            
-            $client_id = $user->id;
-            $client_mobile = $request->new_client_mobile;
-            $client_name = $request->new_client_name;
-        }
-        
-        $appointment['client_id']= $client_id;
-        $appointment['client_mobile']= $client_mobile;
-        $appointment['client_name']= $client_name;
-        $appointment['status'] = 1;
-        
-        $addAppoint = Appointment::create($appointment);
-        
+        $addAppoint=Appointment::create($appointment);
         if($addAppoint->save()){
             return response()->json([
                 'message' => 'Appointment Added',
@@ -923,5 +892,44 @@ class DevController extends Controller
             Storage::download('/files/'.trim($filename));
         }
     }
+    public function packagePlan(){
+        $packageMaster=packageMaster::where('status',1)->get();
+        echo $packageMaster;
+    }
+    public function save_package(Request $request){
+        $package_data = $request->validate([
+            'package_id'=> 'required',
+            'final_amt'=> 'required',
+            'start_date'=> 'required',
+            'confirmation_date'=> 'required',
+            'transaction_id'=> 'required',
+            'no_emi'=> 'required',
+            'payment_method'=> 'required',
+            'down_payment'=> 'required'
+        ]);
+        $package_data['user_id']=1;
+        $package_data['appointment_id']=1;
+        $package_data['dev_id']=Auth::guard('dev')->user()->id;
+        $save=new PackagePayment($package_data);
+        if($save->save()){
+            $no_emi=$request->no_emi;
+            for($i=0;$i<$no_emi;$i++){
+                $payment_emi=array(
+                    'dev_id'=>1,
+                    'user_id'=>1,
+                    'appointment_id'=>1,
+                    'pay_id'=>$save->id,
+                    'emi_amt'=>$request->i_amount[$i],
+                    'emi_date'=>$request->i_date[$i]
+                );
+                $emi_save=new PaymentEmi($payment_emi);
+                $emi_save->save();
+            }
+            //for each emi here
+            return response()->json(['type' => 'success', 'message' => 'Payment Added']);
 
+        }else{
+            return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+        }
+    }
 }

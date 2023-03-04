@@ -64,6 +64,7 @@ Route::prefix("client")->group(function(){
         Route::post('/addLabMaster',[DevController::class,'addLabMaster']);
         Route::post('/updateLabMaster',[DevController::class,'updateLabMaster']);
         Route::post('/save_user',[DevController::class,'save_user']);
+        Route::post('/saveMedicalHistory',[DevController::class,'saveMedicalHistory']);
         
 
 

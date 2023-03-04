@@ -73,7 +73,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>How often do you suffer from cold, cough or flu?</label>
-                    <textarea class="form-control"></textarea>
+                    <textarea id="6" class="form-control"></textarea>
                 </div>
             </div>
 
