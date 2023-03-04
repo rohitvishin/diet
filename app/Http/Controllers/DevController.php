@@ -16,11 +16,13 @@ use App\Models\Remarks;
 use App\Models\Documents;
 use App\Models\Anthropometric_data;
 use App\Models\Exercise_data;
+use App\Models\diet_chart_data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\db;
 use Illuminate\Http\File;
+use Illuminate\Support\Facades\Crypt;
 
 use Illuminate\Support\Facades\Storage;
 
@@ -132,18 +134,27 @@ class DevController extends Controller
         echo $data;        
     }
 
-    public function dashbaord(){
+    public function dashboard(){
+
+        if(!Auth::guard('dev')->user()){
+            $data['url'] = 'login';
+            return view('dev.Auth.login', $data);
+        }
+        else{
         $data['clientData'] = User::take(10)->orderBy('id', 'desc')->get();
-        $data['appointMentData'] = Appointment::orderBy('date', 'desc')->take(10)->get();
-        $data['todayAppointment'] = Appointment::where('date', date('Y-m-d'))->orderBy('date', 'desc')->take(10)->get();
+        $data['appointMentData'] = Appointment::orderBy('appointment_date', 'desc')->take(10)->get();
+        $data['todayAppointment'] = Appointment::where('appointment_date', date('Y-m-d'))->orderBy('appointment_date', 'desc')->take(10)->get();
         $data['payemntData'] = array();
         $data['pendingPayment'] = array();
+        $data['url'] = 'dashboard';
         
         return view('dev.home', $data);
+        }
     }
 
     public function ClientList(){
         $data['clientData'] = User::orderBy('id','desc')->get();
+        $data['url'] = 'client_list';
         return view('dev.clients.clients', $data);
     }
 
@@ -156,15 +167,15 @@ class DevController extends Controller
         return view('dev.consultant.consultation',$data);
     }
 
-    public function startAppointment($username = '', $page = 'basic_details', $subpage = 'anthropometric'){
+    public function startAppointment($mobile = '', $page = 'basic_details', $subpage = 'anthropometric'){
         $data = []; 
         $data['user_data'] = [];
         $data['user_id'] = 0;
-        $data['username'] = $username;
+        $data['mobile'] = $mobile;
         
-        if($username != ''){
+        if($mobile != ''){
 
-            $res = User::where('name', str_replace('_',' ',$username))->first();
+            $res = User::where('mobile', $mobile)->first();
             if($res != ''){
                 $data['user_id'] = $res['id'];
                 $res = $this->getDataAccordingToPageName($data['user_id'], $page, $subpage);
@@ -176,7 +187,6 @@ class DevController extends Controller
         $data['url'] = $page;
         $data['suburl'] = $subpage;
 
-        // dd($data);
         return view('dev.consultant.pages.'.$page, $data);
         
     }
@@ -199,8 +209,10 @@ class DevController extends Controller
         }
         else if($page == 'package_payment')
             $data['user_data'] = User::where('id', $userid)->first();
-        else if($page == 'diet_chart')
-            $data['user_data'] = User::where('id', $userid)->first();
+        else if($page == 'diet_chart'){
+            $data['user_data'] = diet_chart_data::where('client_id', $userid)->orderBy('diet_chart_date','desc')->get();
+            $data['data'] = DietTemplateMaster::orderBy('created_at', 'desc')->get();
+        }
         else if($page == 'remark')
             $data['user_data'] = Remarks::where('client_id', $userid)->orderBy('remark_date','desc')->get();
         else if($page == 'follow_up'){
@@ -227,24 +239,56 @@ class DevController extends Controller
         $data['lastType_id'] = MedicalMaster::select('type_id')->latest()->first()['type_id'];
         $data['data'] = MedicalMaster::orderBy('id', 'desc')->get();
         $data['forSelect'] = MedicalMaster::select('type_id','type')->groupBy('type_id','type')->get();
+        $data['url'] = 'medical_master';
         return view('dev.masters.medicalmaster', $data);
     }
 
     public function ActivityMasterList(){
         $data['data'] = ActivityMaster::orderBy('id', 'desc')->get();
+        $data['url'] = 'activity_master';
         return view('dev.masters.activitymaster', $data);
     }
 
     public function LabMasterList(){
         $data['data'] = LabMaster::orderBy('id', 'desc')->get();
+        $data['url'] = 'lab_master';
         return view('dev.masters.labmaster', $data);
     }
 
     public function getProfile(){
-        $user = Dev::where('id',Auth::guard('dev')->user()->id)->first();
-        return view('dev.profile.profile',['user'=>$user]);
+        $data['user'] = Dev::where('id',Auth::guard('dev')->user()->id)->first();
+        $data['url'] = 'profile';
+        return view('dev.profile.profile', $data);
+    }
+
+    public function Appointments(){
+        $data['appointments'] = Appointment::orderBy('appointment_date', 'desc')->get()->toArray();
+        $data['json'] = [];
+        foreach($data['appointments'] as $singleAppointment){
+            $newData['title'] = 'Appointment With '.$singleAppointment['client_name'] ;
+            $newData['start'] = date('Y-m-d\TH:i:s', strtotime($singleAppointment['appointment_date'].' '.$singleAppointment['start_time']));
+            $newData['end'] = date('Y-m-d\TH:i:s', strtotime($singleAppointment['appointment_date'].' '.$singleAppointment['end_time']));
+            $newData['url'] = url('startAppointment/'.$singleAppointment['client_mobile'].'/basic_details/main');
+            array_push($data['json'], $newData); 
+        }
+        
+        $data['url'] = 'appointments';
+        return view('dev.appointment',$data);
     }
     
+    public function getClientName(Request $request){
+        $data = User::where('name','like', '%'.$request->param.'%')->get()->toArray();
+        if(count($data) > 0){
+            $html = '';
+            foreach($data as $singleName){
+                $html .= "<p class='autocomplete-div' data-id=".$singleName['id']." data-mobile='".$singleName['mobile']."' onclick='setClientName(this)'>".$singleName['name'].'</p>';
+            }
+        }
+        return response()->json([
+            'html' => $html,
+        ], 200);
+    }
+
     public function updateProfile(Request $request){
         $profile = $request->validate([
             'name' => 'required|string',
@@ -266,16 +310,57 @@ class DevController extends Controller
     }
     
     public function addAppointment(Request $request){
+        
+        $client_id = '';
+        $client_mobile = '';
+
         $appointment = $request->validate([
-            'client' => 'required|string',
-            'date' => 'required',
+            'appointment_date' => 'required',
             'start_time' => 'required',
             'end_time' => 'required'
-            
         ]);
-        $appointment['doc_id']=Auth::guard('dev')->user()->id;
-        $appointment['status']=0;
-        $addAppoint=Appointment::create($appointment);
+
+        if($request->client_id != 0){
+            $request->validate([
+                'client_name' => 'required|string',
+                'client_id' => 'required|numeric',
+                'client_mobile' => 'required|numeric',
+            ]);
+            $user = User::where('id',$request->client_id)->get();
+
+            if($user->isEmpty())
+            return response()->json([
+                'message' => 'Invalid Access, User Not Found',
+                'type' => 'success',
+            ]);
+
+            $client_id = $request->client_id;
+            $client_mobile = $request->client_mobile;
+            $client_name = $request->client_name;
+        }
+        else{
+            $request->validate([
+                'new_client_name' => 'required|string',
+                'new_client_mobile' => 'required|numeric',
+            ]);
+
+            $data['name'] = $request->new_client_name;
+            $data['mobile'] = $request->new_client_mobile;
+            $user = new User($data);
+            $user->save();
+            
+            $client_id = $user->id;
+            $client_mobile = $request->new_client_mobile;
+            $client_name = $request->new_client_name;
+        }
+        
+        $appointment['client_id']= $client_id;
+        $appointment['client_mobile']= $client_mobile;
+        $appointment['client_name']= $client_name;
+        $appointment['status'] = 1;
+        
+        $addAppoint = Appointment::create($appointment);
+        
         if($addAppoint->save()){
             return response()->json([
                 'message' => 'Appointment Added',
@@ -431,6 +516,7 @@ class DevController extends Controller
 
     public function PackageMasterList(){
         $data['data'] = PackageMaster::orderBy('id', 'desc')->get();
+        $data['url'] = 'package_master';
         return view('dev.masters.packagemaster', $data);
     }
 
@@ -499,6 +585,7 @@ class DevController extends Controller
 
     public function FoodMasterList(){
         $data['data'] = FoodMaster::orderBy('id', 'desc')->get();
+        $data['url'] = 'food_master';
         return view('dev.masters.foodmaster', $data);
     }
 
@@ -569,11 +656,13 @@ class DevController extends Controller
 
     public function DietTemplateMasterList(){
         $data['data'] = DietTemplateMaster::orderBy('id', 'desc')->get();
+        $data['url'] = 'diet_template_master';
         return view('dev.masters.diettemplatemaster', $data);
     }
 
     public function ProductMasterList(){
         $data['data'] = ProductMaster::orderBy('id', 'desc')->get();
+        $data['url'] = 'product_master';
         return view('dev.masters.productmaster', $data);
     }
     
@@ -726,6 +815,15 @@ class DevController extends Controller
             }
             $response = Exercise_data::insert($data['exercise']);
         }
+        else if($request->type == 'diet_followed'){
+            $response = Exercise_data::insert($data['diet_followed']);
+        }
+        else if($request->type == 'lab'){
+            $response = Exercise_data::insert($data['lab']);
+        }
+        else if($request->type == 'medicines'){
+            $response = Exercise_data::insert($data['medicines']);
+        }
 
         if($response)
             return response()->json(['type' => 'success', 'message' => ucwords($request->type).' Added']);
@@ -736,13 +834,14 @@ class DevController extends Controller
 
     public function editFollowupData(Request $request){
         $data = $request->all();
-
-        if($request->type == 'anthro')
-            $response = Anthropometric_data::insert($data);
+        if($request->type == 'anthro'){
+            unset($data['type']);
+            unset($data['id']);
+            unset($data['client_id']);
+            $response = Anthropometric_data::where(['id' => $request->id, 'client_id' => $request->client_id])->update($data);
+        }
 
         else if($request->type == 'exercise'){
-
-            dd($request->exercise_date);
             if($request->exercise_date == '')
                 return response()->json(['type' => 'error', 'message' => 'All Feilds Are Mandatory']);
 
@@ -755,7 +854,7 @@ class DevController extends Controller
         }
 
         if($response)
-            return response()->json(['type' => 'success', 'message' => ucwords($request->type).' Added']);
+            return response()->json(['type' => 'success', 'message' => ucwords($request->type).' Updated']);
         else
             return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
     }

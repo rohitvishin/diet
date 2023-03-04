@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Appointment extends Model
+class lab_data extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+    protected $table = 'lab_datas';
     protected $fillable = [
+        'lab_test_date',
         'client_id',
-        'client_mobile',
-        'client_name',
-        'appointment_date',
-        'start_time',
-        'end_time',
+        'test_name',
+        'test_result',
         'created_at',
-        'updated_at',
-        'status',
+        'update_at'
     ];
 }

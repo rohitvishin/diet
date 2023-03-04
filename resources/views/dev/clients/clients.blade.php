@@ -81,7 +81,7 @@
                                             <td>{{ $i++ }}
                                             </td>
                                             <td><a
-                                                    href="{{ url('/startAppointment/'.str_replace(' ','_',$singleClient['name']).'/basic_details/main') }}">{{ isset($singleClient['name']) && $singleClient['name'] ? $singleClient['name'] : '' }}</a>
+                                                    href="{{ url('/startAppointment/'.$singleClient['mobile'].'/basic_details/main') }}">{{ isset($singleClient['name']) && $singleClient['name'] ? $singleClient['name'] : '' }}</a>
                                             </td>
                                             <td>{{ isset($singleClient['email']) && $singleClient['email'] ? $singleClient['email'] : '' }}
                                             </td>

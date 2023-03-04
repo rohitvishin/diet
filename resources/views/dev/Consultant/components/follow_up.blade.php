@@ -29,7 +29,7 @@
             <div class="tab-pane fade {{ $suburl == 'anthropometric' ? 'show active' : '' }}" id="Anthropometric"
                 role="tabpanel" aria-labelledby="home-tab">
                 <div class="col-md-12 mt-5">
-                    <button class="btn btn-primary" onclick="show_anthro_modal()">Add New Anthropometric
+                    <button class="btn btn-primary" onclick="show_anthro_modal('','add')">Add New Anthropometric
                         Data</button>
                 </div>
                 <div class="card followUpAnthroCard border mt-5 p-0">
@@ -116,6 +116,10 @@
                                         </td>
                                     </tr>
                                     @endforeach
+                                    @else
+                                    <tr>
+                                        <td colspan="5" class="text-center">No, Data Found</td>
+                                    </tr>
                                     @endif
 
                                 </tbody>

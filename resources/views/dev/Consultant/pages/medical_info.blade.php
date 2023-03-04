@@ -1,12 +1,6 @@
 <!-- Main Content -->
 
 @include('dev.include.header')
-<script>
-var user_data = <?= !empty($user_data) ? $user_data : '' ?>;
-let user_id = `{{ $user_id ?? 0}}`;
-var is_data_changed = false;
-var username = `{{ $username ?? '' }}`;
-</script>
 <style>
 .select2-container {
     display: unset !important;
@@ -154,9 +148,14 @@ var username = `{{ $username ?? '' }}`;
 <script src="{{ asset('assets/js/page/features-setting-detail.js') }}"></script>
 
 <script>
+var user_data <?= !empty($user_data) && $user_data != 'null' ? '= '.$user_data : `{}` ?>;
+let user_id = `{{ $user_id }}`;
+var is_data_changed = false;
+var mobile = `{{ $mobile ?? '' }}`;
+
 $('.nav-link').click(async function() {
     var url = $(this).attr('data-url');
-    window.location.href = `{{ url('startAppointment/${username}/${url}') }} `
+    window.location.href = `{{ url('startAppointment/${mobile}/${url}') }} `
 });
 
 $('#saveUser').on('click', function() {

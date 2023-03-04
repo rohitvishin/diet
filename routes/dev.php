@@ -31,8 +31,6 @@ Route::prefix("client")->group(function(){
     Route::middleware('devauth')->group(function(){
         // Route::view('/home', 'dev.home')->name('home');
         Route::view('/table', 'dev.tables.table');
-        Route::view('/profile', 'dev.profile.profile')->name('profile');
-        Route::view('/appointment', 'dev.appointment')->name('appointment');
         Route::get('/consultation', [DevController::class, 'Consultation']);
         
         // account
@@ -42,7 +40,6 @@ Route::prefix("client")->group(function(){
 
         // get Routes
         Route::view('/dashboard', 'dev.dashboard')->name('dashboard');
-        Route::view('/appointments', 'dev.appointment')->name('appointment');
         Route::view('/clients', 'dev.clients')->name('clients');
         Route::view('/packages', 'dev.packages')->name('packages');
         Route::view('/reports', 'dev.reports')->name('reports');
@@ -59,7 +56,7 @@ Route::prefix("client")->group(function(){
 
         // post Routes
         Route::post('/updateProfile',[DevController::class,'updateProfile']);        
-        Route::post('/addAppointment',[DevController::class,'addAppointment']);
+        
         Route::post('/addMedicalMaster',[DevController::class,'addMedicalMaster']);
         Route::post('/updateMedicalMaster',[DevController::class,'updateMedicalMaster']);
         Route::post('/addActivityMaster',[DevController::class,'addActivityMaster']);

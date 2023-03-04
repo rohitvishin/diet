@@ -20,7 +20,7 @@ class AuthDev
             return $next($request);
         }
         else
-        return redirect('client/');
+        return redirect('/');
         
     }
 }

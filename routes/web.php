@@ -20,9 +20,7 @@ Route::get('register', function () {
 Route::post('register', [DevController::class, 'register']);
 
 // login
-Route::get('/', function () {
-    return view('dev.Auth.login');
-})->name("login");
+Route::get('/',[DevController::class, 'dashboard'])->name("login");
 
 Route::post('/login', [DevController::class, 'login']);
 
@@ -37,10 +35,13 @@ Route::get('logout', function () {
 // authentication require to access these routes
 Route::middleware('devauth')->group(function(){
     
-Route::get('/home', [DevController::class, 'dashbaord'])->name('home');
+Route::get('/home', [DevController::class, 'dashboard'])->name('home');
 // Route::view('/dashboard', [DevController::class,'dashbaord'])->name('home');
 Route::get('/profile', [DevController::class, 'getProfile'])->name('profile');
-Route::view('/appointment', 'dev.appointment')->name('appointment');
+
+Route::post('/addAppointment',[DevController::class,'addAppointment']);
+Route::get('/appointments', [DevController::class, 'Appointments'])->name('appointments');
+Route::post('/getClientName', [DevController::class, 'getClientName']);
 Route::get('/consultation', [DevController::class, 'Consultation']);
 Route::get('/consultation2/{type}/{user_id}/{page}/{submenu}', [DevController::class, 'Consultation2']);
 
@@ -83,12 +84,10 @@ Route::get('/user', function () {
 
 // get Routes
 Route::view('/dashboard', 'dev.dashboard')->name('dashboard');
-Route::view('/appointments', 'dev.appointment')->name('appointment');
 Route::view('/packages', 'dev.packages')->name('packages');
 Route::view('/reports', 'dev.reports')->name('reports');
 Route::view('/mydata', 'dev.mydata')->name('mydata');
 Route::view('/mytemplate', 'dev.mytemplate')->name('mytemplate');
-Route::view('/myprofile', 'dev.myprofile')->name('myprofile');
 Route::view('/sendpromotion', 'dev.sendpromotion')->name('sendpromotion');
 Route::view('/sendreminder', 'dev.sendreminder')->name('sendreminder');
 

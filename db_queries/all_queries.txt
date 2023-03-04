@@ -59,3 +59,7 @@ Minor', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('32', 'Others', '4'
             -- Devs
             
             INSERT INTO `devs` (id, username, password, name, email, mobile, last_login_time, register_ip, wallet, email_verified_at, remember_token, created_at, updated_at, status) VALUES  ('1', 'admin', '$2y$10$t8BuuxEDZRwU/yviJNLr5uW5ob8fmF6K6SqldKk.sBoSUpMLNkxiO', 'Shrikunj Vyas', 'shreevyas65@gmail.com', '7066498174', '', '::1', '0', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1');
+
+            -- Appointment Master
+            
+            INSERT INTO `appointments` (id, client_id, client_mobile, appointment_date, start_time, end_time, created_at, updated_at, status) VALUES  ('1', '1', '7066498174', '2023-02-27', '7:45 PM', '7:45 PM', '', '', '1'), ('2', '8', '7055498174', '2023-02-28', '7:45 PM', '8:45 PM', '', '', '1'), ('3', '8', '7055498174', '2023-02-28', '7:00 PM', '8:00 PM', '', '', '1');

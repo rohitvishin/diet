@@ -25,6 +25,12 @@
         <span>Diet Chart</span></button>
 </li>
 <li class="nav-item">
+    <button class="btn btn-link nav-link text-white {{ $url == 'diet_adding' ? 'active' : '' }}" id="contact-tab3"
+        data-toggle="tab" data-url="diet_adding" role="tab" aria-controls="contact" aria-selected="false"><i
+            class="fa fa-notes-medical tab-icon fa-2x"></i>
+        <span>Diet Adding</span></button>
+</li>
+<li class="nav-item">
     <button class="btn btn-link nav-link text-white {{ $url == 'remark' ? 'active' : '' }}" id="contact-tab3"
         data-toggle="tab" data-url="remark" role="tab" aria-controls="contact" aria-selected="false"><i
             class="fa fa-sticky-note tab-icon fa-2x"></i>

@@ -2,9 +2,6 @@
 
 @include('dev.include.header')
 <script>
-let user_id = `{{ $user_id ?? 0}}`;
-var is_data_changed = false;
-var username = `{{ $username ?? '' }}`;
 var mainurl = `{{ $url ?? '' }}`;
 var suburl = `{{ $suburl ?? '' }}`;
 </script>
@@ -257,8 +254,8 @@ var suburl = `{{ $suburl ?? '' }}`;
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveAnthro" data-process="add" data-type="anthro"
-                        onclick="submitForm(this)">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="saveAnthro" data-id="0" data-process="add"
+                        data-type="anthro" onclick="submitForm(this)">Save changes</button>
                 </div>
             </form>
         </div>
@@ -490,7 +487,24 @@ function removeDiv(id) {
 function show_anthro_modal(json, type) {
     if (type == 'add')
         $('.anthro').modal('show');
-    else if (type == 'edit')
+    else if (type == 'edit') {
+        json = JSON.parse(json)
+        $('#anthro_date').val(json.anthro_date)
+        $('#weight').val(json.weight)
+        $('#fat').val(json.fat)
+        $('#body_water').val(json.body_water)
+        $('#muscle_mass').val(json.muscle_mass)
+        $('#chest').val(json.chest)
+        $('#upper_waist').val(json.upper_waist)
+        $('#hips').val(json.hips)
+        $('#lower_waist').val(json.lower_waist)
+        $('#bmr').val(json.bmr)
+        $('#height_cm').val(json.height_cm)
+        $('#height').val(json.height)
+        $('#saveAnthro').attr('data-id', json.id)
+        $('#saveAnthro').attr('data-process', 'edit')
+        $('.anthro').modal('show');
+    }
 
 }
 
@@ -601,9 +615,14 @@ async function getDataJson(type, rowid) {
     return data;
 }
 
+var user_data = {};
+let user_id = `{{ $user_id }}`;
+var is_data_changed = false;
+var mobile = `{{ $mobile ?? '' }}`;
+
 $('.nav-link').click(async function() {
     var url = $(this).attr('data-url');
-    window.location.href = `{{ url('startAppointment/${username}/${url}') }} `
+    window.location.href = `{{ url('startAppointment/${mobile}/${url}/${suburl}') }} `
 });
 
 async function submitForm(e) {

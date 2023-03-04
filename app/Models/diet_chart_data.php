@@ -5,19 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Appointment extends Model
+class diet_chart_data extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+    protected $table = 'diet_chart_datas';
     protected $fillable = [
+        'diet_chart_date',
         'client_id',
-        'client_mobile',
-        'client_name',
-        'appointment_date',
-        'start_time',
-        'end_time',
+        'plan_name',
+        'plan_intro',
+        'template_id',
+        'diet_chart',
         'created_at',
-        'updated_at',
-        'status',
+        'update_at'
     ];
 }

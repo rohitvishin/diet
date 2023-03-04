@@ -3,8 +3,32 @@
 <!-- fullcalender -->
 <link rel="stylesheet" href="{{ asset('assets/calender/lib/main.css') }}">
 <script src="{{ asset('assets/calender/lib/main.js') }}"></script>
+<style>
+.autocomplete-div {
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #d4d4d4;
+    margin-bottom: 0px;
+}
+
+#data {
+    max-height: 150px;
+    overflow-y: scroll;
+}
+</style>
 @include('dev.include.sidebar')
 
+<script>
+var eventJS <?= !empty($json) ? '= '.json_encode($json) : `{}` ?>
+</script>
 <div class="main-content">
     <section class="section">
         <div class="section-header">
@@ -41,7 +65,7 @@
 <!-- Modal  -->
 <div class="modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <form id="addAppointment">
                 <div class="modal-header">
@@ -53,12 +77,35 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
+                            <label for="">New Client?</label>
+                            <input type="checkbox" name="new_client" id="new_client" onclick="showClientTextbox(this)"
+                                placeholder="Enter Client Name">
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="row newClient d-none">
+                        <div class="col-md-6">
                             <label for="">Enter Client Name</label>
-                            <input type="text" name="client" id="" class="form-control" placeholder="Enter Client Name">
+                            <input type="text" name="new_client_name" id="" class="form-control"
+                                placeholder="Enter Client Name">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">Enter Client Mobile</label>
+                            <input type="text" name="new_client_mobile" class="form-control"
+                                placeholder="Enter Client Name">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="form-group col-md-6  oldClient">
+                            <label for="">Enter Client Name</label>
+                            <input type="text" name="client_name" id="client_name" data-id="0" data-mobile="0"
+                                class="form-control" oninput="getClientName(this)">
+                            <div id="data"></div>
                         </div>
                         <div class="col-md-6">
                             <label for="">Select Appointment Date</label>
-                            <input type="text" name="date" class="form-control datepicker">
+                            <input type="text" name="appointment_date" class="form-control datepicker">
                         </div>
                     </div>
                     <br>
@@ -86,13 +133,45 @@
 
 @include('dev.include.footer')
 <script>
+function setClientName(e) {
+    var clientID = $(e).attr('data-id')
+    var clientMobile = $(e).attr('data-mobile')
+    $('#client_name').attr('data-id', clientID);
+    $('#client_name').attr('data-mobile', clientMobile);
+    $('#client_name').val($(e).text());
+    document.getElementById('data').innerHTML = '';
+}
+
+function getClientName(e) {
+    var formdata = new FormData();
+    formdata.append('param', $(e).val());
+    axios.post(`${url}/getClientName`, formdata).then(function(response) {
+        document.getElementById('data').innerHTML = '';
+        $('#data').append(response.data.html)
+    }).catch(function(err) {
+        show_Toaster(err.response.data.message, 'error')
+    })
+}
+
+function showClientTextbox(e) {
+    if (e.checked)
+        $('.newClient').removeClass('d-none')
+    else
+        $('.newClient').addClass('d-none')
+}
+
+
 $('#addAppointment').on('submit', function(e) {
     e.preventDefault();
-    axios.post(`${url}/client/addAppointment`, new FormData(this)).then(function(response) {
+    var formdata = new FormData(this);
+
+    formdata.append('client_id', $('#client_name').attr('data-id'));
+    formdata.append('client_mobile', $('#client_name').attr('data-mobile'));
+    axios.post(`${url}/addAppointment`, formdata).then(function(response) {
         // handle success
         show_Toaster(response.data.message, response.data.type)
         setTimeout(() => {
-            window.location.href = `${url}/client/appointments`;
+            window.location.href = `${url}/appointments`;
         }, 500);
     }).catch(function(err) {
         show_Toaster(err.response.data.message, 'error')
@@ -125,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initialView: "dayGridMonth",
         stickyFooterScrollbar: true,
 
-        events: 'https://fullcalendar.io/api/demo-feeds/events.json'
+        events: eventJS
     });
 
     calendar.render();

@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->string('doc_id');
-            $table->string('client');
-            $table->string('date');
+            $table->string('client_id');
+            $table->string('client_mobile');
+            $table->string('client_name');
+            $table->string('appointment_date');
             $table->string('start_time');
             $table->string('end_time');
+            $table->timestamps();
             $table->tinyInteger('status')->comment("0=created,1=done,2=cancelled")->default(0);
-            
         });
     }
 

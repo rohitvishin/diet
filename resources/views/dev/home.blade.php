@@ -97,7 +97,7 @@
                                     <td>{{ $i++ }}
                                     </td>
                                     <td><a
-                                            href="{{ url('/startAppointment/'.str_replace(' ','_',$singleClient['name']).'/basic_details/main') }}">{{ isset($singleClient['name']) && $singleClient['name'] ? $singleClient['name'] : '' }}
+                                            href="{{ url('/startAppointment/'.$singleClient['mobile'].'/basic_details/main') }}">{{ isset($singleClient['name']) && $singleClient['name'] ? $singleClient['name'] : '' }}
                                         </a></td>
                                     <td>{{ isset($singleClient['email']) && $singleClient['email'] ? $singleClient['email'] : '' }}
                                     </td>
@@ -129,38 +129,26 @@
                                 <tr>
                                     <th>Sr No.</th>
                                     <th>Customer Name</th>
-                                    <th>Appointment Date & time</th>
-                                    <th>Appointment Source</th>
+                                    <th>Appointment Date</th>
+                                    <th>Appointment time</th>
                                     <th>Action</th>
                                 </tr>
+
+                                @if(!$todayAppointment->isEmpty())
+                                @php($i = 1)
+                                @foreach($todayAppointment as $singleAppointment)
                                 <tr>
-                                    <td><a href="#">INV-87239</a></td>
-                                    <td class="font-weight-600">Kusnadi</td>
-                                    <td>Dec 19, 2022 11:05 AM</td>
-                                    <td>Google Meet</td>
+                                    <td>{{ $i++ }}</td>
+                                    <td class="font-weight-600"><a
+                                            href="{{ url('/startAppointment/'.$singleAppointment['client_mobile'].'/basic_details/main') }}"
+                                            target="_blank">{{ $singleAppointment['client_name'] }}</a></td>
+                                    <td>{{ date('M, d Y', strtotime($singleAppointment['appointment_date'])) }}</td>
+                                    <td>{{ $singleAppointment['start_time'].' to '.$singleAppointment['end_time']  }}
+                                    </td>
                                     <td><a href="#" class="btn btn-primary">Send Reminder</a></td>
                                 </tr>
-                                <tr>
-                                    <td><a href="#">INV-87239</a></td>
-                                    <td class="font-weight-600">Kusnadi</td>
-                                    <td>Dec 19, 2022 11:25 AM</td>
-                                    <td>Google Meet</td>
-                                    <td><a href="#" class="btn btn-primary">Send Reminder</a></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">INV-87239</a></td>
-                                    <td class="font-weight-600">Kusnadi</td>
-                                    <td>Dec 19, 2022 11:35 AM</td>
-                                    <td>Google Meet</td>
-                                    <td><a href="#" class="btn btn-primary">Send Reminder</a></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">INV-87239</a></td>
-                                    <td class="font-weight-600">Kusnadi</td>
-                                    <td>Dec 19, 2022 11:45 AM</td>
-                                    <td>Google Meet</td>
-                                    <td><a href="#" class="btn btn-primary">Send Reminder</a></td>
-                                </tr>
+                                @endforeach
+                                @endif
                             </table>
                         </div>
                     </div>

@@ -2,12 +2,7 @@
 
 @include('dev.include.header')
 
-<script>
-var user_data <?= !empty($user_data) && $user_data != 'null' ? '= '.$user_data : `{}` ?>;
-let user_id = `{{ $user_id }}`;
-var is_data_changed = false;
-var username = `{{ $username ?? '' }}`;
-</script>
+
 
 <style>
 .select2-container {
@@ -104,9 +99,6 @@ var username = `{{ $username ?? '' }}`;
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <div class="section-header-back">
-                <a href="features-settings.html" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
-            </div>
             <h1>Start Appointment</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
@@ -154,6 +146,12 @@ var username = `{{ $username ?? '' }}`;
 <script src="{{ asset('assets/js/page/features-setting-detail.js') }}"></script>
 
 <script>
+var user_data <?= !empty($user_data) && $user_data != 'null' ? '= '.$user_data : `{}` ?>;
+let user_id = `{{ $user_id }}`;
+var is_data_changed = false;
+var mobile = `{{ $mobile ?? '' }}`;
+
+
 // Common Functions
 function removeDiv(id) {
     $(`#${id}`).remove();
@@ -321,7 +319,7 @@ $('.nav-link').click(async function() {
     }
 
     if (!error) {
-        window.location.href = `{{ url('startAppointment/${username}/${url}') }} `
+        window.location.href = `{{ url('startAppointment/${mobile}/${url}') }} `
     }
 
 });
