@@ -6,19 +6,20 @@
     </div>
     <div class="card-body">
         <div class="row">
-            @for ($i = 0; $i < count($data); $i++) <div class="col-md-3">
-                <div class="form-group">
-                    <label> {{ $data[$i][0]->type }} </label>
-                    <select class="form-control select2" multiple="">
-                        @foreach ($data[$i] as $singleData)
-                        <option> {{ $singleData['name'] }} </option>
-                        @endforeach
-                    </select>
+            @for ($i = 0; $i < count($data); $i++)
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label> {{ $data[$i][0]->type }} </label>
+                        <select name={{$data[$i][0]->id}} id={{$data[$i][0]->id}} class="form-control select2" multiple="">
+                            @foreach ($data[$i] as $singleData)
+                                <option value={{$singleData['id']}}> {{ $singleData['name'] }} </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
+            @endfor
         </div>
-        @endfor
     </div>
-</div>
 </div>
 
 <div class="card">
@@ -31,7 +32,7 @@
                 <div class="form-group">
                     <label>Do you have any other medical problems that are not
                         covered above?</label>
-                    <textarea class="form-control"></textarea>
+                    <textarea  class="form-control"></textarea>
                 </div>
             </div>
 
@@ -117,3 +118,9 @@
     </div>
     <button class="btn btn-primary">Save Changes</button>
 </div>
+<script>
+    $('#select2').keyup(function(){
+        console.log($('#1').val());
+        alert($('#1').val());
+    });
+</script>
