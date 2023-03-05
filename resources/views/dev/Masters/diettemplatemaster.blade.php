@@ -1,220 +1,279 @@
+<!-- Main Content -->
+
 @include('dev.include.header')
+<style>
+.select2-container {
+    display: unset !important;
+}
+
+.select2-dropdown--above {
+    width: max-content !important;
+}
+
+.select2-dropdown--below {
+    width: max-content !important;
+}
+
+.followUpAnthroCard {
+    max-height: 550px;
+    overflow-x: auto;
+}
+
+.followUpAnthro ul {
+    list-style: none;
+    padding-inline-start: 5px
+}
+
+.followUpAnthro ul li {
+    list-style: none;
+    border: 1px solid #eee;
+    padding-inline-start: 5px
+}
+
+.modal-xl {
+    max-width: 800px
+}
+
+@media (min-width:1200px) {
+    .modal-xl {
+        max-width: 1140px
+    }
+}
+
+.nav .nav-item {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+
+.nav .nav-item .nav-link i {
+    display: none;
+}
+
+.nav .nav-item .nav-link span {
+    display: inline;
+}
+
+.nav-pills .nav-item .nav-link {
+    box-shadow: 0 2px 6px #acb5f6;
+    color: #fff;
+    background-color: #5db3f7;
+    margin: 5px;
+}
+
+@media screen and (max-width:480px) {
+    .nav {
+        flex-wrap: unset !important;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .nav .nav-item .nav-link span {
+        display: none;
+    }
+
+    .nav .nav-item .nav-link .tab-icon {
+        display: inline;
+    }
+
+    .card .card-header,
+    .card .card-body,
+    .card .card-footer {
+        padding: 20px 10px !important;
+    }
+}
+
+.nav-pills .nav-item .nav-link.active {
+    background-color: #660b95 !important;
+}
+
+.nav-pills .nav-item .nav-link:hover {
+    background-color: #660b95 !important;
+}
+
+.hover-text-black:hover {
+    color: black !important
+}
+</style>
+
+
+<!-- fullcalender -->
+<link rel="stylesheet" href="{{ asset('assets/modules/codemirror/lib/codemirror.css') }}">
+<script src="{{ asset('assets/modules/codemirror/theme/duotone-dark.css') }}"></script>
 @include('dev.include.sidebar')
 
 
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Food Master List</h1>
+            <div class="section-header-back">
+                <a href="features-settings.html" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+            </div>
+            <h1>Start Appointment</h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
+                <div class="breadcrumb-item active"><a href="#">Settings</a></div>
+                <div class="breadcrumb-item">Appointment</div>
+                <div class="breadcrumb-item">{{ ucwords($url) }}</div>
+            </div>
         </div>
 
         <div class="section-body">
+            <div id="output-status"></div>
             <div class="row">
-                <div class="col-5">
+                <div class="col-12 col-sm-12 col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Diet Template Master</h4>
+                            <h4>Client Diet Template Master</h4>
                         </div>
                         <div class="card-body">
-                            <div class="">
-                                <table class="table-responsive table table-sm table-striped" id="table-2">
-                                    <thead>
-                                        <tr>
-                                            <th>Plan Name</th>
-                                            <th>Plan Intro</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @if (count($data) > 0)
-                                        @foreach ($data as $singleFood)
-                                        <tr>
-                                            <td> {{ $singleFood->plan_name }} </td>
-                                            <td> {{ $singleFood->plan_intro }} </td>
-                                            <td>
-                                                <button id="update_Status" onclick="editFood('1','{{ $singleFood }}')"
-                                                    class="btn btn-primary">View</button>
-                                                <button id="update_Status" onclick="editFood('1','{{ $singleFood }}')"
-                                                    class="btn btn-primary">Edit</button>
-                                                <button id="update_Status_{{ $singleFood->id }}"
-                                                    onclick="updateStatus('{{ $singleFood->id }}',this)"
-                                                    class="btn {{ $singleFood->status == 1 ? 'btn-danger' : 'btn-success' }}">Update
-                                                    Status</button>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-7">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Create New Template</h4>
-                            <button class="btn btn-primary" onclick="show_modal()">Add New Div</button>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label for="">Enter Plan Name</label>
-                                    <input type="text" placeholder="Enter Plan Name" class="form-control">
+                            <div class="tab-content" id="myTabContent2">
+                                <!-- Documents -->
+                                <div class="tab-pane fade show active" id="diet_chart" role="tabpanel"
+                                    aria-labelledby="contact-tab3">
+                                    @include('dev.consultant.components.diet_chart')
                                 </div>
-                                <div class="col-md-12 mt-2">
-                                    <label for="">Enter Plan Introduction</label>
-                                    <textarea type="text" placeholder="Enter Plan Introduction"
-                                        class="form-control"></textarea>
-                                </div>
+
                             </div>
-
-                            <div class="row"></div>
-
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn btn-primary">Save Template</button>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
+</div>
 
-    <!-- Modal  -->
-    <div class="modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <form id="foodForm">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Add New Feild</h5>
-                        <button type="button" class="close" onclick="close_modal()" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row mt-4 b-1">
-                            <div class="col-md-6">
-                                <label for="">Enter Heading</label>
-                                <input type="text" id="heading" name="heading" class="form-control"
-                                    placeholder="Enter Heading">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="">Time</label>
-                                <input type="time" id="time" name="time" class="form-control" placeholder="Carbs (GM)">
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="">Food Name</label>
-                                <input type="text" id="food[unit][0]" name="food[unit][0]" class="form-control"
-                                    placeholder="Fats (GM)">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="">Unit</label>
-                                <input type="text" id="food[unit][0]" name="food[unit][0]" class="form-control"
-                                    placeholder="Fiber (GM)">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" onclick="close_modal()">Close</button>
-                        <button type="button" id="addFoodMaster" data-action="add" name="submit"
-                            class="btn btn-primary">Save
-                            changes</button>
-                    </div>
-                </form>
+<!-- Modal  -->
+<!-- Add New Document -->
+<div class="modal diet_plan bd-example-modal-xl" id="exampleModalCenter" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Diet Plan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <form action="" id="diet_plan_form">
+                <div class="modal-body medicine-modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">Diet Date</label>
+                            <input type="date" name="diet_chart_date" id="diet_chart_date" class="form-control"
+                                placeholder="Enter Client Name">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">Plan Name</label>
+                            <input type="text" name="plan_name" id="plan_name" class="form-control"
+                                placeholder="Enter Plan Name">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">Plan Intro</label>
+                            <input type="text" id="plan_intro" name="plan_intro" class="form-control"
+                                placeholder="Enter Plan Intro">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="">Dite Plan</label>
+                            <textarea id="diet_chart_template" name="diet_chart_template" rows="10" cols="80"
+                                class="form-control"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="close_diet_plan_modal()">Close</button>
+                    <button id="saveDietTemplate" type="button" class="btn btn-primary" data-process="add">Save
+                        changes</button>
+                </div>
+            </form>
         </div>
     </div>
-    <!-- Modal  -->
-
-
 </div>
+
+<!-- Modal  -->
+
 
 @include('dev.include.footer')
 
-<script>
-function show_modal() {
-    document.getElementById("foodForm").reset();
-    $('#addFoodMaster').attr('data-action', 'add');
-    $('.modal').modal('show');
-}
+<!-- JS Libraies -->
+<script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+<script src="{{ asset('assets/modules/codemirror/lib/codemirror.js') }}"></script>
+<script src="{{ asset('assets/modules/codemirror/mode/javascript/javascript.js') }}"></script>
 
-function close_modal() {
-    document.getElementById("foodForm").reset();
-    $('.modal').modal('hide');
-    $('#addFoodMaster').attr('data-action', 'add');
-};
-
-function editFood(id, data) {
-    data = JSON.parse(data);
-    $('#food_name').val(data.food_name);
-    $('#calories').val(data.calories);
-    $('#protein').val(data.protein);
-    $('#carbs').val(data.carbs);
-    $('#fats').val(data.fats);
-    $('#fiber').val(data.fiber);
-    $('#addFoodMaster').val(data.id);
-    $('#addFoodMaster').attr('data-action', 'edit');
-    $('.modal').modal('show');
-}
-</script>
+<!-- Page Specific JS File -->
+<script src="{{ asset('assets/js/page/features-setting-detail.js') }}"></script>
 
 <script>
-$('#addFoodMaster').on('click', function() {
-    var food_name = $('#food_name').val();
-    var calories = $('#calories').val();
-    var protein = $('#protein').val();
-    var carbs = $('#carbs').val();
-    var fats = $('#fats').val();
-    var fiber = $('#fiber').val();
-    var processAction = $('#addFoodMaster').attr('data-action');
-    var id = $('#addFoodMaster').val();
+// Document Tab
 
-    $('#addFoodMaster').text('Please wait...');
-    axios.post(`{{ url('/foodPost') }}`, {
-        food_name,
-        calories,
-        protein,
-        carbs,
-        fats,
-        fiber,
-        processAction,
-        id
+CKEDITOR.replace('diet_chart_template');
+
+function show_diet_chart_modal(id, diet_chart_date, plan_name, plan_intro, diet_chart_template, process) {
+    document.getElementById("diet_plan_form").reset();
+    if (process == 'add')
+        $('.diet_plan').modal('show');
+    else {
+        $('#diet_chart_date').val(diet_chart_date)
+        $('#plan_name').val(plan_name)
+        $('#plan_intro').val(plan_intro)
+        CKEDITOR.instances.diet_chart_template.setData(diet_chart_template)
+        $('#saveDietTemplate').attr('data-process', process)
+        $('#saveDietTemplate').attr('data-id', id)
+        $('.diet_plan').modal('show');
+    }
+
+}
+
+function close_diet_plan_modal() {
+    $('.diet_plan').modal('hide');
+}
+
+function delete_diet_chart(id, client_id, process) {
+
+    if (confirm("Are you sure you want to do that?")) {
+        var formdata = new FormData();
+        formdata.append('id', id);
+        formdata.append('client_id', client_id);
+        formdata.append('process', process);
+        axios.post(`${url}/update_diet_chart_template_data`, formdata, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(function(response) {
+            // handle success
+            show_Toaster(response.data.message, response.data.type);
+            if (response.data.type === 'success') {
+                location.reload();
+            }
+        }).catch(function(err) {
+            show_Toaster(err.response.data.message, 'error')
+        })
+    }
+}
+$('#saveDietTemplate').on('click', async function() {
+
+    let data = new FormData(document.getElementById('diet_plan_form'));
+    data.append('client_id', user_id);
+    data.append('process', $('#saveDietTemplate').attr('data-process'));
+    data.append('id', $('#saveDietTemplate').attr('data-id'));
+    data.append('diet_chart_template', CKEDITOR.instances.diet_chart_template.getData());
+
+    axios.post(`${url}/update_diet_chart_template_data`, data, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
     }).then(function(response) {
         // handle success
-        show_Toaster(response.data.message, response.data.type)
-        setTimeout(() => {
-            window.location.href = `{{ url('/foodMaster') }}`;
-        }, 500);
+        show_Toaster(response.data.message, response.data.type);
+        if (response.data.type === 'success') {
+            location.reload();
+        }
     }).catch(function(err) {
         show_Toaster(err.response.data.message, 'error')
     })
 });
-
-function updateStatus(t_Id, e) {
-
-    $(e).text('Please Wait...');
-    axios.post(`{{ url('/updateFoodMasterStatus') }}`, {
-        type_id: t_Id
-    }).then(function(response) {
-        // handle success
-        show_Toaster(response.data.message, response.data.type)
-        if (response.data.status == 1) {
-            $(e).removeClass('btn btn-success ')
-            $(e).addClass('btn btn-danger ');
-        } else {
-            $(e).removeClass('btn btn-danger ')
-            $(e).addClass('btn btn-success ');
-        }
-
-
-    })
-    $(e).text('Update Status');
-}
 </script>

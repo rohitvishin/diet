@@ -111,6 +111,26 @@ var suburl = `{{ $suburl ?? '' }}`;
         margin-left: 0rem;
     }
 }
+
+.autocomplete-div {
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #d4d4d4;
+    margin-bottom: 0px;
+}
+
+.data {
+    max-height: 150px;
+    overflow-y: scroll;
+}
 </style>
 
 
@@ -327,31 +347,32 @@ var suburl = `{{ $suburl ?? '' }}`;
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="" id="medicine_form">
+            <form action="" id="medicineform">
                 <div class="modal-body medicine-modal-body">
                     <div class="row">
                         <div class="col-md-6">
                             <label for="">Enter Date</label>
-                            <input type="date" name="" id="" class="form-control" placeholder="Enter Client Name">
+                            <input type="date" name="medicine_date" id="medicine_date" class="form-control"
+                                placeholder="Enter Client Name">
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="">Name of Medicine</label>
-                            <input type="number" name="" id="" class="form-control" placeholder="Enter Client Name">
+                            <input type="text" name="medicine_name" id="medicine_name" class="form-control"
+                                placeholder="Name of Medicine">
                         </div>
                         <div class="col-md-6">
-                            <label for="">Time Taken</label>
-                            <input type="number" class="form-control datepicker">
+                            <label for="">Time To Take</label>
+                            <input type="text" name="time_to_take" id="time_to_take" class="form-control">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="add_new_medicine_feild"
-                        onclick="add_new_medicine_feilds(this)" value="0">Add New</button>
                     <button type="button" class="btn btn-secondary" onclick="close_medicine_modal()">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="saveMedicine" data-process="add"
+                        data-type="medicine" onclick="submitForm(this)">Save changes</button>
                 </div>
             </form>
         </div>
@@ -369,102 +390,162 @@ var suburl = `{{ $suburl ?? '' }}`;
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <table class="table table-sm table-bordered">
-                            <thead>
-                                <th>Name</th>
-                                <th>Value</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Vitamins</td>
-                                    <td><input type="text" class="form-control" id='modal_weight'></td>
-                                </tr>
-                                <tr>
-                                    <td>General Health</td>
-                                    <td><input type="text" class="form-control" id="modal_fat"></td>
-                                </tr>
-                                <tr>
-                                    <td>Reports</td>
-                                    <td><input type="text" class="form-control" id="modal_tbw"></td>
-                                </tr>
-                                <tr>
-                                    <td>Met Dr</td>
-                                    <td><input type="text" class="form-control" id="modal_muscle"></td>
-                                </tr>
-                                <tr>
-                                    <td>Food Plan</td>
-                                    <td><input type="text" class="form-control" id="modal_chest"></td>
-                                </tr>
-                                <tr>
-                                    <td>Diet Advised</td>
-                                    <td><input type="text" class="form-control" id="modal_upper_waist"></td>
-                                </tr>
-                                <tr>
-                                    <td>Meal Timing</td>
-                                    <td><input type="text" class="form-control" id="modal_hips"></td>
-                                </tr>
-                                <tr>
-                                    <td>Portion Control</td>
-                                    <td><input type="text" class="form-control" id="modal_lower_waist"></td>
-                                </tr>
-                                <tr>
-                                    <td>Carbs</td>
-                                    <td><input type="text" class="form-control" id="modal_brm"></td>
-                                </tr>
-                                <tr>
-                                    <td>Protien</td>
-                                    <td><input type="text" class="form-control" id="modal_height_cms"></td>
-                                </tr>
-                                <tr>
-                                    <td>Fried</td>
-                                    <td><input type="text" class="form-control" id="modal_height"></td>
-                                </tr>
-                                <tr>
-                                    <td>Desert</td>
-                                    <td><input type="text" class="form-control" id="modal_height"></td>
-                                </tr>
-                                <tr>
-                                    <td>Other Cheating</td>
-                                    <td><input type="text" class="form-control" id="modal_height"></td>
-                                </tr>
-                                <tr>
-                                    <td>Meal Out</td>
-                                    <td><input type="text" class="form-control" id="modal_height"></td>
-                                </tr>
-                                <tr>
-                                    <td>Alchol</td>
-                                    <td><input type="text" class="form-control" id="modal_height"></td>
-                                </tr>
-                                <tr>
-                                    <td>Travel</td>
-                                    <td><input type="text" class="form-control" id="modal_height"></td>
-                                </tr>
-                                <tr>
-                                    <td>Diet plan %</td>
-                                    <td><input type="text" class="form-control" id="modal_height"></td>
-                                </tr>
-                                <tr>
-                                    <td>Remarks</td>
-                                    <td><input type="text" class="form-control" id="modal_height"></td>
-                                </tr>
+            <form id="diet_followedform">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Select Date</td>
+                                        <td><input type="date" class="form-control" id='diet_followed_date'
+                                                name="diet_followed_date"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vitamins</td>
+                                        <td><input type="text" class="form-control" id='vitamins' name="vitamins"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>General Health</td>
+                                        <td><input type="text" class="form-control" id="general_health"
+                                                name="general_health"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Reports</td>
+                                        <td><input type="text" class="form-control" id="reports" name="reports"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Met Dr</td>
+                                        <td><input type="text" class="form-control" id="met_dr" name="met_dr"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Food Plan</td>
+                                        <td><input type="text" class="form-control" id="food_plan" name="food_plan">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Diet Advised</td>
+                                        <td><input type="text" class="form-control" id="diet_advised"
+                                                name="diet_advised">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Meal Timing</td>
+                                        <td><input type="text" class="form-control" id="meal_timing" name="meal_timing">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Portion Control</td>
+                                        <td><input type="text" class="form-control" id="portion_control"
+                                                name="portion_control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Carbs</td>
+                                        <td><input type="text" class="form-control" id="carbs" name="carbs"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Protien</td>
+                                        <td><input type="text" class="form-control" id="protiens" name="protiens"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fried</td>
+                                        <td><input type="text" class="form-control" id="fried" name="fried"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Desert</td>
+                                        <td><input type="text" class="form-control" id="desserts" name="desserts"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Other Cheating</td>
+                                        <td><input type="text" class="form-control" id="other_cheatings"
+                                                name="other_cheatings"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Meal Out</td>
+                                        <td><input type="text" class="form-control" id="meal_out" name="meal_out"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alchol</td>
+                                        <td><input type="text" class="form-control" id="alchol" name="alchol"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Travel</td>
+                                        <td><input type="text" class="form-control" id="travel" name="travel"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Diet plan %</td>
+                                        <td><input type="text" class="form-control" id="diet_plan_percentage"
+                                                name="diet_plan_percentage"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Remarks</td>
+                                        <td><input type="text" class="form-control" id="remarks" name="remarks"></td>
+                                    </tr>
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        onclick="close_diet_followed_modal()">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveDietFollowed" data-process="add"
+                        data-type="diet_followed" onclick="submitForm(this)">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-<!-- Modal  -->
+<!-- Add Lab Data  -->
+<div class="modal lab bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" id="labform">
+                <div class="modal-body exercise-modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">Enter Date</label>
+                            <input type="date" name="lab_test_date" id="lab_test_date" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="">Enter Lab Test Name</label>
+                            <input type="text" name="test_name" id="test_name" oninput="getLabTestName(this)"
+                                class="form-control" placeholder="Enter Lab Test Name" data-id="0">
+                            <div class="data" id="labData"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Enter Lab Test Result</label>
+                            <input type="text" class="form-control" id="test_result" name="test_result"
+                                placeholder="Enter Lab Test Result">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="close_lab_modal()">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveLab" data-process="add" data-type="lab"
+                        onclick="submitForm(this)">Save
+                        changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 @include('dev.include.footer')
@@ -482,12 +563,12 @@ function removeDiv(id) {
     $(`#${id}`).remove();
 }
 
-
 // Anthro Tab Functions
 function show_anthro_modal(json, type) {
-    if (type == 'add')
+    if (type == 'add') {
+        document.getElementById("anthroform").reset();
         $('.anthro').modal('show');
-    else if (type == 'edit') {
+    } else if (type == 'edit') {
         json = JSON.parse(json)
         $('#anthro_date').val(json.anthro_date)
         $('#weight').val(json.weight)
@@ -508,11 +589,13 @@ function show_anthro_modal(json, type) {
 
 }
 
+
 // Exercise Tab Functions
 function show_exercise_modal(json, type) {
 
     if (type == 'add') {
         $('#add_new_exercise_feild').css('display', 'block');
+        document.getElementById("exerciseform").reset();
         $('.exercise').modal('show');
     } else if (type == 'edit') {
 
@@ -562,15 +645,36 @@ function add_new_exercise_feilds(e) {
 }
 
 function close_exercise_modal() {
-    document.getElementById("exercise_form").reset();
+    document.getElementById("exerciseform").reset();
     $('.new_exercise_feild').remove();
     $('#add_new_exercise_feild').val(0);
     $('.exercise').modal('hide');
 }
 
+
 // Medicine Tab Functions
-function show_medicine_modal() {
-    $('.medicine').modal('show');
+function show_medicine_modal(json, type) {
+    if (type == 'add') {
+        document.getElementById("medicineform").reset();
+        $('.medicine').modal('show');
+    } else if (type == 'edit') {
+        json = JSON.parse(json)
+        $(`form#medicineform :input`).each(function() {
+            var input = $(this); // This is the jquery object of the input, do what you will
+            if ($(this).attr('type') != 'button') {
+                $(this).val(json[$(this).attr("name")]);
+
+                if ($(this).attr("name") == 'test_name')
+                    $(this).attr('data-id', json.test_name_id)
+            } else {
+                $(this).attr('data-id', json.id)
+                $(this).attr('data-client_id', json.client_id)
+                $(this).attr('data-process', 'edit')
+            }
+
+        });
+        $('.medicine').modal('show');
+    }
 }
 
 function add_new_medicine_feilds(e) {
@@ -602,9 +706,31 @@ function close_medicine_modal() {
     $('.medicine').modal('hide');
 }
 
+
 // Add Diet Followed Modal
-function show_diet_modal() {
-    $('.diet').modal('show');
+function show_diet_followed_modal(json, type) {
+    if (type == 'add') {
+        document.getElementById("diet_followedform").reset();
+        $('.diet').modal('show');
+    } else if (type == 'edit') {
+        json = JSON.parse(json)
+        $(`form#diet_followedform :input`).each(function() {
+            var input = $(this); // This is the jquery object of the input, do what you will
+            if ($(this).attr('type') != 'button')
+                $(this).val(json[$(this).attr("name")]);
+            else {
+                $(this).attr('data-id', json.id)
+                $(this).attr('data-client_id', json.client_id)
+                $(this).attr('data-process', 'edit')
+            }
+
+        });
+        $('.diet').modal('show');
+    }
+}
+
+function close_diet_followed_modal() {
+    document.getElementById("diet_followedform").reset();
 }
 
 async function getDataJson(type, rowid) {
@@ -612,8 +738,58 @@ async function getDataJson(type, rowid) {
     data.append('type', type);
     data.append('id', rowid);
     data.append('client_id', user_id);
+
+    if (type == 'lab') {
+        data.append('test_name_id', $('#test_name').attr('data-id'));
+    }
+
     return data;
 }
+
+
+// Add Lab Data
+function setLabName(e) {
+    $('#test_name').attr('data-id', $(e).attr('data-id'));
+    $('#test_name').val($(e).text());
+    document.getElementById('labData').innerHTML = '';
+}
+
+
+function getLabTestName(e) {
+    var formdata = new FormData();
+    formdata.append('param', $(e).val());
+    axios.post(`${url}/getLabTestName`, formdata).then(function(response) {
+        document.getElementById('labData').innerHTML = '';
+        $('#labData').append(response.data.html)
+    }).catch(function(err) {
+        show_Toaster(err.response.data.message, 'error')
+    })
+}
+
+function show_lab_modal(json, type) {
+    if (type == 'add') {
+        document.getElementById("labform").reset();
+        $('.lab').modal('show');
+    } else if (type == 'edit') {
+        json = JSON.parse(json)
+        $(`form#labform :input`).each(function() {
+            var input = $(this); // This is the jquery object of the input, do what you will
+            if ($(this).attr('type') != 'button') {
+                $(this).val(json[$(this).attr("name")]);
+
+                if ($(this).attr("name") == 'test_name')
+                    $(this).attr('data-id', json.test_name_id)
+            } else {
+                $(this).attr('data-id', json.id)
+                $(this).attr('data-client_id', json.client_id)
+                $(this).attr('data-process', 'edit')
+            }
+
+        });
+        $('.lab').modal('show');
+    }
+}
+
 
 var user_data = {};
 let user_id = `{{ $user_id }}`;
@@ -634,19 +810,27 @@ async function submitForm(e) {
     var data = await getDataJson(type, rowid);
     var axiosURL = process == 'add' ? `${url}/save_followup_data` : `${url}/edit_followup_data`;
 
+
+
     $(`form#${type}form :input`).removeClass('errorTextbox');
 
+    if (type == 'lab') {
+        if ($('#test_name').attr('data-id') == 0 || $('#test_name').attr('data-id') == 'undefined') {
+            alert('Please Select Test Name');
+            $(e).text('Save Changes');
+            return false;
+        }
+    }
     axios.post(axiosURL, data, {
         headers: {
             'Content-Type': 'application/json',
         }
     }).then(function(response) {
         $(e).text('Save Changes');
-        // handle success
         show_Toaster(response.data.message, response.data.type);
+
         if (response.data.type === 'success') {
-            window.location.href =
-                `{{ url('/startAppointment/${username}/${mainurl}/${suburl}') }} `
+            window.location.href = `{{ url('/startAppointment/${mobile}/${mainurl}/${suburl}') }} `
         } else {
             $(`form#${type}form :input`).each(function() {
                 var input = $(this); // This is the jquery object of the input, do what you will
@@ -658,7 +842,34 @@ async function submitForm(e) {
             });
         }
     }).catch(function(err) {
+        $(e).text('Save Changes');
         show_Toaster(err.response.data.message, 'error')
     })
+}
+
+function deleteData(e, id, client_id, type) {
+
+    $(e).text('Please wait..');
+    if (confirm('Are You sure, you want to delete ?')) {
+
+        var data = new FormData();
+        data.append('id', id);
+        data.append('client_id', client_id);
+        data.append('type', type);
+        axios.post(`${url}/delete_followup_data`, data, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(function(response) {
+            show_Toaster(response.data.message, response.data.type);
+            if (response.data.type === 'success') {
+                window.location.href = `{{ url('/startAppointment/${mobile}/${mainurl}/${suburl}') }} `
+            }
+
+        }).catch(function(err) {
+            console.log(err)
+            show_Toaster(err.data.message, 'error')
+        })
+    }
 }
 </script>

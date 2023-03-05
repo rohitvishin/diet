@@ -103,7 +103,7 @@
                                     </td>
                                     <td>{{ isset($singleClient['mobile']) && $singleClient['mobile'] ? $singleClient['mobile'] : '' }}
                                     </td>
-                                    <td>{{ isset($singleClient['gender']) && $singleClient['gender'] ? $singleClient['gender'] : '' }}
+                                    <td>{{ isset($singleClient['gender']) && $singleClient['gender'] && $singleClient['gender'] != -1 ? $singleClient['gender'] : '' }}
                                     </td>
                                 </tr>
                                 @endforeach

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('lab_test_date');
             $table->string('client_id');
             $table->string('test_name');
+            $table->string('test_name_id');
             $table->string('test_result');
             $table->timestamps();
         });

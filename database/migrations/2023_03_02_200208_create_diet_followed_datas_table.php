@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->date('diet_followed_date');
             $table->string('client_id');
-            $table->string('diet_followed_type');
             $table->text('vitamins')->nullable();
             $table->text('general_health')->nullable();
             $table->text('reports')->nullable();
             $table->text('met_dr')->nullable();
             $table->text('food_plan')->nullable();
+            $table->text('diet_advised')->nullable();
             $table->text('meal_timing')->nullable();
             $table->text('portion_control')->nullable();
             $table->text('carbs')->nullable();

@@ -15,7 +15,7 @@ class diet_chart_data extends Model
         'plan_name',
         'plan_intro',
         'template_id',
-        'diet_chart',
+        'diet_chart_template',
         'created_at',
         'update_at'
     ];

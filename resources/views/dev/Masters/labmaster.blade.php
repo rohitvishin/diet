@@ -46,7 +46,9 @@
                                             <td> {{ $singleData->result_high_range }} </td>
                                             <td> {{ $singleData->unit }} </td>
                                             <td> {{ $singleData->status == 1 ? 'Active' : 'Deactive' }} </td>
-                                            <td><button href="button" onclick="updateStatus({{$singleData->id}},this)" class="btn btn-{{$singleData->status == 1 ? 'primary' : 'danger'}}">Update Status</button></td>
+                                            <td><button href="button" onclick="updateStatus({{$singleData->id}},this)"
+                                                    class="btn btn-{{$singleData->status == 1 ? 'primary' : 'danger'}}">Update
+                                                    Status</button></td>
                                         </tr>
                                         @endforeach
                                         @endif
@@ -77,16 +79,18 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="">Enter Test Type</label>
-                                <input type="text" name="test_type" id="test_type" class="form-control" placeholder="Enter Test Type">
+                                <input type="text" name="test_type" id="test_type" class="form-control"
+                                    placeholder="Enter Test Type">
                             </div>
                             <div class="col-md-6">
                                 <label for="">Enter Test Name</label>
-                                <input type="text" name="test_name" id="test_name" class="form-control" placeholder="Enter Type Name">
+                                <input type="text" name="test_name" id="test_name" class="form-control"
+                                    placeholder="Enter Type Name">
                             </div>
                         </div>
                         <hr>
                         <div class="row mt-2">
-    
+
                             <div class="col-md-12">
                                 <h6>Refernce Details</h6>
                             </div>
@@ -104,15 +108,16 @@
                                     <option value="0">Less Than</option>
                                     <option value="1">Greater Than</option>
                                     <option value="2">Between</option>
-                                    <option value="-1">None</option>
+                                    <option value="-1" selected>None</option>
                                 </select>
                             </div>
                             <div class="col-md-6" id="subject_value_div">
                                 <label for="">Enter Reference Value</label>
-                                <input type="text" name="subject_value" id="subject_value" class="form-control" placeholder="Enter Reference Value">
+                                <input type="text" name="subject_value" id="subject_value" class="form-control"
+                                    placeholder="Enter Reference Value">
                             </div>
                         </div>
-    
+
                         <hr>
                         <div class="row mt-2">
                             <div class="col-md-12">
@@ -120,16 +125,19 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="">Enter Low Range Value</label>
-                                <input type="text" name="result_low_range" id="result_low_range" class="form-control" placeholder="Enter Low Range Value">
+                                <input type="text" name="result_low_range" id="result_low_range" class="form-control"
+                                    placeholder="Enter Low Range Value">
                             </div>
                             <div class="col-md-6">
                                 <label for="">Enter High Range Value</label>
-                                <input type="text" name="result_high_range" id="result_high_range" class="form-control" placeholder="Enter High Range Value">
+                                <input type="text" name="result_high_range" id="result_high_range" class="form-control"
+                                    placeholder="Enter High Range Value">
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label for="">Enter Test Unit</label>
-                                <input type="text" name="unit" id="unit" class="form-control" placeholder="Enter Test Unit">
+                                <input type="text" name="unit" id="unit" class="form-control"
+                                    placeholder="Enter Test Unit">
                             </div>
                         </div>
                     </div>
@@ -152,43 +160,45 @@
 function show_modal() {
     $('.modal').modal('show');
 }
-    $('#addLabMaster').on('submit',function(e){
-        e.preventDefault();
-        axios.post(`${url}/client/addLabMaster`,new FormData(this)).then(function (response) {
-                // handle success
-                show_Toaster(response.data.message,response.data.type)
-                if (response.data.type === 'success') {
-                    setTimeout(() => {
-                        window.location.href = `${url}/client/home`;
-                    }, 500);
-                }
-            }).catch(function (err) {
-                show_Toaster(err.response.data.message,'error')
-        })
-     });
-     $('#subject').change(function(){
-        if($('#subject').val()=='gender'){
-            $('#subject_action_div').css('display','none');
+$('#addLabMaster').on('submit', function(e) {
+    e.preventDefault();
+    axios.post(`${url}/client/addLabMaster`, new FormData(this)).then(function(response) {
+        // handle success
+        show_Toaster(response.data.message, response.data.type)
+        if (response.data.type === 'success') {
+            setTimeout(() => {
+                window.location.href = `${url}/labMaster`;
+            }, 500);
         }
-        else if($('#subject').val()=='age'){
-            $('#subject_action_div').css('display','block');
-        }else{
-            $('#subject_action_div').css('display','none');
-            $('#subject_value_div').css('display','none');
-        }      
-     });
-     function updateStatus(t_Id,e){
-            axios.post(`${url}/client/updateLabMaster`,{id:t_Id}).then(function (response) {
-                // handle success
-                show_Toaster(response.data.message,response.data.type)
-                if(response.data.status==1){
-                    $(e).removeClass('btn btn-primary');
-                    $(e).addClass('btn btn-danger');
-                }else{
-                    $(e).removeClass('btn btn-danger');
-                    $(e).addClass('btn btn-primary');
-                }
-                
-            })
-         }
+    }).catch(function(err) {
+        show_Toaster(err.response.data.message, 'error')
+    })
+});
+$('#subject').change(function() {
+    if ($('#subject').val() == 'gender') {
+        $('#subject_action_div').css('display', 'none');
+    } else if ($('#subject').val() == 'age') {
+        $('#subject_action_div').css('display', 'block');
+    } else {
+        $('#subject_action_div').css('display', 'none');
+        $('#subject_value_div').css('display', 'none');
+    }
+});
+
+function updateStatus(t_Id, e) {
+    axios.post(`${url}/client/updateLabMaster`, {
+        id: t_Id
+    }).then(function(response) {
+        // handle success
+        show_Toaster(response.data.message, response.data.type)
+        if (response.data.status == 1) {
+            $(e).removeClass('btn btn-primary');
+            $(e).addClass('btn btn-danger');
+        } else {
+            $(e).removeClass('btn btn-danger');
+            $(e).addClass('btn btn-primary');
+        }
+
+    })
+}
 </script>

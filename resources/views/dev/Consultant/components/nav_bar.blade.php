@@ -49,3 +49,9 @@
         <span>Documents &
             Photos</span></button>
 </li>
+<li class="nav-item">
+    <button class="btn btn-link nav-link text-white {{ $url == 'product_payment' ? 'active' : '' }}" id="contact-tab3"
+        data-toggle="tab" data-url="product_payment" role="tab" aria-controls="contact" aria-selected="false"><i
+            class="fa fa-box-open tab-icon fa-2x"></i>
+        <span>Product Payment</span></button>
+</li>

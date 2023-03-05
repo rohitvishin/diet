@@ -42,6 +42,7 @@ Route::get('/profile', [DevController::class, 'getProfile'])->name('profile');
 Route::post('/addAppointment',[DevController::class,'addAppointment']);
 Route::get('/appointments', [DevController::class, 'Appointments'])->name('appointments');
 Route::post('/getClientName', [DevController::class, 'getClientName']);
+Route::post('/getLabTestName', [DevController::class, 'getLabTestName']);
 Route::get('/consultation', [DevController::class, 'Consultation']);
 Route::get('/package_plan', [DevController::class, 'packagePlan']);
 
@@ -50,6 +51,8 @@ Route::get('/consultation2/{type}/{user_id}/{page}/{submenu}', [DevController::c
 Route::get('/startAppointment/{patient_name}/{page}/{submenu?}', [DevController::class, 'startAppointment']);
 Route::post('/save_followup_data', [DevController::class, 'saveFollowupData']);
 Route::post('/edit_followup_data', [DevController::class, 'editFollowupData']);
+Route::post('/delete_followup_data', [DevController::class, 'deleteFollowupData']);
+Route::post('/update_diet_chart_template_data', [DevController::class, 'updateDietChartTemplate']);
 
 Route::get('/medicalMaster', [DevController::class, 'MedicalMasterList']);
 Route::get('/labMaster', [DevController::class, 'LabMasterList']);

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('plan_name');
             $table->string('plan_intro');
             $table->integer('template_id')->default(0);
-            $table->longText('diet_chart');
+            $table->longText('diet_chart_template');
             $table->timestamps();
         });
     }

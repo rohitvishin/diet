@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\ActivityMaster;
 use App\Models\Appointment;
 use App\Models\Dev;
@@ -17,6 +19,9 @@ use App\Models\Documents;
 use App\Models\Anthropometric_data;
 use App\Models\Exercise_data;
 use App\Models\diet_chart_data;
+use App\Models\diet_followed_data;
+use App\Models\lab_data;
+use App\Models\medicine_data;
 use App\Models\PackagePayment;
 use App\Models\PaymentEmi;
 use Illuminate\Http\Request;
@@ -196,7 +201,6 @@ class DevController extends Controller
 
     public function getDataAccordingToPageName($userid, $page, $subpage){
 
-        $data = [];
         $data['user_data'] = [];
         
         if($page == 'basic_details')
@@ -218,17 +222,19 @@ class DevController extends Controller
         else if($page == 'remark')
             $data['user_data'] = Remarks::where('client_id', $userid)->orderBy('remark_date','desc')->get();
         else if($page == 'follow_up'){
-
             if($subpage == 'anthropometric')
                 $data['user_data'] = Anthropometric_data::where('client_id', $userid)->get()->toArray();
             else if($subpage == 'exercise')
                 $data['user_data'] = Exercise_data::where('client_id', $userid)->get()->toArray();
             else if($subpage == 'diet_followed')
-                $data['user_data'] = User::where('id', $userid)->first()->toArray();
-            else if($subpage == 'lab_data')
-                $data['user_data'] = User::where('id', $userid)->first()->toArray();
+                $data['user_data'] = diet_followed_data::where('client_id', $userid)->get()->toArray();
+            else if($subpage == 'lab_data'){
+                $user_data = lab_data::where('client_id', $userid)->get()->toArray();
+                if($user_data)
+                    $data['user_data'] = $this->UpdateUserLabData($userid, $user_data);
+            }
             else if($subpage == 'medication')
-                $data['user_data'] = User::where('id', $userid)->first()->toArray();
+                $data['user_data'] = medicine_data::where('client_id', $userid)->get()->toArray();
                 
         }
         else if($page == 'documents')
@@ -237,6 +243,47 @@ class DevController extends Controller
         return $data;
     }
 
+    public function UpdateUserLabData($userid, $user_data){
+        $labData = LabMaster::all()->toArray();
+        $userDetails = User::select('age','gender')->where('id', $userid)->get()->toArray()[0];
+        
+        foreach($user_data as $key => $singleLab){
+            $labMasterKey = array_search($singleLab['test_name_id'], array_column($labData, 'id'));
+            $singleLabMaster = $labData[$labMasterKey];
+            $cond = $singleLabMaster['subject'];
+            $value = $singleLabMaster['subject_value'];
+            $action = $singleLabMaster['subject_value_action'];
+
+            if($cond != 0)
+                $userValue = $userDetails[$cond];
+            
+            $matchCondition = 1;
+            if($cond == 'gender')
+                $matchCondition =  $userValue == $value;
+            else if($action == 0 && $cond != 0  && $cond == 'age')
+                $matchCondition =  $userValue < $value;
+            else if($action == 1 && $cond != 0  && $cond == 'age')
+                $matchCondition = $userValue > $value;
+            else if($action == 2 && $cond != 0  && $cond == 'age'){
+                $valueArr = explode('-',$value);
+                $matchCondition = ($userValue > $value[0] && $userValue < $value[1]);
+            }
+
+            
+            if($matchCondition){
+                $result = ($singleLab['test_result'] > $singleLabMaster['result_low_range'] && $singleLab['test_result'] < $singleLabMaster['result_high_range']);
+
+            if($result)
+                $user_data[$key]['test_color'] = 'success';
+            else
+                $user_data[$key]['test_color'] = 'danger';
+                
+            }else
+                $user_data[$key]['test_color'] = 'danger';
+        }
+        return $user_data;
+    }
+    
     public function MedicalMasterList(){
         $data['lastType_id'] = MedicalMaster::select('type_id')->latest()->first()['type_id'];
         $data['data'] = MedicalMaster::orderBy('id', 'desc')->get();
@@ -252,7 +299,7 @@ class DevController extends Controller
     }
 
     public function LabMasterList(){
-        $data['data'] = LabMaster::orderBy('id', 'desc')->get();
+        $data['data'] = LabMaster::orderBy('created_at', 'desc')->get();
         $data['url'] = 'lab_master';
         return view('dev.masters.labmaster', $data);
     }
@@ -291,6 +338,22 @@ class DevController extends Controller
         ], 200);
     }
 
+    public function getLabTestName(Request $request){
+        $data = LabMaster::where('test_name','like','%'.$request->param.'%')->get()->toArray();
+        $html = '';
+        if(count($data) > 0){
+            $html = '';
+            foreach($data as $singleName){
+                $bracketText = $singleName['subject'] != 0 ? '('.($singleName['subject'] != 0 ? $singleName['subject']: '').'- '.($singleName['subject_value'] != 0 ? ($singleName['subject_value_action'] == 0 ? 'less Than' : ($singleName['subject_value_action'] == 1 ? 'Greater Than' : ($singleName['subject_value_action'] == 2 ? 'Between' : '') )) : '').'- '.($singleName['subject_value'] != 0 ? $singleName['subject_value']: '').')' : '';
+                $html .= "<p class='autocomplete-div' data-id=".$singleName['id']." onclick='setLabName(this)'>".$singleName['test_name'].$bracketText.'</p>';
+            }
+        }
+        return response()->json([
+            'html' => $html,
+        ], 200);
+            
+    }
+
     public function updateProfile(Request $request){
         $profile = $request->validate([
             'name' => 'required|string',
@@ -317,19 +380,52 @@ class DevController extends Controller
         $client_mobile = '';
 
         $appointment = $request->validate([
-            'customer_name' => 'required|string',
-            'customer_mobile' => 'required|string',
-            'date' => 'required',
+            'appointment_date' => 'required',
             'start_time' => 'required',
             'end_time' => 'required'
         ]);
-        $appointment['doc_id']=Auth::guard('dev')->user()->id;
-        $appointment['status']=0;
-        $isExisting=User::where('mobile',$appointment['customer_mobile'])->count();
-        if($isExisting==0){
-            DB::insert('insert into users (name, mobile) values (?, ?)', [$appointment['customer_name'],$appointment['customer_mobile']]);
+
+        if($request->client_id != 0){
+            $request->validate([
+                'client_name' => 'required|string',
+                'client_id' => 'required|numeric',
+                'client_mobile' => 'required|numeric',
+            ]);
+            $user = User::where('id',$request->client_id)->get();
+
+            if($user->isEmpty())
+            return response()->json([
+                'message' => 'Invalid Access, User Not Found',
+                'type' => 'success',
+            ]);
+
+            $client_id = $request->client_id;
+            $client_mobile = $request->client_mobile;
+            $client_name = $request->client_name;
         }
-        $addAppoint=Appointment::create($appointment);
+        else{
+            $request->validate([
+                'new_client_name' => 'required|string',
+                'new_client_mobile' => 'required|numeric',
+            ]);
+
+            $data['name'] = $request->new_client_name;
+            $data['mobile'] = $request->new_client_mobile;
+            $user = new User($data);
+            $user->save();
+            
+            $client_id = $user->id;
+            $client_mobile = $request->new_client_mobile;
+            $client_name = $request->new_client_name;
+        }
+        
+        $appointment['client_id']= $client_id;
+        $appointment['client_mobile']= $client_mobile;
+        $appointment['client_name']= $client_name;
+        $appointment['status'] = 1;
+        
+        $addAppoint = Appointment::create($appointment);
+        
         if($addAppoint->save()){
             return response()->json([
                 'message' => 'Appointment Added',
@@ -435,6 +531,8 @@ class DevController extends Controller
     }
 
     public function addLabMaster(Request $request){
+
+        // dd($request->all());
         $data = $request->validate([
             'test_type' => 'required',
             'test_name' => 'required',
@@ -444,6 +542,16 @@ class DevController extends Controller
             'result_high_range' => 'required',
             'unit' => 'required',
         ]);
+
+        $data['subject_value'] = -1;
+        
+        if($request->subject != 0){
+            $subject_value = $request->validate([
+                'subject_value' => 'required'
+            ]);
+            $data['subject_value'] = $subject_value['subject_value'];
+        }
+
         $addLabMaster=LabMaster::create($data);
         if($addLabMaster->save()){
             return response()->json([
@@ -624,7 +732,7 @@ class DevController extends Controller
     }
 
     public function DietTemplateMasterList(){
-        $data['data'] = DietTemplateMaster::orderBy('id', 'desc')->get();
+        $data['user_data'] = DietTemplateMaster::orderBy('id', 'desc')->get()->toArray();
         $data['url'] = 'diet_template_master';
         return view('dev.masters.diettemplatemaster', $data);
     }
@@ -763,6 +871,7 @@ class DevController extends Controller
         
         // dd($request->all());
         $data = $request->all();
+        unset($data['id']);
         unset($data['type']);
         unset($data['process']);
 
@@ -784,15 +893,23 @@ class DevController extends Controller
             }
             $response = Exercise_data::insert($data['exercise']);
         }
-        else if($request->type == 'diet_followed'){
-            $response = Exercise_data::insert($data['diet_followed']);
-        }
+        else if($request->type == 'diet_followed')
+            $response = diet_followed_data::insert($data);
+        
         else if($request->type == 'lab'){
-            $response = Exercise_data::insert($data['lab']);
+            $data = $request->validate([
+                'lab_test_date' => 'required',
+                'test_name' => 'required',
+                'test_result' => 'required',
+                'client_id' => 'required',
+                'test_name_id' => 'required',
+            ]);
+            
+            $response = lab_data::insert($data);
         }
-        else if($request->type == 'medicines'){
-            $response = Exercise_data::insert($data['medicines']);
-        }
+        else if($request->type == 'medicine')
+            $response = medicine_data::insert($data);
+        
 
         if($response)
             return response()->json(['type' => 'success', 'message' => ucwords($request->type).' Added']);
@@ -803,23 +920,42 @@ class DevController extends Controller
 
     public function editFollowupData(Request $request){
         $data = $request->all();
-        if($request->type == 'anthro'){
-            unset($data['type']);
-            unset($data['id']);
-            unset($data['client_id']);
-            $response = Anthropometric_data::where(['id' => $request->id, 'client_id' => $request->client_id])->update($data);
-        }
+        unset($data['type']);
+        unset($data['id']);
+        unset($data['client_id']);
 
+        $where = ['id' => $request->id, 'client_id' => $request->client_id];
+        if($request->type == 'anthro')
+            $response = Anthropometric_data::where($where)->update($data);
         else if($request->type == 'exercise'){
-            if($request->exercise_date == '')
+            
+            $nwedata = [];
+            $newdata['exercise_date'] = $data['exercise_date'];
+            $newdata['exercise_name'] = $data['exercise'][0]['exercise_name'];
+            $newdata['exercise_unit'] = $data['exercise'][0]['exercise_unit'];
+            $newdata['exercise_duration'] = $data['exercise'][0]['exercise_duration'];
+            
+            if($newdata['exercise_date'] == '' || $newdata['exercise_name'] == '' || $newdata['exercise_unit'] == '' || $newdata['exercise_duration'] == '')
                 return response()->json(['type' => 'error', 'message' => 'All Feilds Are Mandatory']);
 
-            foreach($data['exercise'] as $key => $singleExercise){
-                if($singleExercise['exercise_name'] == '' || $singleExercise['exercise_unit'] == '' || $singleExercise['exercise_duration'] == '')
-                    return response()->json(['type' => 'error', 'message' => 'All Feilds Are Mandatory']);
-                $data['exercise'][$key]['exercise_date'] = $request->exercise_date;
-            }
-            $response = Exercise_data::where(['id' => $request->id, 'client_id' => $request->client_id])->update($data['exercise'][0]);
+            $response = Exercise_data::where($where)->update($newdata);
+        }
+        else if($request->type == 'diet_followed'){
+            $response = diet_followed_data::where($where)->update($data);
+        }
+        else if($request->type == 'lab'){
+            $data = $request->validate([
+                'lab_test_date' => 'required',
+                'test_name' => 'required',
+                'test_result' => 'required',
+                'client_id' => 'required',
+                'test_name_id' => 'required',
+            ]);
+            
+            $response = lab_data::where($where)->update($data);
+        }
+        else if($request->type == 'medicine'){
+            $response = medicine_data::where($where)->update($data);
         }
 
         if($response)
@@ -827,6 +963,36 @@ class DevController extends Controller
         else
             return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
     }
+
+    public function deleteFollowupData(Request $request){
+
+        $data = $request->validate([
+            'id' => 'required',
+            'client_id' => 'required'
+        ]);
+
+        
+        if($request->type == 'anthro')
+            $response = Anthropometric_data::where($data)->delete();
+
+        else if($request->type == 'exercise')
+            $response = Exercise_data::where($data)->delete();
+
+        else if($request->type == 'diet_followed')
+            $response = diet_followed_data::where($data)->delete();
+
+        else if($request->type == 'lab')
+            $response = lab_data::where($data)->delete();
+        
+        else if($request->type == 'medicine')
+            $response = medicine_data::where($data)->delete();        
+
+        if($response)
+            return response()->json(['type' => 'success', 'message' => ucwords($request->type).' Added']);
+        else
+            return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+    }
+
 
     public function UpdateRemarks(Request $request){
         $data=$request->validate([
@@ -851,6 +1017,51 @@ class DevController extends Controller
         
         if($request->input('process') == 'add' ? $response->save() : $response)
             return response()->json(['type' => 'success', 'message' => 'Remarks Updated']);
+        else
+            return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+    }
+
+    public function updateDietChartTemplate(Request $request){
+
+        if($request->process == 'delete'){
+            $request->validate([
+                'id' => 'required',
+                'client_id' => 'required',
+            ]);
+
+            $user = diet_chart_data::where(['id' => $request->id, 'client_id' => $request->client_id]);
+
+            if($user->delete())
+                return response()->json(['type' => 'success', 'message' => 'Diet template Deleted']);
+            else
+                return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+
+        }
+        
+        $data=$request->validate([
+            'diet_chart_date' => 'required|string',
+            'plan_name' => 'required|string',
+            'plan_intro' => 'required|string',
+            'diet_chart_template' => 'required|string',
+            'client_id' => 'required|string',
+        ]);
+
+        if($request->input('process') == 'update'){
+            $request->validate([
+                'id' => 'required|string'
+            ]);
+        }
+            
+        if($request->process == 'update'){
+            $data['updated_at'] = date('Y-m-d H:i:s');
+            $response = diet_chart_data::where(['id' => $request->id, 'client_id' => $request->client_id])->update($data);
+        }else{
+            $data['created_at'] = date('Y-m-d H:i:s');
+            $response = new diet_chart_data($data);
+        }
+        
+        if($request->process == 'add' ? $response->save() : $response)
+            return response()->json(['type' => 'success', 'message' => 'Diet Template '.($request->process == 'add' ? 'Added' : 'Updated')]);
         else
             return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
     }
@@ -892,10 +1103,12 @@ class DevController extends Controller
             Storage::download('/files/'.trim($filename));
         }
     }
+    
     public function packagePlan(){
         $packageMaster=packageMaster::where('status',1)->get();
         echo $packageMaster;
     }
+
     public function save_package(Request $request){
         $package_data = $request->validate([
             'package_id'=> 'required',
@@ -907,15 +1120,20 @@ class DevController extends Controller
             'payment_method'=> 'required',
             'down_payment'=> 'required'
         ]);
+
+        // user id and appoitment ID
         $package_data['user_id']=1;
         $package_data['appointment_id']=1;
+
         $package_data['dev_id']=Auth::guard('dev')->user()->id;
         $save=new PackagePayment($package_data);
         if($save->save()){
             $no_emi=$request->no_emi;
             for($i=0;$i<$no_emi;$i++){
                 $payment_emi=array(
-                    'dev_id'=>1,
+                    'dev_id'=>Auth::guard('dev')->user()->id,
+                    
+                    // user id and appoitment ID
                     'user_id'=>1,
                     'appointment_id'=>1,
                     'pay_id'=>$save->id,

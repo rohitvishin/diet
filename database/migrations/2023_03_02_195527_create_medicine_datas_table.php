@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('medicine_date');
             $table->string('client_id');
             $table->string('medicine_name');
-            $table->string('take_to_take');
+            $table->string('time_to_take');
             $table->timestamps();
         });
     }

@@ -54,14 +54,8 @@
                             @if(count($user_data) > 0 && $suburl == 'anthropometric')
                             @foreach($user_data as $single_data)
                             <div class="col-md-2 followUpAnthro">
-
-
                                 <ul>
-                                    <li class="bg-primary text-white">{{ $single_data['anthro_date'] }} <a
-                                            class="btn btn-sm btn-default hover-text-black float-right"
-                                            onclick="show_anthro_modal('{{ json_encode($single_data) }}', 'edit')"><i
-                                                class="fas fa-pencil-alt"></i></a>
-                                    </li>
+                                    <li class="bg-primary text-white">{{ $single_data['anthro_date'] }} </li>
                                     <li>{{ $single_data['weight'] }}</li>
                                     <li>{{ $single_data['fat'] }}</li>
                                     <li>{{ $single_data['body_water'] }}</li>
@@ -73,6 +67,12 @@
                                     <li>{{ $single_data['bmr'] }}</li>
                                     <li>{{ $single_data['height_cm'] }}</li>
                                     <li>{{ $single_data['height'] }}</li>
+                                    <li class="p-2">
+                                        <button class="btn btn-danger"
+                                            onclick="deleteData(this,'{{ $single_data['id'] }}','{{ $single_data['client_id'] }}','antro')">Delete</button>
+                                        <button class="btn btn-primary"
+                                            onclick="show_anthro_modal('{{ json_encode($single_data) }}', 'edit')">Edit</button>
+                                    </li>
                                 </ul>
 
                             </div>
@@ -111,7 +111,10 @@
                                         <td>{{ $single_data['exercise_name'] }}</td>
                                         <td>{{ $single_data['exercise_unit'] }}</td>
                                         <td>{{ $single_data['exercise_duration'] }}</td>
-                                        <td><button type="button" class="btn btn-sm btn-primary"
+                                        <td>
+                                            <button class="btn btn-danger"
+                                                onclick="deleteData(this,'{{ $single_data['id'] }}','{{ $single_data['client_id'] }}','exercise')">Delete</button>
+                                            <button type="button" class="btn btn-sm btn-primary"
                                                 onclick="show_exercise_modal('{{ json_encode($single_data) }}','edit')">Edit</button>
                                         </td>
                                     </tr>
@@ -164,32 +167,43 @@
                                     <li>Remarks</li>
                                 </ul>
                             </div>
+                            @if(count($user_data) > 0 && $suburl == 'diet_followed')
+                            @foreach($user_data as $single_data)
                             <div class="col-md-2 followUpAnthro">
+
                                 <ul>
-                                    <li class="bg-primary text-white">26-12-2022 <a
-                                            class="btn btn-sm btn-default hover-text-black float-right"
-                                            onclick="show_diet_modal()"><i class="fas fa-pencil-alt"></i></a>
+                                    <li class="bg-primary text-white">{{ $single_data['diet_followed_date'] }}
                                     </li>
-                                    <li>Taken</li>
-                                    <li>All ok</li>
-                                    <li>All fine</li>
-                                    <li>yes, for fever</li>
-                                    <li>taking as it is</li>
-                                    <li>all food except oil</li>
-                                    <li>4pm</li>
-                                    <li>done</li>
-                                    <li>500</li>
-                                    <li>250</li>
-                                    <li>2</li>
-                                    <li>3</li>
-                                    <li>smoking</li>
-                                    <li>2</li>
-                                    <li>1</li>
-                                    <li>2</li>
-                                    <li>45%</li>
-                                    <li>In Progress</li>
+                                    <li>{{ $single_data['vitamins'] }}</li>
+                                    <li>{{ $single_data['general_health'] }}</li>
+                                    <li>{{ $single_data['reports'] }}</li>
+                                    <li>{{ $single_data['met_dr'] }}</li>
+                                    <li>{{ $single_data['food_plan'] }}</li>
+                                    <li>{{ $single_data['diet_advised'] }}</li>
+                                    <li>{{ $single_data['meal_timing'] }}</li>
+                                    <li>{{ $single_data['portion_control'] }}</li>
+                                    <li>{{ $single_data['carbs'] }}</li>
+                                    <li>{{ $single_data['protiens'] }}</li>
+                                    <li>{{ $single_data['fried'] }}</li>
+                                    <li>{{ $single_data['desserts'] }}</li>
+                                    <li>{{ $single_data['other_cheatings'] }}</li>
+                                    <li>{{ $single_data['meal_out'] }}</li>
+                                    <li>{{ $single_data['alchol'] }}</li>
+                                    <li>{{ $single_data['travel'] }}</li>
+                                    <li>{{ $single_data['diet_plan_percentage'] }}</li>
+                                    <li>{{ $single_data['remarks'] }}</li>
+                                    <li class="text-center p-2">
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="show_diet_followed_modal('{{ json_encode($single_data) }}','edit')">Edit</button>
+                                        <button class="btn btn-danger"
+                                            onclick="deleteData(this,'{{ $single_data['id'] }}','{{ $single_data['client_id'] }}','diet_followed')">Delete</button>
+                                    </li>
                                 </ul>
                             </div>
+                            @endforeach
+                            @endif
+
+
                         </div>
                     </div>
                 </div>
@@ -200,7 +214,7 @@
             <div class="tab-pane fade {{ $suburl == 'lab_data' ? 'show active' : '' }}" id="LabData" role="tabpanel"
                 aria-labelledby="contact-tab">
                 <div class="col-md-12 mt-5">
-                    <button class="btn btn-primary" onclick="show_exercise_modal()">Add New Lab
+                    <button class="btn btn-primary" onclick="show_lab_modal('','add')">Add New Lab
                         Data</button>
                 </div>
                 <div class="card followUpAnthroCard border mt-5 p-0">
@@ -208,39 +222,33 @@
                         <div class="row">
 
                             <table class="table table-bordered table-sm">
-                                <h5>Date : 12 Dec 2022</h5>
                                 <thead class="bg-primary">
+                                    <th>Lab Test Date</th>
                                     <th>Lab Test Name</th>
                                     <th>Result</th>
+                                    <th>Action</th>
                                 </thead>
                                 <tbody>
+                                    @if(count($user_data) > 0 && $suburl == 'lab_data')
+                                    @foreach($user_data as $single_data)
                                     <tr>
-                                        <td>Blood Report</td>
-                                        <td>B+</td>
+                                        <td> {{ $single_data['lab_test_date'] }} </td>
+                                        <td> {{ $single_data['test_name'] }} </td>
+                                        <td class="text-white bg-{{ $single_data['test_color'] ?? 'danger' }}">
+                                            {{ $single_data['test_result'] }} </td>
+                                        <td>
+                                            <button class="btn btn-danger"
+                                                onclick="deleteData(this,'{{ $single_data['id'] }}','{{ $single_data['client_id'] }}','lab')">Delete</button>
+                                            <button type="button" class="btn btn-sm btn-primary"
+                                                onclick="show_lab_modal('{{ json_encode($single_data) }}','edit')">Edit</button>
+                                        </td>
                                     </tr>
+                                    @endforeach
+                                    @else
                                     <tr>
-                                        <td>Stomach Infection Report</td>
-                                        <td>all good</td>
+                                        <td colspan="5" class="text-center">No, Data Found</td>
                                     </tr>
-                                </tbody>
-                            </table>
-
-
-                            <table class="table table-bordered table-sm">
-                                <h5>Date: 14 Dec 2022</h5>
-                                <thead class="bg-primary">
-                                    <th>Lab Test Name</th>
-                                    <th>Result</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Blood Report</td>
-                                        <td>B-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Stomach Infection Report</td>
-                                        <td>all good</td>
-                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
 
@@ -254,66 +262,39 @@
                 role="tabpanel" aria-labelledby="contact-tab">
 
                 <div class="col-md-12 mt-5">
-                    <button class="btn btn-primary" onclick="show_medicine_modal()">Add New Medicine
+                    <button class="btn btn-primary" onclick="show_medicine_modal('','add')">Add New Medicine
                         Data</button>
                 </div>
                 <div class="card followUpAnthroCard border mt-5 p-0">
                     <div class="card-body">
                         <div class="row">
-
                             <table class="table table-bordered table-sm">
-                                <h5>Date : 12 Dec 2022</h5>
                                 <thead class="bg-primary">
                                     <th>Name of medication</th>
-                                    <th>Time taken at</th>
+                                    <th>Time To Take</th>
+                                    <th>Action</th>
                                 </thead>
                                 <tbody>
+                                    @if(count($user_data) > 0 && $suburl == 'medication')
+                                    @foreach($user_data as $single_data)
                                     <tr>
-                                        <td>Combiflame</td>
-                                        <td>Breakfast</td>
+                                        <td>{{ $single_data['medicine_name'] }}</td>
+                                        <td>{{ $single_data['time_to_take'] }}</td>
+                                        <td>
+                                            <button class="btn btn-danger"
+                                                onclick="deleteData(this,'{{ $single_data['id'] }}','{{ $single_data['client_id'] }}','medicine')">Delete</button>
+                                            <button type="button" class="btn btn-sm btn-primary"
+                                                onclick="show_medicine_modal('{{ json_encode($single_data) }}','edit')">Edit</button>
+                                        </td>
                                     </tr>
+                                    @endforeach
+                                    @else
                                     <tr>
-                                        <td>Medicine 2</td>
-                                        <td>Lunch</td>
+                                        <td colspan="5" class="text-center">No, Data Found</td>
                                     </tr>
-                                    <tr>
-                                        <td>Medicine 3</td>
-                                        <td>Dinner</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Combiflame</td>
-                                        <td>Evening snacks</td>
-                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
-
-
-                            <table class="table table-bordered table-sm">
-                                <h5>Date : 14 Dec 2022</h5>
-                                <thead class="bg-primary">
-                                    <th>Name of medication</th>
-                                    <th>Time taken at</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Combiflame</td>
-                                        <td>Breakfast</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Medicine 2</td>
-                                        <td>Lunch</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Medicine 3</td>
-                                        <td>Dinner</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Combiflame</td>
-                                        <td>Evening snacks</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
                         </div>
                     </div>
                 </div>

@@ -15,6 +15,6 @@ class lab_data extends Model
         'test_name',
         'test_result',
         'created_at',
-        'update_at'
+        'updated_at'
     ];
 }
