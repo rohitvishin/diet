@@ -9,13 +9,12 @@ class PackagePayment extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'dev_id',
-        'user_id',
-        'appointment_id',
+        'payment_date',
+        'client_id',
         'package_id',
         'final_amt',
         'start_date',
-        'confirmation_date',
+        'end_date',
         'payment_method',
         'transaction_id',
         'no_emi',

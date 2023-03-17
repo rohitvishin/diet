@@ -15,13 +15,12 @@ return new class extends Migration
     {
         Schema::create('package_payments', function (Blueprint $table) {
             $table->id();
-            $table->integer('dev_id');
-            $table->integer('user_id');
-            $table->integer('appointment_id');
+            $table->date('payment_date');
+            $table->integer('client_id');
             $table->integer('package_id');
             $table->integer('final_amt');
             $table->string('start_date');
-            $table->string('confirmation_date');
+            $table->string('end_date');
             $table->string('payment_method');
             $table->string('transaction_id');
             $table->integer('no_emi');

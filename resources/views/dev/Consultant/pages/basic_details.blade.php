@@ -212,7 +212,7 @@ $('#saveUser').on('click', async function() {
     }).then(function(response) {
 
         show_Toaster(response.data.message, response.data.type);
-        user_data = data
+        location.reload();
 
     }).catch(function(err) {
         show_Toaster(err.response.data.message, 'error')
@@ -284,43 +284,7 @@ $(document).ready(function() {
 
 
 $('.nav-link').click(async function() {
-    var error = 0;
-    var data = user_data;
     var url = $(this).attr('data-url');
-    var formdata = await getDataJson()
-
-    var userdata = {
-        'name': data.name,
-        'referrer': data.referrer,
-        'gender': data.gender,
-        'mobile': data.mobile,
-        'profession': data.profession,
-        'working_hours': data.working_hours,
-        'social_media': data.social_media,
-        'email': data.email,
-        'address': data.address,
-        'city': data.city,
-        'state': data.state,
-        'pincode': data.pincode,
-        'dob': data.dob,
-        'age': data.age,
-        'maritalstatus': data.maritalstatus,
-        'purpose': data.purpose,
-        'purpose_other': data.purpose_other,
-        'client_id': user_id
-    };
-
-    for (var i in formdata) {
-        if (formdata[i] != userdata[i]) {
-            error++;
-            console.log(i, formdata[i], userdata[i]);
-            return show_Toaster('Please Save all the Changes', 'error')
-        }
-    }
-
-    if (!error) {
-        window.location.href = `{{ url('startAppointment/${mobile}/${url}') }} `
-    }
-
+    window.location.href = `{{ url('startAppointment/${mobile}/${url}') }} `
 });
 </script>

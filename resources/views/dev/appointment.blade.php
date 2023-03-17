@@ -154,10 +154,13 @@ function getClientName(e) {
 }
 
 function showClientTextbox(e) {
-    if (e.checked)
+    if (e.checked) {
         $('.newClient').removeClass('d-none')
-    else
+        $('.oldClient').addClass('d-none')
+    } else {
         $('.newClient').addClass('d-none')
+        $('.oldClient').removeClass('d-none')
+    }
 }
 
 

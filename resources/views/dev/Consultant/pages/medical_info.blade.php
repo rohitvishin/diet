@@ -1,5 +1,7 @@
 <!-- Main Content -->
-
+<?php 
+    use Illuminate\Support\Arr;
+?>
 @include('dev.include.header')
 <style>
 .select2-container {
@@ -158,50 +160,48 @@ $('.nav-link').click(async function() {
     window.location.href = `{{ url('startAppointment/${mobile}/${url}') }} `
 });
 
-$('#saveUser').on('click', function() {
-    const name = $('input[name="name"]').val();
-    const referrer = $('input[name="referrer"]').val();
-    const gender = $('#gender').val();
-    const mobile = $('input[name="mobile"]').val();
-    const email = $('input[name="email"]').val();
-    const address = $('#address').val();
-    const city = $('input[name="city"]').val();
-    const state = $('input[name="state"]').val();
-    const pincode = $('input[name="pincode"]').val();
-    const dob = $('input[name="dob"]').val();
-    const age = $('input[name="age"]').val();
-    const maritalstatus = $('#maritalstatus').val();
-    const purpose = $('#purpose').val();
-    if (purpose == 'other')
-        purpose_other = $('#purpose_value_other').val()
+async function getDataJson() {
+    var data = new FormData(document.getElementById('medicineHistoriesForm'));
+    var chronic_diseases = [];
+    var bone_health = [];
+    var gastro_instestinal = [];
+    var others = [];
 
-    var data = {
-        name,
-        referrer,
-        gender,
-        mobile,
-        email,
-        address,
-        city,
-        state,
-        pincode,
-        dob,
-        age,
-        maritalstatus,
-        purpose,
-        purpose_other,
-        client_id: x
-    };
-    axios.post(`${url}/client/save_user`, data, {
+    $('#chronic_diseases :selected').each(function(i, sel) {
+        chronic_diseases.push($(sel).val());
+    });
+
+    $('#bone_health :selected').each(function(i, sel) {
+        bone_health.push($(sel).val());
+    });
+
+    $('#gastro_instestinal :selected').each(function(i, sel) {
+        gastro_instestinal.push($(sel).val());
+    });
+
+    $('#others :selected').each(function(i, sel) {
+        others.push($(sel).val());
+    });
+
+    data.append('chronic_diseases', chronic_diseases);
+    data.append('bone_health', bone_health);
+    data.append('gastro_instestinal', gastro_instestinal);
+    data.append('others', others);
+    data.append('client_id', user_id);
+    return data;
+}
+
+$('#saveUser').on('click', async function() {
+    var data = await getDataJson();
+    axios.post(`${url}/save_medical_histories`, data, {
         headers: {
             'Content-Type': 'application/json',
         }
     }).then(function(response) {
-        // handle success
-        if (response.data.type === 'success') {
-            show_Toaster(response.data.message, response.data.type);
-            $('#profile-tab3').click();
-        }
+
+        show_Toaster(response.data.message, response.data.type);
+        location.reload();
+
     }).catch(function(err) {
         show_Toaster(err.response.data.message, 'error')
     })

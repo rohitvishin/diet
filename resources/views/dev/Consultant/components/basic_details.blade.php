@@ -112,8 +112,8 @@
              <div class="col-md-2">
                  <div class="form-group">
                      <label>D.O.B</label>
-                     <input type="date" name="dob" class="form-control" value="{{ $user_data['dob'] ?? '' }}"
-                         onchange="updateAge(this.value)">
+                     <input type="text" name="dob" class="form-control datepicker" value="{{ $user_data['dob'] ?? '' }}"
+                         onchange="updateAge(this.value)" oninput="updateAge(this.value)">
                  </div>
              </div>
              <div class="col-md-1">

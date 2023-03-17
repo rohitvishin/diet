@@ -43,6 +43,7 @@ Route::post('/addAppointment',[DevController::class,'addAppointment']);
 Route::get('/appointments', [DevController::class, 'Appointments'])->name('appointments');
 Route::post('/getClientName', [DevController::class, 'getClientName']);
 Route::post('/getLabTestName', [DevController::class, 'getLabTestName']);
+Route::post('/getProductName', [DevController::class, 'getProductName']);
 Route::get('/consultation', [DevController::class, 'Consultation']);
 Route::get('/package_plan', [DevController::class, 'packagePlan']);
 
@@ -78,10 +79,14 @@ Route::post('/updateProductMasterStatus', [DevController::class, 'updateProductM
 
 // Consultation Pages Function POST
 Route::post('/save_basic_details',[DevController::class,'UpdateBasicDetails']);
+Route::post('/save_medical_histories',[DevController::class,'UpdateMedicalHistories']);
 Route::post('/save_remarks',[DevController::class,'UpdateRemarks']);
 Route::post('/save_documents',[DevController::class,'UpdateDocuments']);
 Route::get('/downloadFile/{filename}/{documentName}',[DevController::class,'DownloadFile']);
 Route::post('/save_package',[DevController::class,'save_package']);
+Route::post('/save_product_payment',[DevController::class,'save_product_payment']);
+Route::get('/download_invoice/{id}/{client_id}',[DevController::class,'downloadInvoice']);
+Route::get('/view_invoice/{id}/{client_id}',[DevController::class,'viewInvoice']);
 
 // account
 Route::get('/user', function () {

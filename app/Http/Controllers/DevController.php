@@ -10,7 +10,6 @@ use App\Models\LabMaster;
 use App\Models\PackageMaster;
 use App\Models\FoodMaster;
 use App\Models\DietTemplateMaster;
-use App\Models\Medical_history;
 use App\Models\MedicalHistory;
 use App\Models\ProductMaster;
 use App\Models\User;
@@ -24,6 +23,7 @@ use App\Models\lab_data;
 use App\Models\medicine_data;
 use App\Models\PackagePayment;
 use App\Models\PaymentEmi;
+use App\Models\product_payments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -32,6 +32,7 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\Crypt;
 
 use Illuminate\Support\Facades\Storage;
+use PDF;
 
 class DevController extends Controller
 {
@@ -207,15 +208,19 @@ class DevController extends Controller
             $data['user_data'] = User::where('id', $userid)->first();
             
         else if($page == 'medical_info'){
-            $lastType_id = MedicalMaster::select('type_id')->latest()->first()['type_id'];
-            for ($i = 0; $i < $lastType_id; $i++) {
-                $data['data'][$i] = MedicalMaster::where('type_id', $i + 1)->get();
-            }
-            $data['user_data'] = User::where('id', $userid)->first();
+            $data['data']['chronic_diseases'] = MedicalMaster::where('type', 'chronic_diseases')->get();
+            $data['data']['bone_health'] = MedicalMaster::where('type', 'bone_health')->get();
+            $data['data']['gastro_instestinal'] = MedicalMaster::where('type', 'gastro_instestinal')->get();
+            $data['data']['others'] = MedicalMaster::where('type', 'others')->get();
+            $data['user_data'] = MedicalHistory::where('client_id', $userid)->first();
         }
         else if($page == 'package_payment')
-            $data['user_data'] = User::where('id', $userid)->first();
+            $data['user_data'] = PackagePayment::where('client_id', $userid)->get();
         else if($page == 'diet_chart'){
+            $data['user_data'] = diet_chart_data::where('client_id', $userid)->orderBy('diet_chart_date','desc')->get();
+            $data['data'] = DietTemplateMaster::orderBy('created_at', 'desc')->get();
+        }
+        else if($page == 'diet_adding'){
             $data['user_data'] = diet_chart_data::where('client_id', $userid)->orderBy('diet_chart_date','desc')->get();
             $data['data'] = DietTemplateMaster::orderBy('created_at', 'desc')->get();
         }
@@ -240,6 +245,15 @@ class DevController extends Controller
         else if($page == 'documents')
             $data['user_data'] = Documents::where('client_id', $userid)->orderBy('document_date','desc')->get();
 
+        else if($page == 'product_payment'){
+            $data['user_data'] = PackagePayment::leftJoin('product_payments','product_payments.pay_id', '=', 'package_payments.id')
+            ->leftJoin('product_masters','product_masters.id', '=', 'product_payments.product_id')
+            ->select('product_payments.*', 'package_payments.payment_date','package_payments.client_id','product_masters.product_name')
+            ->where(['package_payments.client_id' => $userid, 'package_payments.package_id' => -1])
+            ->get()->toArray();
+        }
+
+        // dd($data);
         return $data;
     }
 
@@ -354,6 +368,22 @@ class DevController extends Controller
             
     }
 
+    public function getProductName(Request $request){
+        $key = $request->key;
+        $data = ProductMaster::where('product_name','like','%'.$request->param.'%')->get()->toArray();
+        $html = '';
+        if(count($data) > 0){
+            $html = '';
+            foreach($data as $singleName){
+                $html .= "<p class='autocomplete-div' data-id=".$singleName['id']." data-amt=".$singleName['amount']." data-name=".$singleName['product_name']." data-discount=".$singleName['discount']." data-key=".$key." onclick='setProductName(this)'>".$singleName['product_name'].' ('.$singleName['unit'].')'.'</p>';
+            }
+        }
+        return response()->json([
+            'html' => $html,
+        ], 200);
+            
+    }
+
     public function updateProfile(Request $request){
         $profile = $request->validate([
             'name' => 'required|string',
@@ -427,6 +457,8 @@ class DevController extends Controller
         $addAppoint = Appointment::create($appointment);
         
         if($addAppoint->save()){
+
+            sendAppointmentSMS($appointment);
             return response()->json([
                 'message' => 'Appointment Added',
                 'type' => 'success',
@@ -749,8 +781,7 @@ class DevController extends Controller
             'unit' => 'required|string',
             'amount' => 'required|string',
             'qty' => 'required|numeric',
-            'discount' => 'required|string',
-            
+            'discount' => 'required|string',   
         ]);
 
         $request->validate([
@@ -823,25 +854,11 @@ class DevController extends Controller
     {
         $data=$request->validate([
             'name' => 'required|string',
-            'referrer' => 'required|string',
-            'email' => 'required|string|email',
-            'mobile' => 'required|string',
-            'profession' => 'required|string',
-            'working_hours' => 'required|string',
-            'social_media' => 'required|string',
-            'mobile' => 'required|string',
-            'address' => 'required|string',
+            'mobile' => 'required|numeric',
             'gender' => 'required|string',
-            'city' => 'required|string',
-            'state' => 'required|string',
-            'pincode' => 'required|string',
             'dob' => 'required|string',
             'age' => 'required|string',
-            'maritalstatus' => 'required|string',
-            'purpose' => 'required|string',
         ]);
-
-        
 
         if($request->input('purpose') == 'other'){
             $request->validate([
@@ -1110,11 +1127,14 @@ class DevController extends Controller
     }
 
     public function save_package(Request $request){
+
         $package_data = $request->validate([
+            'payment_date'=> 'required',
+            'client_id'=> 'required',
             'package_id'=> 'required',
             'final_amt'=> 'required',
             'start_date'=> 'required',
-            'confirmation_date'=> 'required',
+            'end_date'=> 'required',
             'transaction_id'=> 'required',
             'no_emi'=> 'required',
             'payment_method'=> 'required',
@@ -1122,32 +1142,135 @@ class DevController extends Controller
         ]);
 
         // user id and appoitment ID
-        $package_data['user_id']=1;
-        $package_data['appointment_id']=1;
+        $package_data['client_id'] = 1;
 
         $package_data['dev_id']=Auth::guard('dev')->user()->id;
         $save=new PackagePayment($package_data);
         if($save->save()){
-            $no_emi=$request->no_emi;
-            for($i=0;$i<$no_emi;$i++){
-                $payment_emi=array(
-                    'dev_id'=>Auth::guard('dev')->user()->id,
-                    
-                    // user id and appoitment ID
-                    'user_id'=>1,
-                    'appointment_id'=>1,
-                    'pay_id'=>$save->id,
-                    'emi_amt'=>$request->i_amount[$i],
-                    'emi_date'=>$request->i_date[$i]
-                );
-                $emi_save=new PaymentEmi($payment_emi);
-                $emi_save->save();
+
+            if($request->emi_checkbox == 'on' && $request->no_emi != 0){
+                $installmentData = $request->installment;
+
+                foreach($installmentData as $singleInstallment){
+                    $payment_emi = array(
+                        'client_id'=>$request->client_id,
+                        'pay_id'=>$save->id,
+                        'emi_amt'=>$singleInstallment['amount'],
+                        'emi_date'=>$singleInstallment['date']
+                    );
+                    $emi_save=new PaymentEmi($payment_emi);
+                    $emi_save->save();
+                }
             }
-            //for each emi here
             return response()->json(['type' => 'success', 'message' => 'Payment Added']);
 
         }else{
             return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
         }
+    }
+
+    public function save_product_payment(Request $request){
+
+        $package_data = $request->validate([
+            'payment_date'=> 'required',
+            'client_id'=> 'required',
+            'final_amt'=> 'required',
+            'payment_method'=> 'required',
+            'transaction_id'=> 'required',
+        ]);
+
+        $package_data['package_id'] = '-1';
+        $package_data['start_date'] = date('d-m-Y');
+        $package_data['end_date'] = date('d-m-Y');
+        $package_data['no_emi'] = '0';
+        $package_data['down_payment'] = '0';
+
+        $save = new PackagePayment($package_data);
+        if($save->save()){
+
+            if(count($request->product) > 0){
+                $productData = $request->product;
+
+                foreach($productData as $singleProduct){
+                    $product_id = $singleProduct['product_id'];
+                    if($singleProduct['product_id'] == ''){
+                        $newProductData = [
+                            'product_name' => $singleProduct['product_name'],
+                            'unit' => '',
+                            'amount' => $singleProduct['amount'],
+                            'qty' => 100,
+                            'discount' => $singleProduct['discount'],
+                        ];
+                        
+                        $newProduct = new ProductMaster($newProductData);
+                        $newProduct->save();
+                        
+                        $product_id = $newProduct->id;
+                    }
+                    $product = array(
+                        'pay_id'=>$save->id,
+                        'product_id'=>$product_id,
+                        'amount'=>$singleProduct['amount'],
+                        'discount' => $singleProduct['discount'],
+                        'final_amt' => $singleProduct['final_amt'],
+                        'qty'=>$singleProduct['qty'],
+                    );
+                    $emi_save=new product_payments($product);
+                    $emi_save->save();
+                }
+            }
+            return response()->json(['type' => 'success', 'message' => 'Product Payment Added']);
+
+        }else{
+            return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+        }
+    }
+
+    public function UpdateMedicalHistories(Request $request){
+        $data = $request->validate([
+            'client_id' => 'required|string',
+        ]);
+        
+        $client_data = MedicalHistory::where('client_id', $data['client_id'])->first();
+        $data = $request->all();
+        
+        if($client_data != ''){
+            $client_id = $client_data['client_id'];
+            $row_id = $client_data['id'];
+            $response = MedicalHistory::where(['id' => $row_id, 'client_id'=> $client_id])->update($data);
+        }else{    
+            $client_id = $data['client_id'];
+            $response = MedicalHistory::create($data);
+        }
+                
+        if($response)
+            return response()->json(['type' => 'success', 'message' => 'Medical History Updated']);
+        else
+            return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+    }
+
+    public function downloadInvoice($invoiceId = 0, $client_id = 0){
+        if($invoiceId == 0 || $client_id == 0)
+            return response()->json(['type' => 'error', 'message' => 'Invalid Access']);
+
+        $data['data'] = PackagePayment::leftJoin('package_masters', 'package_payments.package_id', '=', 'package_masters.id')
+                        ->leftJoin('users','package_payments.client_id', '=', 'users.id')
+                        ->select('package_payments.*','package_masters.plan_name','users.name')
+                        ->where(['package_payments.id' => $invoiceId, 'package_payments.client_id' => $client_id])->first()->toArray();
+        $data['payment_installment'] = PaymentEmi::where(['pay_id' => $data['data']['id'], 'client_id' => $client_id])->get()->toArray();
+        $pdf = PDF::loadView('dev.invoice_template',$data)->setPaper('a4', 'landscape');
+        return $pdf->download('Invoice_Date_'.$data['data']['payment_date'].'.pdf');
+    }
+
+    public function viewInvoice($invoiceId = 0, $client_id = 0){
+        if($invoiceId == 0 || $client_id == 0)
+            return response()->json(['type' => 'error', 'message' => 'Invalid Access']);
+
+        $data['data'] = PackagePayment::leftJoin('package_masters', 'package_payments.package_id', '=', 'package_masters.id')
+                ->leftJoin('users','package_payments.client_id', '=', 'users.id')
+                ->select('package_payments.*','package_masters.plan_name','users.name')
+                ->where(['package_payments.id' => $invoiceId, 'package_payments.client_id' => $client_id])->first()->toArray();
+        $data['payment_installment'] = PaymentEmi::where(['pay_id' => $data['data']['id'], 'client_id' => $client_id])->get()->toArray();
+        return view('dev.invoice_template', $data);
     }
 }

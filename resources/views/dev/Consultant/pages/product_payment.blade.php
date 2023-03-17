@@ -84,6 +84,26 @@
 .hover-text-black:hover {
     color: black !important
 }
+
+.autocomplete-div {
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #d4d4d4;
+    margin-bottom: 0px;
+}
+
+#data {
+    max-height: 150px;
+    overflow-y: scroll;
+}
 </style>
 
 
@@ -122,9 +142,9 @@
                             </ul>
                             <div class="tab-content" id="myTabContent2">
                                 <!-- Payment -->
-                                <div class="tab-pane fade show active" id="payment" role="tabpanel"
+                                <div class="tab-pane fade show active" id="product_payment" role="tabpanel"
                                     aria-labelledby="contact-tab3">
-                                    @include('dev.consultant.components.payment')
+                                    @include('dev.consultant.components.product_payment')
                                 </div>
 
                             </div>
@@ -155,40 +175,17 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="">Package Date</label>
+                                        <label for="">Product Purchase Date</label>
                                         <input type="date" id="payment_date" name="payment_date"
-                                            placeholder="Enter Amount" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="">Package Type</label>
-                                        <select name="package_masters" id="package_masters" class="form-control">
-                                            <option value="flat">Flat Fee</option>
-                                            <option value="package_masters">Package</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 package_master d-none">
-                                    <div class="form-group">
-                                        <label for="">Select Package</label>
-                                        <select name="package_id" id="select_package" class="form-control"></select>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="">Select Duration</label>
-                                        <input type="text" id="duration" name="duration" placeholder="Enter Amount"
-                                            class="form-control">
-                                        </select>
+                                            value="{{ date('Y-m-d') }}" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="">Select Currency</label>
                                         <select name="currency" id="currency" class="form-control">
-                                            <option value="">USD</option>
-                                            <option value="">INR</option>
+                                            <option value="USD">USD</option>
+                                            <option value="INR">INR</option>
                                         </select>
                                     </div>
                                 </div>
@@ -196,41 +193,54 @@
 
                             <hr>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Select Product</label>
+                                        <input type="text" name="product[0][product_name]" id="product_name_0"
+                                            class="form-control" placeholder="Product Name"
+                                            oninput="getProductName(this,0)">
+                                        <input type="hidden" id="product_id_0" name="product[0][product_id]">
+                                        <div id="data-0"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="">Amount</label>
-                                        <input type="text" id="amount" name="amount" oninput="calculateFinalAmount()"
-                                            placeholder="Enter Amount" class="form-control">
+                                        <input type="text" id="amount_0" name="product[0][amount]"
+                                            oninput="calculateFinalAmount(0)" placeholder="Amount" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="">Discount %</label>
-                                        <input type="text" id="discount" oninput="calculateFinalAmount()"
-                                            name="discount" placeholder="Enter Discount %" class="form-control">
+                                        <input type="text" id="discount_0" oninput="calculateFinalAmount(0)"
+                                            name="product[0][discount]" placeholder="Discount %" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="">Qty</label>
+                                        <input type="text" id="qty_0" oninput="calculateFinalAmount(0)" value="1"
+                                            name="product[0][qty]" placeholder="QTY" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="">Final Amount</label>
-                                        <input type="text" name="final_amt" id="final_amt"
-                                            placeholder="Amount - (Discount %)" class="form-control" readonly>
+                                        <input type="text" name="product[0][final_amt]" id="final_amt_0"
+                                            placeholder="Final Amt" class="form-control" readonly>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
+                            <div id="product-div"></div>
                             <hr>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="">Start Date</label>
-                                        <input type="date" name="start_date" id="start_date" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="">End Date</label>
-                                        <input type="date" name="end_date" id="end_date" class="form-control">
+                                        <label for="">Final Amount</label>
+                                        <input type="text" name="final_amt" id="final_amt" placeholder="Final Amt"
+                                            class="form-control" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -255,41 +265,13 @@
                                     </div>
                                 </div>
                             </div>
-
-
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h6>Partial Payment ? <input type="checkbox" name="emi_checkbox" id="emi_checkbox"
-                                            onclick="showInstallmentDiv()">
-                                    </h6>
-                                </div>
-                                <div class="col-md-3 installmentDiv d-none">
-                                    <div class="form-group">
-                                        <label for="">No. of Installment</label>
-                                        <input type="text" name="no_emi" class="form-control"
-                                            oninput="appendInstalmentDiv()" placeholder="No. of Installment"
-                                            id="no_emi">
-                                    </div>
-                                </div>
-                                <div class="col-md-3 installmentDiv d-none">
-                                    <div class="form-group">
-                                        <label for="">Initial Payment</label>
-                                        <input type="text" name="down_payment" oninput="appendInstalmentDiv()"
-                                            class="form-control" placeholder="Enter Initial Amount" value="0"
-                                            id="down_payment">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card installmentDiv d-none">
-                                <i class="fa fa-plus" style="" id="add_container">Add Installment</i>
-                                <div class="card-body" id="main_container"></div>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="addNewProduct" onclick="addProductDiv(this)"
+                        data-key="0">Add
+                        Another Product</button>
                     <button type="button" class="btn btn-secondary" onclick="close_payment_modal()">Close</button>
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
@@ -309,7 +291,6 @@
 <script src="{{ asset('assets/js/page/features-setting-detail.js') }}"></script>
 
 <script>
-var user_data <?= !empty($user_data) && $user_data != 'null' ? '= '.$user_data : `{}` ?>;
 let user_id = `{{ $user_id }}`;
 var is_data_changed = false;
 var mobile = `{{ $mobile ?? '' }}`;
@@ -319,107 +300,114 @@ $('.nav-link').click(async function() {
     window.location.href = `{{ url('startAppointment/${mobile}/${url}') }} `
 });
 
-function showInstallmentDiv() {
-    if (document.getElementById('emi_checkbox').checked)
-        $('.installmentDiv').removeClass('d-none');
-    else {
-        $('#no_emi').val(0);
-        $('#no_emi').val(0);
-        $('#down_payment').val(0);
-        $('.installmentDiv').addClass('d-none');
-        $('.installation').remove();
-    }
+function setProductName(e) {
+    var key = $(e).attr('data-key');
+    var product_name = $(e).attr('data-name')
+    var amount = $(e).attr('data-amt')
+    var discount = $(e).attr('data-discount')
+    var id = $(e).attr('data-id')
+    $(`#product_name_${key}`).val(product_name)
+    $(`#amount_${key}`).val(amount)
+    $(`#discount_${key}`).val(discount)
+    $(`#qty_${key}`).val(1)
+    $(`#product_id_${key}`).val(id)
+    document.getElementById(`data-${key}`).innerHTML = '';
+    calculateFinalAmount()
+}
+
+function getProductName(e, key) {
+    var formdata = new FormData();
+    formdata.append('param', $(e).val());
+    formdata.append('key', key);
+    axios.post(`${url}/getProductName`, formdata).then(function(response) {
+        document.getElementById(`data-${key}`).innerHTML = '';
+        $(`#data-${key}`).append(response.data.html)
+    }).catch(function(err) {
+        show_Toaster(err.response.data.message, 'error')
+    })
 }
 
 function calculateFinalAmount() {
-    var amount = parseInt($('#amount').val() == '' ? 0 : $('#amount').val());
-    var discount = parseInt($('#discount').val() == '' ? 0 : $('#discount').val());
-    var final_amt = amount - (amount * discount / 100);
+    var keyCount = $('#addNewProduct').attr('data-key');
+    var final_amt = 0;
+    for (var i = 0; i <= keyCount; i++) {
+        var qty = parseInt($(`#qty_${i}`).val() || 0);
+        var discount = parseInt($(`#discount_${i}`).val() || 0) * qty;
+        var amount = parseInt($(`#amount_${i}`).val() || 0) * qty;
+        var final_price = amount - (amount * discount / 100);
+        final_amt = parseInt(final_amt) + parseInt(final_price);
+        $(`#final_amt_${i}`).val(final_price);
+    }
+
     $('#final_amt').val(final_amt);
 
-    if (document.getElementById('emi_checkbox').checked)
-        appendInstalmentDiv()
 }
 
-$('#add_container').click(function() {
-    $('#no_emi').val(parseInt($('#no_emi').val()) + 1)
-    appendInstalmentDiv()
-})
+function addProductDiv(e) {
+    var key = $(e).attr('data-key');
+    var newkey = parseInt(key) + 1;
+    var html = `<div class="row product_div_${newkey}">
+        
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="">Select Product</label>
+                <input type="text" name="product[${newkey}][product_name]" id="product_name_${newkey}"
+                    class="form-control" placeholder="Product Name"
+                    oninput="getProductName(this,${newkey})">
+                <input type="hidden" id="product_id_${newkey}" name="product[${newkey}][product_id]">
+                <div id="data-${newkey}"></div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="">Amount</label>
+                <input type="text" id="amount_${newkey}" name="product[${newkey}][amount]"
+                    oninput="calculateFinalAmount(${newkey})" placeholder="Amount" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="">Discount %</label>
+                <input type="text" id="discount_${newkey}" oninput="calculateFinalAmount(${newkey})"
+                    name="product[${newkey}][discount]" placeholder="Discount %" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="">Qty</label>
+                <input type="text" id="qty_${newkey}" oninput="calculateFinalAmount(${newkey})" value="1"
+                    name="product[${newkey}][qty]" placeholder="QTY" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="">Final Amount</label>
+                <input type="text" name="product[${newkey}][final_amt]" id="final_amt_${newkey}"
+                    placeholder="Final Amt" class="form-control" readonly>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <i class="fa fa-trash" onclick="removeProductDiv('${newkey}')"></i>
+            </div>
+        </div>        
+    </div>`
 
-function removeContainer(e) {
-    $(e).closest('.installation').remove();
-    $('#no_emi').val(parseInt($('#no_emi').val()) - 1)
-    appendInstalmentDiv()
+    $('#product-div').append(html)
+    $(e).attr('data-key', newkey)
 }
 
-$('#package_masters').change(function() {
 
-    if ($('#package_masters').val() == 'package_masters') {
-        $('.package_master').removeClass('d-none')
-        axios.get(`${url}/package_plan`).then(function(response) {
-            $('#select_package').empty();
-            (response.data).forEach((plans) => {
-                var html = '<option value=' + plans.id + ' data-duration=' + plans.duration +
-                    ' data-discount=' + plans.discount + ' data-currency=' + plans.currency +
-                    ' data-amount=' + plans.amount + ' data-tax=' + plans.tax + ' >' + plans
-                    .plan_name + '</option>';
-                $('#select_package').append(html);
-            });
-        }).catch(function(err) {
-            show_Toaster(err.response.data.message, 'error')
-        })
-    } else {
-        $('.package_master').addClass('d-none')
-    }
-})
-
-$('#select_package').change(function() {
-    $("#duration").empty();
-    $("#currency").empty();
-    $("#duration").val($('#select_package option:selected').data('duration'));
-    $("#currency").prepend("<option value=" + $('#select_package option:selected').data('currency') + ">" + $(
-        '#select_package option:selected').data('currency') + "</option>");
-    $('#discount').val($('#select_package option:selected').data('discount'));
-    $('#amount').val($('#select_package option:selected').data('amount'));
-
+function removeProductDiv(key) {
+    $(`.product_div_${key}`).remove();
     calculateFinalAmount()
-
-});
-
-
-function appendInstalmentDiv() {
-
-    $('.installation').remove();
-    var final_amt = parseInt($('#final_amt').val()) - parseInt($('#down_payment').val())
-    var emi = parseInt($('#no_emi').val());
-    var emi_amt = final_amt / emi;
-
-    for (var i = 1; i <= emi; i++) {
-        var html = `<div class="row installation">
-            <i class="fa fa-trash" onclick="removeContainer(this)"></i>
-            <div class="col-md-5">
-                <div class="form-group">
-                    <label for="">Installment Amount</label>
-                    <input type="text" name="installment[${i}][amount]" class="form-control" value='${parseFloat(emi_amt)}' placeholder="Enter Amount" id="">
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div class="form-group">
-                    <label for="">Installment Date</label>
-                    <input type="date" name="installment[${i}][date]" class="form-control" value='' placeholder="Enter Amount" id="" required>
-                </div>
-            </div>
-        </div>`;
-
-        $('#main_container').append(html);
-    }
 }
 
 $('#packageForm').submit(function(e) {
     e.preventDefault();
     var formdata = new FormData(this);
     formdata.append('client_id', user_id)
-    axios.post(`${url}/save_package`, formdata).then(function(response) {
+    axios.post(`${url}/save_product_payment`, formdata).then(function(response) {
         // handle success
         if (response.data.type === 'success') {
             show_Toaster(response.data.message, response.data.type);

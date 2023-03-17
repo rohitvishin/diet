@@ -69,7 +69,7 @@
                                     <li>{{ $single_data['height'] }}</li>
                                     <li class="p-2">
                                         <button class="btn btn-danger"
-                                            onclick="deleteData(this,'{{ $single_data['id'] }}','{{ $single_data['client_id'] }}','antro')">Delete</button>
+                                            onclick="deleteData(this,'{{ $single_data['id'] }}','{{ $single_data['client_id'] }}','anthro')">Delete</button>
                                         <button class="btn btn-primary"
                                             onclick="show_anthro_modal('{{ json_encode($single_data) }}', 'edit')">Edit</button>
                                     </li>
@@ -138,7 +138,7 @@
                 role="tabpanel" aria-labelledby="contact-tab">
 
                 <div class="col-md-12 mt-5">
-                    <button class="btn btn-primary" onclick="show_diet_modal()">Add New Diet Followed
+                    <button class="btn btn-primary" onclick="show_diet_followed_modal('', 'add')">Add New Diet Followed
                         Data</button>
                 </div>
                 <div class="card followUpAnthroCard border mt-5 p-0">

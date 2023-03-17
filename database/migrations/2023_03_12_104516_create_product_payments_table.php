@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('payment_emis', function (Blueprint $table) {
+        Schema::create('product_payments', function (Blueprint $table) {
             $table->id();
             $table->integer('pay_id');
-            $table->integer('client_id');
-            $table->integer('emi_amt');
-            $table->string('emi_date');
+            $table->integer('product_id');
+            $table->string('qty');
+            $table->integer('amount');
+            $table->integer('discount');
+            $table->integer('final_amt');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payment_emis');
+        Schema::dropIfExists('product_payments');
     }
 };
