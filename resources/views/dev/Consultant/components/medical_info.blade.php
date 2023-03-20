@@ -77,7 +77,7 @@
                         <label>Do you have any other medical problems that are not
                             covered above?</label>
                         <textarea class="form-control" name="medical_prob"
-                            value="{{ $user_data['medical_prob'] }}">{{ $user_data['medical_prob'] }}</textarea>
+                            value="{{ $user_data['medical_prob'] ?? '' }}">{{ $user_data['medical_prob'] ?? '' }}</textarea>
                     </div>
                 </div>
 
@@ -85,7 +85,7 @@
                     <div class="form-group">
                         <label>Do you have any food allergies?</label>
                         <textarea class="form-control" name="food_allergy"
-                            value="{{ $user_data['food_allergy'] }}">{{ $user_data['food_allergy'] }}</textarea>
+                            value="{{ $user_data['food_allergy'] ?? '' }}">{{ $user_data['food_allergy'] ?? '' }}</textarea>
                     </div>
                 </div>
 
@@ -93,7 +93,7 @@
                     <div class="form-group">
                         <label>Have you ever been hospitalised?</label>
                         <textarea class="form-control" name="hopitalised"
-                            value="{{ $user_data['hopitalised'] }}">{{ $user_data['hopitalised'] }}</textarea>
+                            value="{{ $user_data['hopitalised'] ?? '' }}">{{ $user_data['hopitalised']  ?? ''}}</textarea>
                     </div>
                 </div>
 
@@ -101,7 +101,7 @@
                     <div class="form-group">
                         <label>Past Surgery Details? </label>
                         <textarea class="form-control" name="past_surgery"
-                            value="{{ $user_data['past_surgery'] }}">{{ $user_data['past_surgery'] }}</textarea>
+                            value="{{ $user_data['past_surgery'] ?? '' }}">{{ $user_data['past_surgery']  ?? ''}}</textarea>
                     </div>
                 </div>
 
@@ -109,7 +109,7 @@
                     <div class="form-group">
                         <label>Father Side Medical Info</label>
                         <textarea class="form-control" name="father_side"
-                            value="{{ $user_data['father_side'] }}">{{ $user_data['fasther_side'] }}</textarea>
+                            value="{{ $user_data['father_side'] ?? '' }}">{{ $user_data['fasther_side']  ?? ''}}</textarea>
                     </div>
                 </div>
 
@@ -117,7 +117,7 @@
                     <div class="form-group">
                         <label>Mother Side Medical Info</label>
                         <textarea class="form-control" name="mother_side"
-                            value="{{ $user_data['mother_side'] }}">{{ $user_data['mother_side'] }}</textarea>
+                            value="{{ $user_data['mother_side']  ?? ''}}">{{ $user_data['mother_side']  ?? ''}}</textarea>
                     </div>
                 </div>
 
@@ -125,7 +125,7 @@
                     <div class="form-group">
                         <label>How often do you suffer from cold, cough or flu?</label>
                         <textarea id="6" class="form-control" name="cold_cough_flu"
-                            value="{{ $user_data['cold_cough_flu'] }}">{{ $user_data['cold_cough_flu'] }}</textarea>
+                            value="{{ $user_data['cold_cough_flu']  ?? ''}}">{{ $user_data['cold_cough_flu'] ?? '' }}</textarea>
                     </div>
                 </div>
 
@@ -133,7 +133,7 @@
                     <div class="form-group">
                         <label>Family doctor details?</label>
                         <textarea class="form-control" name="family_doc_details"
-                            value="{{ $user_data['family_doc_details'] }}">{{ $user_data['family_doc_details'] }}</textarea>
+                            value="{{ $user_data['family_doc_details'] ?? '' }}">{{ $user_data['family_doc_details'] ?? '' }}</textarea>
                     </div>
                 </div>
 
@@ -152,21 +152,21 @@
                     <div class="form-group">
                         <label>Year(s) of delivery.</label>
                         <textarea class="form-control" name="delivery_yrs"
-                            value="{{ $user_data['delivery_yrs'] }}">{{ $user_data['delivery_yrs'] }}</textarea>
+                            value="{{ $user_data['delivery_yrs'] ?? '' }}">{{ $user_data['delivery_yrs'] ?? '' }}</textarea>
                     </div>
                 </div>
                 <div class="col-md-7">
                     <div class="form-group">
                         <label>Period Timeline</label>
                         <textarea class="form-control" name="periods_timeline"
-                            value="{{ $user_data['periods_timeline'] }}">{{ $user_data['periods_timeline'] }}</textarea>
+                            value="{{ $user_data['periods_timeline'] ?? '' }}">{{ $user_data['periods_timeline'] ?? '' }}</textarea>
                     </div>
                 </div>
                 <div class="col-md-7">
                     <div class="form-group">
                         <label>Period Symtoms</label>
                         <textarea class="form-control" name="periods_symtoms"
-                            value="{{ $user_data['periods_symtoms'] }}">{{ $user_data['periods_symtoms'] }}</textarea>
+                            value="{{ $user_data['periods_symtoms'] ?? '' }}">{{ $user_data['periods_symtoms'] ?? '' }}</textarea>
                     </div>
                 </div>
             </div>

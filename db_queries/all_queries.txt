@@ -63,3 +63,729 @@ Minor', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1'), ('32', 'Others', '4'
             -- Appointment Master
             
             INSERT INTO `appointments` (id, client_id, client_mobile, appointment_date, start_time, end_time, created_at, updated_at, status) VALUES  ('1', '1', '7066498174', '2023-02-27', '7:45 PM', '7:45 PM', '', '', '1'), ('2', '8', '7055498174', '2023-02-28', '7:45 PM', '8:45 PM', '', '', '1'), ('3', '8', '7055498174', '2023-02-28', '7:00 PM', '8:00 PM', '', '', '1');
+
+            -- Food Master 
+            
+            INSERT INTO `diet_template_masters` (id, diet_chart_date, plan_name, plan_intro, diet_chart_template, created_at, updated_at) VALUES  ('1', '2023-03-19', 'Weight Loss + Blood Pressure', 'Weight Loss + Blood Pressure Diet charts', '<p style="margin-bottom:13px"><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:11.0000pt"><span style="font-family:Calibri">DATE</span></span></b><span style="font-size:11.0000pt"><span style="font-family:Calibri">:</span></span></span></span></span></p>
+
+<p style="margin-bottom:13px"><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:11.0000pt"><span style="font-family:Calibri">DIET CHART FOR </span></span></b></span></span></span></p>
+
+<p style="margin-bottom:13px"><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:11.0000pt"><span style="font-family:Calibri">DIET CHART: WEIGHT LOSS</span></span></b></span></span></span></p>
+
+<p style="margin-bottom:13px"><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:11.0000pt"><span style="font-family:Calibri">SUPPORTING</span></span></b></span></span></span></p>
+
+<table class="MsoTableGrid" style="border-collapse:collapse; border:none; font-family:&quot;Times New Roman&quot;; font-size:13px">
+	<tbody>
+		<tr>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:1px solid black; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:1px solid black; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:11.0000pt"><span style="font-family:Calibri">Starting</span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:1px solid black; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:11.0000pt"><span style="font-family:Calibri">Target</span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:1px solid black; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:11.0000pt"><span style="font-family:Calibri">Ideal </span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:11.0000pt"><span style="font-family:Calibri">Date</span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:11.0000pt"><span style="font-family:Calibri">Weight</span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:11.0000pt"><span style="font-family:Calibri">Fat</span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:11.0000pt"><span style="font-family:Calibri">BMI</span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+			</td>
+			<td style="border-bottom:1px solid black; width:176px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p style="margin-bottom:13px">&nbsp;</p>
+
+<table class="MsoTableGrid" style="border-collapse:collapse; border:none; font-family:&quot;Times New Roman&quot;; font-size:13px">
+	<tbody>
+		<tr>
+			<td style="border-bottom:1px solid black; width:148px; padding:0px 7px 0px 7px; border-top:1px solid black; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:12.0000pt"><span style="font-family:Arial">EARLY MORNING</span></span></b></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">6:30 am</span></span></span></span></span></p>
+
+			<p>&nbsp;</p>
+			</td>
+			<td style="border-bottom:1px solid black; width:540px; padding:0px 7px 0px 7px; border-top:1px solid black; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><span style="font-size:12.0000pt"><span style="font-family:Arial"><span style="font-weight:bold">COCKTAIL</span></span></span></b><span style="font-size:12.0000pt"><span style="font-family:Arial">:1 glass warm water + 5-6 drops of lime + 1 tsp of sunth (dry ginger)+ &frac12; tsp Ajawain + salt + pepper </span></span></span></span></p>
+
+			<p>&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:149px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:12.0000pt"><span style="font-family:Arial">BREAKFAST</span></span></b></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">7:30 am </span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:556px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:12.0000pt"><span style="font-family:Arial">CARBS: </span></span></b><span style="font-size:12.0000pt"><span style="font-family:Arial">(CHOOSE any 1 option from below)</span></span></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial"><font face="Arial">&frac12; cup (100ml) mueseli </font></span></span></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">3/4</span></span><sup><span style="font-size:12.0000pt"><span style="font-family:Arial"><span style="vertical-align:super">th</span></span></span></sup><span style="font-size:12.0000pt"><span style="font-family:Arial">&nbsp;cup (150ml) cornflakes </span></span></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">1 &frac12; khakhra </span></span></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial"><font face="Arial">&frac12; cup (100ml) poha </font></span></span></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial"><font face="Arial">&frac12; cup (100ml) oats upma </font></span></span></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">1 oats chilla </span></span></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Futura-BookOblique">1 slice whole </span></span><b><span style="font-size:12.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold">wheat</span></span></span></b><span style="font-size:12.0000pt"><span style="font-family:Futura-BookOblique">&nbsp;bread (without butter can use slice of tomato, cucumber and green chutney to make an open sandwich) </span></span></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial"><font face="Arial">&frac12; cup (100ml) sevaiya upma </font></span></span></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">2 rawa idli </span></span></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">2 thepla </span></span></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">3 marie biscuits </span></span></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">1 stuffed paratha </span></span></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="margin-left:48px; text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="margin-left:48px; text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="margin-left:24px; text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="margin-left:24px; text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="margin-left:24px; text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><span style="font-size:12.0000pt"><span style="font-family:Arial">PROTEINS : </span></span></b><span style="font-size:12.0000pt"><span style="font-family:Arial">(CHOOSE 1)</span></span></span></span></p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">1 cup(200 ml) skimmed milk curd</span></span></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">1 cup (200 ml) skimmed milk</span></span></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="background:#ffff00"><span style="font-family:Arial">3/4</span></span></span><sup><span style="font-size:12.0000pt"><span style="background:#ffff00"><span style="font-family:Arial"><span style="vertical-align:super">th</span></span></span></span></sup><span style="font-size:12.0000pt"><span style="background:#ffff00"><span style="font-family:Arial">&nbsp;cup (150ml) of cooked moong </span></span></span></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="background:#ffff00"><span style="font-family:Arial">3/4</span></span></span><sup><span style="font-size:12.0000pt"><span style="background:#ffff00"><span style="font-family:Arial"><span style="vertical-align:super">th</span></span></span></span></sup><span style="font-size:12.0000pt"><span style="background:#ffff00"><span style="font-family:Arial">&nbsp;cup (150ml) of cooked moong dal &nbsp;</span></span></span></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="margin-left:48px; text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p>&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:149px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:12.0000pt"><span style="font-family:Arial">MID-MORNING</span></span></b></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">10:00 am</span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:556px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<ul>
+				<li class="17" style="margin-left:8px"><span style="font-size:12.0000pt"><span style="font-family:Arial">1 glass vegetable juice</span></span></li>
+			</ul>
+
+			<p style="margin-left:24px"><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">3 combinations</span></span></span></span></span></p>
+
+			<p style="margin-left:24px"><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">(1.tomato+ celery+ cucumber ;2. carrot+ tomato +spinach; 3.cucumber+ coriander +spinach)</span></span></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p style="margin-left:24px"><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">*Season veg. juice with mint leaves &nbsp;+ rock salt + pepper +lime juice,etc </span></span></span></span></span></p>
+
+			<p style="margin-left:24px">&nbsp;</p>
+
+			<p style="margin-left:24px">&nbsp;</p>
+
+			<p style="margin-left:24px"><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">OR </span></span></span></span></span></p>
+
+			<p style="margin-left:24px">&nbsp;</p>
+
+			<p style="margin-left:24px"><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">1 cup freshly cut salad </span></span></span></span></span></p>
+
+			<p style="margin-left:24px">&nbsp;</p>
+
+			<p style="margin-left:24px">&nbsp;</p>
+
+			<p style="margin-left:24px"><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">+ 1 tsp of flaxseeds + 1 tsp of chia seeds </span></span></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:149px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:12.0000pt"><span style="font-family:Arial">LUNCH</span></span></b></span></span></span></p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">1:30 pm</span></span></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold">(Use &frac14;th red cup to measure flour used for preparation of 1 roti) </span></span></span></b></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold">(1/4</span></span></span></b><b><sup><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="vertical-align:super">th</span></span></span></span></sup></b><b><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold">&nbsp;red cup = 50 ml)</span></span></span></b></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique">(Avoid Maize and Maize products)</span></span></b></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+			</td>
+			<td style="border-bottom:1px solid black; width:556px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">PRE-LUNCH(12:30pm)</span></span></span></span></span></p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial"><font face="Arial">&frac12; tsp methi seeds soaked in 1 cup of water</font></span></span></span></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><u><span style="font-size:12.0000pt"><span style="font-family:Arial"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">Any ONE Option from below:</span></span></span></span></span></u></b></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><u><span style="font-size:14.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">CARBS</span></span></span></span></span></u></b><b><span style="font-size:14.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold">: </span></span></span></b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single">Any </span></span></span></span></u><b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">ONE </span></span></span></span></span></u></b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single">Option from below:</span></span></span></span></u></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique">2 phulka without ghee, (each chapatti should measure 6 &frac12; &nbsp;&rdquo; in diameter, flour can be of wheat, jowar, ragi)</span></span></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="margin-left:48px; text-align:justify">&nbsp;</p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique">3/4</span></span><sup><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="vertical-align:super">th</span></span></span></sup><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique">&nbsp;cup (150ml) cooked oraganic &nbsp;brown rice </span></span></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="margin-left:48px; text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="margin-left:48px; text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold">+</span></span></span></b>&nbsp;<b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">PROTEIN</span></span></span></span></span></u></b><b><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold">:</span></span></span></b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single">&nbsp;Any </span></span></span></span></u><b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">ONE </span></span></span></span></span></u></b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single">Option from below:</span></span></span></span></u></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<ul>
+				<li class="MsoHeader" style="margin-left:8px"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><font face="Futura-BookOblique">&frac34;th cup (150 ml) of cooked Dal of medium consistency (dals include toor, moong, chana, urad, masoor) </font></span></span></span></span></li>
+			</ul>
+
+			<p class="MsoHeader" style="margin-left:24px">&nbsp;</p>
+
+			<p class="MsoHeader" style="margin-left:24px">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique">+ </span></span></b><b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">VEGETABLE</span></span></span></span></span></u></b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single">:</span></span></span></span></u>&nbsp;</span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoHeader"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique">1 cup (200 ml) of cooked vegetable </span></span><b><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique">(</span></span></b><b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">do not use carrot, corn, potato, arwi, suran, beetroot, raw banana and jackfruit)</span></span></span></span></span></u></b>&nbsp;</span></span></p>
+
+			<p class="MsoHeader" style="margin-left:48px">&nbsp;</p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoHeader"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><b><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold">+ </span></span></span></b><b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">PROTEIN (MILK PRODUCTS):</span></span></span></span></span></u></b>&nbsp;</span></span></p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<ul>
+				<li class="MsoHeader" style="margin-left:8px"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique">150 ml of fresh curd or as buttermilk or as raita (veg or fruit raita only)</span></span></span></span></li>
+			</ul>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold">+ </span></span></span></b><b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">FATS: </span></span></span></span></span></u></b><b>&nbsp;&nbsp;</b></span></span></p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:12px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique">1 tsp. of oil </span></span></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:149px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:12.0000pt"><span style="font-family:Arial">TEA-TIME</span></span></b></span></span></span></p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">4 pm</span></span></span></span></span></p>
+
+			<p>&nbsp;</p>
+			</td>
+			<td style="border-bottom:1px solid black; width:556px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">1 beverage (CHOOSE 1)</span></span></span></span></span></p>
+
+			<ul>
+				<li class="17" style="margin-left:8px"><span style="font-size:12.0000pt"><span style="font-family:Arial">1 cup &nbsp;obicure green tea </span></span></li>
+				<li class="17" style="margin-left:8px"><span style="font-size:12.0000pt"><span style="font-family:Arial">1 cup tea with dash of milk &nbsp;</span></span></li>
+			</ul>
+
+			<p class="17">&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single">+ Any </span></span></span></span></u><b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">ONE </span></span></span></span></span></u></b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single">Option from below:</span></span></span></span></u></span></span></p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single">1 &frac12; khakhra </span></span></span></span></u></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single">3 minis </span></span></span></span></u></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single"><font face="Futura-BookOblique">&frac12; cup (100ml) poha </font></span></span></span></span></u></span></span></li>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single">1 khkhara </span></span></span></span></u></span></span></li>
+			</ul>
+
+			<p>&nbsp;</p>
+
+			<p style="margin-left:24px">&nbsp;</p>
+
+			<p style="margin-left:24px"><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">+ 1 fruit </span></span></span></span></span></p>
+
+			<p style="margin-left:24px">&nbsp;</p>
+
+			<p style="margin-left:24px"><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">+ 6 almonds + 1 tsp flaxseeds </span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:149px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:12.0000pt"><span style="font-family:Arial">LATE-EVENING</span></span></b></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">6 pm</span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid black; width:556px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p>&nbsp;</p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:11.0000pt"><span style="font-family:Calibri">&nbsp;&nbsp;1 glass(150 ml) of buttermilk</span></span></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid black; width:149px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:12.0000pt"><span style="font-family:Arial">DINNER</span></span></b></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">8:30 pm</span></span></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold">Please avoid papad, table salt, chutney, pickles, and canned and</span></span></span></b><b>&nbsp;</b><b><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold">processed food.</span></span></span></b></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial"><span style="position:absolute; margin-left:-5px; margin-top:14px; width:595.0000px"><span style="z-index:1"><span style="height:2.0000px"><img src="file:///C:UsersSHRIKUNJAppDataLocalTempksohtml14748wps1.png" style="width:595px; height:2px" /></span></span></span></span></span></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:12.0000pt"><span style="font-family:Arial">Plan 2 </span></span></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+
+			<p>&nbsp;</p>
+			</td>
+			<td style="border-bottom:1px solid black; width:556px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><b><u><span style="font-size:12.0000pt"><span style="font-family:Arial"><span style="text-decoration:underline"><span style="text-underline:single">OPTION 1</span></span></span></span></u></b><span style="font-size:12.0000pt"><span style="font-family:Arial">&nbsp;:</span></span></span></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<ul>
+				<li class="17" style="margin-left:8px"><span style="font-size:12.0000pt"><span style="font-family:Arial">Same as lunch</span></span></li>
+			</ul>
+
+			<p>&nbsp;</p>
+
+			<p class="17">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><u><span style="font-size:12.0000pt"><span style="font-family:Arial"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">OPTION 2 :</span></span></span></span></span></u></b></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">2-3 homemade &nbsp;&nbsp;Idlis </span></span><b><span style="font-size:12.0000pt"><span style="font-family:Arial">(no coconut chutney)</span></span></b></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="margin-left:52px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">+ 1 &frac12; cups of sambhar</span></span></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><u><span style="font-size:12.0000pt"><span style="font-family:Arial"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">OPTION 3:</span></span></span></span></span></u></b></span></span></p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<ul>
+				<li class="MsoHeader" style="margin-left:8px"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">1 cup of phada khichdi</span></span></span></span></li>
+			</ul>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoHeader"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><b><u><span style="font-size:12.0000pt"><span style="font-family:Arial"><span style="text-decoration:underline"><span style="text-underline:single">OPTION 4:</span></span></span></span></u></b></span></span></p>
+
+			<ul>
+				<li class="MsoHeader" style="margin-left:8px"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">1 open Sandwich </span></span></span></span></li>
+			</ul>
+
+			<p class="MsoHeader" style="margin-left:24px"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">+ 1 cup of lentil + &nbsp;vegetable soup</span></span></span></span></p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoHeader"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><b><u><span style="font-size:12.0000pt"><span style="font-family:Arial"><span style="text-decoration:underline"><span style="text-underline:single">OPTION 5:</span></span></span></span></u></b></span></span></p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:12px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><font face="Futura-BookOblique">&frac12; &nbsp;cup of pitla</font></span></span></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="margin-left:28px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique">+ 1 jowar roti</span></span></span></span></p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoHeader"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><b><u><span style="font-size:12.0000pt"><span style="font-family:Arial"><span style="text-decoration:underline"><span style="text-underline:single">OPTION 6:</span></span></span></span></u></b></span></span></p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:12px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique">1 Chole Wrap</span></span></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 1 bowl of &nbsp;vegetable soup</span></span></span></span></p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoHeader"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><b><u><span style="font-size:12.0000pt"><span style="font-family:Arial"><span style="text-decoration:underline"><span style="text-underline:single">OPTION 7:</span></span></span></span></u></b></span></span></p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<ul>
+				<li class="MsoHeader" style="margin-left:8px"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial"><font face="Arial">&frac12; pita pouch / 1 wrap </font></span></span></span></span></li>
+			</ul>
+
+			<p class="MsoHeader"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 1/3 rd cup (80ml) hummus </span></span></span></span></p>
+
+			<p class="MsoHeader"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:12.0000pt"><span style="font-family:Arial">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 1 cup salad </span></span></span></span></p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoHeader">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;">&nbsp;&nbsp;<u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single">Any </span></span></span></span></u><b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">ONE </span></span></span></span></span></u></b><u><span style="font-size:13.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single">Option from below:</span></span></span></span></u></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoHeader"><span style="font-size:10pt"><span style="font-family:&quot;Times New Roman&quot;">&nbsp;<b><u><span style="font-size:11.0000pt"><span style="font-family:Arial"><span style="text-decoration:underline"><span style="text-underline:single">OPTION 1:</span></span></span></span></u></b></span></span></p>
+
+			<p>&nbsp;</p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:12px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><u><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique"><span style="text-decoration:underline"><span style="text-underline:single">1 moong dal chilla(use 1/3 rd cup batter)</span></span></span></span></u></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ &nbsp;&frac34; th cup of cooked vegetable</span></span></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ &frac12; &nbsp;cup (100 ml) of milk as fresh curd</span></span></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><u><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">OPTION 2</span></span></span></span></span></u></b></span></span></p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:12px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">1 bowl of vegetable soup</span></span></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="margin-left:52px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">+ &nbsp;2 tbspn raw dal add in soup while cooking</span></span></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ &frac12; &nbsp;cup (100 ml) of milk as fresh curd</span></span></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><u><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">OPTION 3</span></span></span></span></span></u></b></span></span></p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:12px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique"><font face="Futura-BookOblique">&frac12; cup of cooked sprouts</font></span></span></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 1 bowl of vegetable soup of 1 cup of stir-fry vegetable</span></span></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ &frac12; cup (100 ml) of milk as fresh curd</span></span></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><u><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">OPTION 4:</span></span></span></span></span></u></b></span></span></p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:12px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">3 piece dal dhokla</span></span></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="margin-left:28px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">+3/4 th cup vegetable</span></span></span></span></p>
+
+			<p class="MsoBodyText2" style="margin-left:28px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">+150 ml curd</span></span></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><u><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">OPTION 5:</span></span></span></span></span></u></b></span></span></p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:12px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">2 dahi wada</span></span></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="margin-left:28px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">&nbsp;&nbsp;+1 cup soup/salad</span></span></span></span></p>
+
+			<p class="MsoBodyText2" style="margin-left:28px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">&nbsp;&nbsp;+150 ml curd</span></span></span></span></p>
+
+			<p class="MsoBodyText2" style="margin-left:28px; text-align:justify">&nbsp;</p>
+
+			<p class="MsoBodyText2" style="text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><b><u><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique"><span style="font-weight:bold"><span style="text-decoration:underline"><span style="text-underline:single">OPTION 6:</span></span></span></span></span></u></b></span></span></p>
+
+			<p class="MsoBodyText2" style="text-align:justify">&nbsp;</p>
+
+			<ul>
+				<li class="MsoBodyText2" style="margin-left:8px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">1 cup stir fry vegetables or 1 cup soup</span></span></span></span></li>
+			</ul>
+
+			<p class="MsoBodyText2" style="margin-left:48px; text-align:justify"><span style="font-size:12pt"><span style="font-family:&quot;Times New Roman&quot;"><span style="font-size:11.0000pt"><span style="font-family:Futura-BookOblique">+ 3 pc of tofu</span></span></span></span></p>
+
+			<p class="MsoBodyText2" style="margin-left:28px; text-align:justify">&nbsp;</p>
+
+			<p class="MsoHeader">&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="border-bottom:1px solid black; width:705px; padding:0px 7px 0px 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top">
+			<p><span style="font-size:11pt"><span style="line-height:114%"><span style="font-family:Calibri"><span style="font-size:11.0000pt"><span style="font-family:Calibri">1 glass warm water + 5-6 drops of lime + 1/4</span></span><sup><span style="font-size:11.0000pt"><span style="font-family:Calibri"><span style="vertical-align:super">th</span></span></span></sup><span style="font-size:11.0000pt"><span style="font-family:Calibri">&nbsp;tsp of sunth (dry ginger) + salt + pepper</span></span></span></span></span></p>
+			</td>
+		</tr>
+	</tbody>
+</table>', '2023-03-19 17:55:12', '2023-03-19 17:56:26');

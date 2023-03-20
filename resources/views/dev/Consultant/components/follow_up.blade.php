@@ -269,9 +269,10 @@
                     <div class="card-body">
                         <div class="row">
                             <table class="table table-bordered table-sm">
-                                <thead class="bg-primary">
+                                <thead class="bg-primary text-white">
                                     <th>Name of medication</th>
                                     <th>Time To Take</th>
+                                    <th>Type</th>
                                     <th>Action</th>
                                 </thead>
                                 <tbody>
@@ -280,6 +281,7 @@
                                     <tr>
                                         <td>{{ $single_data['medicine_name'] }}</td>
                                         <td>{{ $single_data['time_to_take'] }}</td>
+                                        <td>{{ $single_data['medicine_type'] }}</td>
                                         <td>
                                             <button class="btn btn-danger"
                                                 onclick="deleteData(this,'{{ $single_data['id'] }}','{{ $single_data['client_id'] }}','medicine')">Delete</button>

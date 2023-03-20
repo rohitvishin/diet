@@ -197,7 +197,7 @@ var suburl = `{{ $suburl ?? '' }}`;
                 </button>
             </div>
             <form id="anthroform">
-                <div class="modal-body">
+                <div class="modal-body" style="height:350px;overflow:auto;">
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-sm table-bordered">
@@ -359,13 +359,17 @@ var suburl = `{{ $suburl ?? '' }}`;
                     <br>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="">Name of Medicine</label>
+                            <label for="">Medicine</label>
                             <input type="text" name="medicine_name" id="medicine_name" class="form-control"
                                 placeholder="Name of Medicine">
                         </div>
-                        <div class="col-md-6">
-                            <label for="">Time To Take</label>
+                        <div class="col-md-3">
+                            <label for="">Time</label>
                             <input type="text" name="time_to_take" id="time_to_take" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Type</label>
+                            <input type="text" name="medicine_type" id="type" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -391,7 +395,7 @@ var suburl = `{{ $suburl ?? '' }}`;
                 </button>
             </div>
             <form id="diet_followedform">
-                <div class="modal-body">
+                <div class="modal-body" style="height:350px;overflow:auto;">
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-sm table-bordered">
@@ -700,9 +704,7 @@ function add_new_medicine_feilds(e) {
 }
 
 function close_medicine_modal() {
-    document.getElementById("medicine_form").reset();
-    $('.new_medicine_feild').remove();
-    $('#add_new_medicine_feild').val(0);
+    document.getElementById("medicineform").reset();
     $('.medicine').modal('hide');
 }
 
@@ -773,7 +775,7 @@ function show_lab_modal(json, type) {
     } else if (type == 'edit') {
         json = JSON.parse(json)
         $(`form#labform :input`).each(function() {
-            var input = $(this); // This is the jquery object of the input, do what you will
+            var input = $(this);
             if ($(this).attr('type') != 'button') {
                 $(this).val(json[$(this).attr("name")]);
 
@@ -796,7 +798,7 @@ let user_id = `{{ $user_id }}`;
 var is_data_changed = false;
 var mobile = `{{ $mobile ?? '' }}`;
 
-$('.nav-link').click(async function() {
+$('.appointment-link').click(async  function() {
     var url = $(this).attr('data-url');
     window.location.href = `{{ url('startAppointment/${mobile}/${url}/${suburl}') }} `
 });

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('client_id');
             $table->string('medicine_name');
             $table->string('time_to_take');
+            $table->string('medicine_type');
             $table->timestamps();
         });
     }

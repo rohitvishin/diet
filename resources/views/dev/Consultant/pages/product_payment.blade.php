@@ -295,7 +295,7 @@ let user_id = `{{ $user_id }}`;
 var is_data_changed = false;
 var mobile = `{{ $mobile ?? '' }}`;
 
-$('.nav-link').click(async function() {
+$('.appointment-link').click(async  function() {
     var url = $(this).attr('data-url');
     window.location.href = `{{ url('startAppointment/${mobile}/${url}') }} `
 });
@@ -332,7 +332,7 @@ function calculateFinalAmount() {
     var final_amt = 0;
     for (var i = 0; i <= keyCount; i++) {
         var qty = parseInt($(`#qty_${i}`).val() || 0);
-        var discount = parseInt($(`#discount_${i}`).val() || 0) * qty;
+        var discount = parseInt($(`#discount_${i}`).val() || 0);
         var amount = parseInt($(`#amount_${i}`).val() || 0) * qty;
         var final_price = amount - (amount * discount / 100);
         final_amt = parseInt(final_amt) + parseInt(final_price);

@@ -25,9 +25,9 @@
                         <td>{{ $single_data['amount'] }}</td>
                         <td>{{ $single_data['qty'] }}</td>
                         <td>{{ $single_data['final_amt'] }}</td>
-                        <td><a href="{{ url('/download_invoice/'.$single_data['id'].'/'.$single_data['client_id']) }}"
+                        <td><a href="{{ url('/download_product_invoice/'.$single_data['pay_id'].'/'.$single_data['client_id']) }}"
                                 class="btn btn-primary text-white">Invoice</a>
-                            <a href="{{ url('/view_invoice/'.$single_data['id'].'/'.$single_data['client_id']) }}"
+                            <a href="{{ url('/view_product_invoice/'.$single_data['pay_id'].'/'.$single_data['client_id']) }}"
                                 class="btn btn-primary text-white">View</a>
                             <a class="btn btn-danger text-white"
                                 onclick="show_remark_modal('{{ json_encode($single_data) }}','update')">Delete</a>

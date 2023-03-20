@@ -19,14 +19,14 @@
                     @foreach($user_data as $single_data)
                     <tr>
                         <td>{{ date('d M Y',strtotime($single_data['payment_date'])) }}</td>
-                        <td>{{ $single_data['package_id'] }}</td>
+                        <td>{{ $single_data['plan_name'] }}</td>
                         <td>{{ $single_data['final_amt'] }}</td>
                         <td><a href="{{ url('/download_invoice/'.$single_data['id'].'/'.$single_data['client_id']) }}"
                                 class="btn btn-primary text-white">Invoice</a>
                             <a href="{{ url('/view_invoice/'.$single_data['id'].'/'.$single_data['client_id']) }}"
                                 class="btn btn-primary text-white">View</a>
                             <a class="btn btn-danger text-white"
-                                onclick="show_remark_modal('{{ $single_data }}','update')">Delete</a>
+                                onclick="show_remark_modal('{{ json_encode($single_data) }}','update')">Delete</a>
                         </td>
                     </tr>
                     @endforeach

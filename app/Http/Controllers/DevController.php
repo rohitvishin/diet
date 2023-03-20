@@ -24,6 +24,7 @@ use App\Models\medicine_data;
 use App\Models\PackagePayment;
 use App\Models\PaymentEmi;
 use App\Models\product_payments;
+use App\Models\diet_recall_data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -149,14 +150,38 @@ class DevController extends Controller
             return view('dev.Auth.login', $data);
         }
         else{
-        $data['clientData'] = User::take(10)->orderBy('id', 'desc')->get();
-        $data['appointMentData'] = Appointment::orderBy('appointment_date', 'desc')->take(10)->get();
-        $data['todayAppointment'] = Appointment::where('appointment_date', date('Y-m-d'))->orderBy('appointment_date', 'desc')->take(10)->get();
-        $data['payemntData'] = array();
-        $data['pendingPayment'] = array();
-        $data['url'] = 'dashboard';
-        
-        return view('dev.home', $data);
+
+            $data['totalClient'] = User::all()->count();
+            $data['totalAppointment'] = User::all()->count();
+            $data['totalPayment'] = PackagePayment::where('package_payments.package_id' , '!=' , '-1')->sum('final_amt');
+            $data['totalProductPayment'] = PackagePayment::where('package_payments.package_id' , -1)->sum('final_amt');
+            $data['pendingEMICount'] = Appointment::where('appointment_date', date('Y-m-d'))->count();
+            $data['todayAppointmentCount'] = Appointment::where('appointment_date', date('Y-m-d'))->count();
+            
+            $data['clientData'] = User::take(10)->orderBy('id', 'desc')->get();
+            $data['appointMentData'] = Appointment::orderBy('appointment_date', 'desc')->take(10)->get();
+            $data['todayAppointment'] = Appointment::where('appointment_date', date('Y-m-d'))->orderBy('appointment_date', 'desc')->take(10)->get();
+            
+            $data['payemntData'] = PackagePayment::leftJoin('package_masters', 'package_payments.package_id', '=', 'package_masters.id')
+            ->leftJoin('users','package_payments.client_id', '=', 'users.id')
+            ->where('package_payments.package_id' , '!=' , '-1')
+            ->select('package_payments.*','package_masters.plan_name','users.name')->get()->toArray();
+
+            $data['pendingPayment'] = PaymentEmi::leftJoin('package_payments', 'payment_emis.pay_id', '=', 'package_payments.id')
+            ->leftJoin('package_masters', 'package_payments.package_id', '=', 'package_masters.id')
+            ->leftJoin('users','package_payments.client_id', '=', 'users.id')
+            ->select('package_payments.*','package_masters.plan_name','payment_emis.emi_amt','payment_emis.emi_date','users.name')->get()->toArray();
+            
+            $data['productPayment'] = PackagePayment::leftJoin('product_payments','product_payments.pay_id', '=', 'package_payments.id')
+            ->leftJoin('product_masters','product_masters.id', '=', 'product_payments.product_id')
+            ->leftJoin('users','package_payments.client_id', '=', 'users.id')
+            ->select('product_payments.*', 'package_payments.payment_date','package_payments.client_id','product_masters.product_name','users.name')
+            ->where(['package_payments.package_id' => -1])
+            ->get()->toArray();
+            
+            $data['url'] = 'dashboard';
+            
+            return view('dev.home', $data);
         }
     }
 
@@ -194,7 +219,7 @@ class DevController extends Controller
         
         $data['url'] = $page;
         $data['suburl'] = $subpage;
-
+        $data['patient_details'] = $this->getPatientBasicDetails($data['user_id']);
         return view('dev.consultant.pages.'.$page, $data);
         
     }
@@ -214,18 +239,23 @@ class DevController extends Controller
             $data['data']['others'] = MedicalMaster::where('type', 'others')->get();
             $data['user_data'] = MedicalHistory::where('client_id', $userid)->first();
         }
-        else if($page == 'package_payment')
-            $data['user_data'] = PackagePayment::where('client_id', $userid)->get();
+        else if($page == 'package_payment'){
+            $data['user_data'] = PackagePayment::leftJoin('package_masters', 'package_payments.package_id', '=', 'package_masters.id')
+                    ->leftJoin('users','package_payments.client_id', '=', 'users.id')
+                    ->select('package_payments.*','package_masters.plan_name','users.name')
+                    ->where(['package_payments.client_id' => $userid])
+                    ->where('package_payments.package_id', '!=', -1)
+                    ->get()->toArray();
+        }
         else if($page == 'diet_chart'){
-            $data['user_data'] = diet_chart_data::where('client_id', $userid)->orderBy('diet_chart_date','desc')->get();
-            $data['data'] = DietTemplateMaster::orderBy('created_at', 'desc')->get();
+            $data['user_data'] = diet_chart_data::where('client_id', $userid)->orderBy('diet_chart_date','asc')->get();
+            $data['data'] = optional(DietTemplateMaster::orderBy('created_at', 'asc')->get())->toArray();
         }
         else if($page == 'diet_adding'){
-            $data['user_data'] = diet_chart_data::where('client_id', $userid)->orderBy('diet_chart_date','desc')->get();
-            $data['data'] = DietTemplateMaster::orderBy('created_at', 'desc')->get();
+            $data['user_data'] = diet_recall_data::where('client_id', $userid)->orderBy('diet_recall_date','asc')->get();
         }
         else if($page == 'remark')
-            $data['user_data'] = Remarks::where('client_id', $userid)->orderBy('remark_date','desc')->get();
+            $data['user_data'] = Remarks::where('client_id', $userid)->orderBy('remark_date','asc')->get();
         else if($page == 'follow_up'){
             if($subpage == 'anthropometric')
                 $data['user_data'] = Anthropometric_data::where('client_id', $userid)->get()->toArray();
@@ -243,7 +273,7 @@ class DevController extends Controller
                 
         }
         else if($page == 'documents')
-            $data['user_data'] = Documents::where('client_id', $userid)->orderBy('document_date','desc')->get();
+            $data['user_data'] = Documents::where('client_id', $userid)->orderBy('document_date','asc')->get();
 
         else if($page == 'product_payment'){
             $data['user_data'] = PackagePayment::leftJoin('product_payments','product_payments.pay_id', '=', 'package_payments.id')
@@ -253,7 +283,14 @@ class DevController extends Controller
             ->get()->toArray();
         }
 
-        // dd($data);
+        return $data;
+    }
+
+    public function getPatientBasicDetails($userid){
+        $data = [];
+        $data['user_details'] = User::select('name','age','gender','purpose','purpose_other')->where('id', $userid)->first()->toArray();
+        $data['anthro'] = optional(Anthropometric_data::select('height','weight','anthro_date')->where('client_id', $userid)->orderBy('anthro_date', 'desc')->limit(1)->first())->toArray();
+        $data['medical_info'] = optional(MedicalHistory::select('chronic_diseases','bone_health','gastro_instestinal','others')->where('client_id', $userid)->limit(1)->first())->toArray();
         return $data;
     }
 
@@ -764,7 +801,7 @@ class DevController extends Controller
     }
 
     public function DietTemplateMasterList(){
-        $data['user_data'] = DietTemplateMaster::orderBy('id', 'desc')->get()->toArray();
+        $data['data'] = DietTemplateMaster::orderBy('id', 'desc')->get()->toArray();
         $data['url'] = 'diet_template_master';
         return view('dev.masters.diettemplatemaster', $data);
     }
@@ -852,7 +889,8 @@ class DevController extends Controller
     // Consultation Update Functions
     public function UpdateBasicDetails(Request $request)
     {
-        $data=$request->validate([
+        
+        $request->validate([
             'name' => 'required|string',
             'mobile' => 'required|numeric',
             'gender' => 'required|string',
@@ -866,11 +904,12 @@ class DevController extends Controller
             ]);
         }
 
-        $data['purpose_other'] = $request->input('purpose_other');
-            
+        $data = $request->all();
+        
+        unset($data['client_id']);
         if($request->input('client_id') > 0){
             $data['updated_at'] = date('Y-m-d H:i:s');
-            $response=User::where('id',$request->input('client_id'))->update($data);
+            $response = User::where('id',$request->input('client_id'))->update($data);
         }else{
             $data['created_at'] = date('Y-m-d H:i:s');
             $response = new User($data);
@@ -1083,6 +1122,48 @@ class DevController extends Controller
             return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
     }
 
+    public function updateDietChartTemplateMaster(Request $request){
+
+        if($request->process == 'delete'){
+            $request->validate([
+                'id' => 'required',
+            ]);
+
+            $user = DietTemplateMaster::where(['id' => $request->id]);
+
+            if($user->delete())
+                return response()->json(['type' => 'success', 'message' => 'Diet template Deleted']);
+            else
+                return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+
+        }
+        
+        $data = $request->validate([
+            'plan_name' => 'required|string',
+            'plan_intro' => 'required|string',
+            'diet_chart_template' => 'required|string',
+        ]);
+
+        if($request->input('process') == 'update'){
+            $request->validate([
+                'id' => 'required|string'
+            ]);
+        }
+            
+        if($request->process == 'update'){
+            $data['updated_at'] = date('Y-m-d H:i:s');
+            $response = DietTemplateMaster::where(['id' => $request->id])->update($data);
+        }else{
+            $data['created_at'] = date('Y-m-d H:i:s');
+            $response = new DietTemplateMaster($data);
+        }
+        
+        if($request->process == 'add' ? $response->save() : $response)
+            return response()->json(['type' => 'success', 'message' => 'Diet Template '.($request->process == 'add' ? 'Added' : 'Updated')]);
+        else
+            return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+    }
+
     public function UpdateDocuments(Request $request){
 
         $data = $request->validate([
@@ -1207,6 +1288,8 @@ class DevController extends Controller
                         
                         $product_id = $newProduct->id;
                     }
+                    
+                    ProductMaster::where('id', $product_id)->decrement('qty');
                     $product = array(
                         'pay_id'=>$save->id,
                         'product_id'=>$product_id,
@@ -1215,6 +1298,7 @@ class DevController extends Controller
                         'final_amt' => $singleProduct['final_amt'],
                         'qty'=>$singleProduct['qty'],
                     );
+                    
                     $emi_save=new product_payments($product);
                     $emi_save->save();
                 }
@@ -1262,15 +1346,139 @@ class DevController extends Controller
         return $pdf->download('Invoice_Date_'.$data['data']['payment_date'].'.pdf');
     }
 
-    public function viewInvoice($invoiceId = 0, $client_id = 0){
-        if($invoiceId == 0 || $client_id == 0)
+    public function viewInvoice($invoice_id = 0, $client_id = 0){
+        if($invoice_id == 0 || $client_id == 0)
             return response()->json(['type' => 'error', 'message' => 'Invalid Access']);
 
         $data['data'] = PackagePayment::leftJoin('package_masters', 'package_payments.package_id', '=', 'package_masters.id')
                 ->leftJoin('users','package_payments.client_id', '=', 'users.id')
                 ->select('package_payments.*','package_masters.plan_name','users.name')
-                ->where(['package_payments.id' => $invoiceId, 'package_payments.client_id' => $client_id])->first()->toArray();
+                ->where(['package_payments.id' => $invoice_id, 'package_payments.client_id' => $client_id])->first()->toArray();
         $data['payment_installment'] = PaymentEmi::where(['pay_id' => $data['data']['id'], 'client_id' => $client_id])->get()->toArray();
         return view('dev.invoice_template', $data);
+    }
+
+    public function downloadProductInvoice($invoice_id = 0, $client_id = 0){
+        $data['data'] = PackagePayment::leftJoin('product_payments','product_payments.pay_id', '=', 'package_payments.id')
+        ->leftJoin('product_masters','product_masters.id', '=', 'product_payments.product_id')
+        ->select('product_payments.*', 'package_payments.payment_date','package_payments.client_id','product_masters.product_name')
+        ->where(['package_payments.client_id' => $client_id, 'package_payments.package_id' => -1, 'package_payments.id' => $invoice_id, 'package_payments.client_id' => $client_id])
+        ->get()->toArray();
+        $pdf = PDF::loadView('dev.product_invoice',$data)->setPaper('a4', 'landscape');
+        return $pdf->download('Invoice_Date_'.$data['data'][0]['payment_date'].'.pdf');
+    }
+
+    public function viewProductInvoice($invoice_id = 0, $client_id = 0){
+        $data['data'] = PackagePayment::leftJoin('product_payments','product_payments.pay_id', '=', 'package_payments.id')
+        ->leftJoin('product_masters','product_masters.id', '=', 'product_payments.product_id')
+        ->select('product_payments.*', 'package_payments.payment_date','package_payments.client_id','product_masters.product_name')
+        ->where(['package_payments.client_id' => $client_id, 'package_payments.package_id' => -1, 'package_payments.id' => $invoice_id, 'package_payments.client_id' => $client_id])
+        ->get()->toArray();
+        return view('dev.product_invoice', $data);
+    }
+
+    public function export_diet_chart($invoice_id = 0){
+        if($invoice_id == 0)
+            return response()->json(['type' => 'error', 'message' => 'Invalid Access']);
+
+        $data['data'] = diet_chart_data::where('id', $invoice_id)->first()->toArray();
+        $pdf = PDF::loadView('dev.diet_chart',$data)->setPaper('A4', 'portrait');
+        
+        // $pdf->output();
+        // $canvas = $pdf->getDomPDF()->getCanvas();
+        
+        // $height = $canvas->get_height();
+        // $width = $canvas->get_width();
+        // $canvas->page_text($width/5, $height/2, "Mansi's Clinic", null,60, array(0,0,0),2,2,-27);
+
+        return $pdf->download('Diet_Chart_date_'.$data['data']['diet_chart_date'].'.pdf');
+    }
+
+    public function print_diet_chart($invoice_id = 0){
+        if($invoice_id == 0)
+            return response()->json(['type' => 'error', 'message' => 'Invalid Access']);
+
+        $data['data'] = diet_chart_data::where('id', $invoice_id)->first()->toArray();
+        return view('dev.print_diet_chart', $data);
+    }
+
+    public function addClient(Request $request){
+        
+        $data = $request->validate([
+            'name' => 'required|string',
+            'mobile' => 'required|numeric|unique:users',
+        ]);
+
+        $user = new User($data);
+        if($user->save())
+            return response()->json(['message' => 'Client Added','type' => 'success',]);
+        else
+            return response()->json(['message' => 'Something went wrong, tray again later','type' => 'error',]);
+    }
+
+    public function getTemplateData(Request $request){
+        $where = $request->validate([
+            'id' => 'required',
+        ]);
+        
+        $templatedata = optional(DietTemplateMaster::where($where)->first())->toArray();
+        return response()->json(['message' => 'Client Added','type' => 'success','templatedata' => $templatedata]);
+    }
+
+    public function updateDietRecallData(Request $request){
+        if($request->process == 'delete'){
+            $request->validate([
+                'id' => 'required',
+                'client_id' => 'required',
+            ]);
+
+            $user = diet_recall_data::where(['id' => $request->id, 'client_id' => $request->client_id]);
+
+            if($user->delete())
+                return response()->json(['type' => 'success', 'message' => 'Diet Recall Deleted']);
+            else
+                return response()->json(['type' => 'error', 'message' => 'Oops! Process Failed']);
+
+        }
+        
+        $request->validate([
+            'diet_recall_date' => 'required'
+        ]);
+
+        $data = [
+            'diet_recall_date' => $request->diet_recall_date,
+            'client_id' => $request->client_id,
+            'meal_out' => $request->meal_out,
+            'water_intake' => $request->water_intake,
+            'fried_food' => $request->fried_food,
+            'choclate' => $request->choclate,
+            'juices' => $request->juices,
+            'junk_foods' => $request->junk_foods,
+            'bread' => $request->bread,
+            'potato' => $request->potato,
+            'chesse' => $request->chesse,
+            'oil' => $request->oil,
+            'ghee' => $request->ghee,
+            'alcohol' => $request->alcohol,
+            'smoking' => $request->smoking,
+            'crabs' => $request->crabs,
+            'protien' => $request->protien,
+            'milk' => $request->milk,
+            'veg' => $request->veg,
+            'fruits' => $request->fruits,
+            'protien_powder' => $request->protien_powder,
+            'nuts' => $request->nuts,
+        ];
+        
+        if($request->process == 'add')
+            $response = diet_recall_data::create($data);
+        else
+            $response = diet_recall_data::where(['id' => $request->id, 'client_id' => $request->client_id])->update($data);
+
+        if($response)
+            return response()->json(['message' => 'Client Added','type' => 'success']);
+        else
+            return response()->json(['message' => 'Something went wrong, tray again later','type' => 'error']);
+        
     }
 }

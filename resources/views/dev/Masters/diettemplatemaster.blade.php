@@ -94,6 +94,27 @@
 .hover-text-black:hover {
     color: black !important
 }
+
+.ck.ck-word-count {
+    display: flex;
+    justify-content: flex-end;
+
+    background: var(--ck-color-toolbar-background);
+    padding: var(--ck-spacing-small) var(--ck-spacing-standard);
+    border: 1px solid var(--ck-color-toolbar-border);
+    border-top-width: 0;
+    border-radius: 0 0 var(--ck-border-radius);
+}
+
+.ck.ck-word-count .ck-word-count__words {
+    margin-right: var(--ck-spacing-standard);
+}
+
+.ck.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,
+.ck.ck-rounded-corners .ck-source-editing-area textarea {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
 </style>
 
 
@@ -109,12 +130,10 @@
             <div class="section-header-back">
                 <a href="features-settings.html" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
             </div>
-            <h1>Start Appointment</h1>
+            <h1>Template Master</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                <div class="breadcrumb-item active"><a href="#">Settings</a></div>
-                <div class="breadcrumb-item">Appointment</div>
-                <div class="breadcrumb-item">{{ ucwords($url) }}</div>
+                <div class="breadcrumb-item">Create Template Master</div>
             </div>
         </div>
 
@@ -124,14 +143,54 @@
                 <div class="col-12 col-sm-12 col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Client Diet Template Master</h4>
+                            <h4>Template Master</h4>
                         </div>
                         <div class="card-body">
+                            <ul class="nav nav-pills" id="myTab3" role="tablist">
+                            </ul>
                             <div class="tab-content" id="myTabContent2">
                                 <!-- Documents -->
                                 <div class="tab-pane fade show active" id="diet_chart" role="tabpanel"
                                     aria-labelledby="contact-tab3">
-                                    @include('dev.consultant.components.diet_chart')
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <button class="btn btn-primary"
+                                                onclick="show_diet_chart_modal('','add')">Add New Diet Plan</button>
+                                        </div>
+                                        <div class="card-body">
+
+                                            <div class="row">
+                                                <table class="table table-bordered table-sm">
+                                                    <thead class="bg-primary">
+                                                        <th>Plan Name</th>
+                                                        <th>Plan Intro</th>
+                                                        <th>Action</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (count($data) > 0)
+                                                        @foreach ($data as $single_data)
+                                                        <tr>
+                                                            <td>{{ $single_data['plan_name'] }}</td>
+                                                            <td>{{ $single_data['plan_intro'] }}</td>
+                                                            <td>
+
+                                                                <a class="btn btn-primary text-white"
+                                                                    onclick="show_diet_chart_modal('{{ $single_data['id'] }}','{{ $single_data['plan_name'] }}','{{ $single_data['plan_intro'] }}',`{{ $single_data['diet_chart_template'] }}`,'update')">Edit</a>
+                                                                <a class="btn btn-danger text-white"
+                                                                    onclick="delete_diet_chart('{{ $single_data['id'] }}','delete')">Delete</a>
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+                                                        @else
+                                                        <th>No Data Found..
+                                                        </th>
+                                                        @endif
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
@@ -159,14 +218,6 @@
                 <div class="modal-body medicine-modal-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="">Diet Date</label>
-                            <input type="date" name="diet_chart_date" id="diet_chart_date" class="form-control"
-                                placeholder="Enter Client Name">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-6">
                             <label for="">Plan Name</label>
                             <input type="text" name="plan_name" id="plan_name" class="form-control"
                                 placeholder="Enter Plan Name">
@@ -178,7 +229,7 @@
                         </div>
                         <div class="col-md-12">
                             <label for="">Dite Plan</label>
-                            <textarea id="diet_chart_template" name="diet_chart_template" rows="10" cols="80"
+                            <textarea id="diet_chart_template" name="diet_chart_template" rows="20" cols="80"
                                 class="form-control"></textarea>
                         </div>
 
@@ -205,19 +256,147 @@
 <script src="{{ asset('assets/modules/codemirror/mode/javascript/javascript.js') }}"></script>
 
 <!-- Page Specific JS File -->
+<script src="https://cdn.ckbox.io/ckbox/latest/ckbox.js"></script>
 <script src="{{ asset('assets/js/page/features-setting-detail.js') }}"></script>
 
 <script>
 // Document Tab
 
-CKEDITOR.replace('diet_chart_template');
+CKEDITOR.addCss(
+    'body.document-editor { margin: 0.5cm auto; border: 1px #D3D3D3 solid; border-radius: 5px; background: white; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); }' +
+    'body.document-editor, div.cke_editable { width: 700px; padding: 1cm 2cm 2cm; } ' +
+    'body.document-editor table td > p, div.cke_editable table td > p { margin-top: 0; margin-bottom: 0; padding: 4px 0 3px 5px;} ' +
+    'blockquote { font-family: sans-serif, Arial, Verdana, "Trebuchet MS", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; } '
+);
 
-function show_diet_chart_modal(id, diet_chart_date, plan_name, plan_intro, diet_chart_template, process) {
+CKEDITOR.replace('diet_chart_template', {
+    allowedContent: true,
+    toolbarGroups: [{
+            name: 'document',
+            groups: ['mode', 'document', 'doctools']
+        },
+        {
+            name: 'clipboard',
+            groups: ['clipboard', 'undo']
+        },
+        {
+            name: 'editing',
+            groups: ['find', 'selection', 'spellchecker', 'editing']
+        },
+        {
+            name: 'forms',
+            groups: ['forms']
+        },
+        {
+            name: 'paragraph',
+            groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']
+        },
+        {
+            name: 'links',
+            groups: ['links']
+        },
+        {
+            name: 'insert',
+            groups: ['insert']
+        },
+        {
+            name: 'styles',
+            groups: ['styles']
+        },
+        {
+            name: 'basicstyles',
+            groups: ['basicstyles', 'cleanup']
+        },
+        {
+            name: 'colors',
+            groups: ['colors']
+        },
+        {
+            name: 'tools',
+            groups: ['tools']
+        },
+        {
+            name: 'others',
+            groups: ['others']
+        },
+        {
+            name: 'about',
+            groups: ['about']
+        }
+    ],
+    contentsCss: [
+        'http://cdn.ckeditor.com/4.20.2/full-all/contents.css',
+        'https://ckeditor.com/docs/ckeditor4/4.20.2/examples/assets/css/pastefromword.css'
+    ],
+
+    // This is optional, but will let us define multiple different styles for multiple editors using the same CSS file.
+    bodyClass: 'document-editor',
+    stylesSet: [
+        /* Inline Styles */
+        {
+            name: 'Marker',
+            element: 'span',
+            attributes: {
+                'class': 'marker'
+            }
+        },
+        {
+            name: 'Cited Work',
+            element: 'cite'
+        },
+        {
+            name: 'Inline Quotation',
+            element: 'q'
+        },
+
+        /* Object Styles */
+        {
+            name: 'Special Container',
+            element: 'div',
+            styles: {
+                padding: '5px 10px',
+                background: '#eee',
+                border: '1px solid #ccc'
+            }
+        },
+        {
+            name: 'Compact table',
+            element: 'table',
+            attributes: {
+                cellpadding: '8',
+                cellspacing: '0',
+                border: '1',
+                bordercolor: '#ccc'
+            },
+            styles: {
+                'border-collapse': 'collapse'
+            }
+        },
+        {
+            name: 'Borderless Table',
+            element: 'table',
+            styles: {
+                'border-style': 'hidden',
+                'background-color': '#E6E6FA'
+            }
+        },
+        {
+            name: 'Square Bulleted List',
+            element: 'ul',
+            styles: {
+                'list-style-type': 'square'
+            }
+        }
+    ],
+    removeDialogTabs: 'image:advanced;link:advanced',
+
+});
+
+function show_diet_chart_modal(id, plan_name, plan_intro, diet_chart_template, process) {
     document.getElementById("diet_plan_form").reset();
     if (process == 'add')
         $('.diet_plan').modal('show');
     else {
-        $('#diet_chart_date').val(diet_chart_date)
         $('#plan_name').val(plan_name)
         $('#plan_intro').val(plan_intro)
         CKEDITOR.instances.diet_chart_template.setData(diet_chart_template)
@@ -237,9 +416,8 @@ function delete_diet_chart(id, client_id, process) {
     if (confirm("Are you sure you want to do that?")) {
         var formdata = new FormData();
         formdata.append('id', id);
-        formdata.append('client_id', client_id);
         formdata.append('process', process);
-        axios.post(`${url}/update_diet_chart_template_data`, formdata, {
+        axios.post(`${url}/updateDietChartTemplateMaster`, formdata, {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -254,15 +432,15 @@ function delete_diet_chart(id, client_id, process) {
         })
     }
 }
+
 $('#saveDietTemplate').on('click', async function() {
 
     let data = new FormData(document.getElementById('diet_plan_form'));
-    data.append('client_id', user_id);
     data.append('process', $('#saveDietTemplate').attr('data-process'));
     data.append('id', $('#saveDietTemplate').attr('data-id'));
     data.append('diet_chart_template', CKEDITOR.instances.diet_chart_template.getData());
 
-    axios.post(`${url}/update_diet_chart_template_data`, data, {
+    axios.post(`${url}/updateDietChartTemplateMaster`, data, {
         headers: {
             'Content-Type': 'application/json',
         }

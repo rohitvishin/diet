@@ -18,7 +18,7 @@ var user_id = <?= $user_id ?>;
 <script src="{{ asset('assets/js/page/features-setting-detail.js') }}"></script>
 
 <script>
-$('.nav-link').click(async function() {
+$('.appointment-link').click(async  function() {
     var url = $(this).attr('data-url');
     var error = 0;
     var data = user_data;

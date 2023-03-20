@@ -94,6 +94,27 @@
 .hover-text-black:hover {
     color: black !important
 }
+
+.ck.ck-word-count {
+    display: flex;
+    justify-content: flex-end;
+
+    background: var(--ck-color-toolbar-background);
+    padding: var(--ck-spacing-small) var(--ck-spacing-standard);
+    border: 1px solid var(--ck-color-toolbar-border);
+    border-top-width: 0;
+    border-radius: 0 0 var(--ck-border-radius);
+}
+
+.ck.ck-word-count .ck-word-count__words {
+    margin-right: var(--ck-spacing-standard);
+}
+
+.ck.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,
+.ck.ck-rounded-corners .ck-source-editing-area textarea {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
 </style>
 
 
@@ -157,10 +178,16 @@
                                                             <td>{{ $single_data['diet_chart_date'] }}</td>
                                                             <td>{{ $single_data['plan_name'] }}</td>
                                                             <td>{{ $single_data['plan_intro'] }}</td>
-                                                            <td><a class="btn btn-danger text-white"
-                                                                    onclick="delete_diet_chart('{{ $single_data['id'] }}','{{ $single_data['client_id'] }}','delete')">Delete</a>
+                                                            <td>
+
                                                                 <a class="btn btn-primary text-white"
                                                                     onclick="show_diet_chart_modal('{{ $single_data['id'] }}','{{ $single_data['diet_chart_date'] }}','{{ $single_data['plan_name'] }}','{{ $single_data['plan_intro'] }}',`{{ $single_data['diet_chart_template'] }}`,'update')">Edit</a>
+                                                                <a class="btn btn-primary text-white"
+                                                                    href="{{ url('print_diet_chart/'.$single_data['id']) }}">Print</a>
+                                                                <a class="btn btn-primary text-white"
+                                                                    href="{{ url('export_diet_chart/'.$single_data['id']) }}">PDF</a>
+                                                                <a class="btn btn-danger text-white"
+                                                                    onclick="delete_diet_chart('{{ $single_data['id'] }}','{{ $single_data['client_id'] }}','delete')">Delete</a>
                                                             </td>
                                                         </tr>
                                                         @endforeach
@@ -200,15 +227,18 @@
             <form action="" id="diet_plan_form">
                 <div class="modal-body medicine-modal-body">
                     <div class="row">
-                        @if($data->isEmpty() && count($data) > 0)
-                        <select name="template_id" id="template_id">
-                            @foreach($data as $singleTemplate)
-                            <option value=""></option>
-                            @endforeach
-                        </select>
-                        @endif
-                    </div>
-                    <div class="row">
+                        <div class="col-md-6">
+                            @if(count($data) > 0)
+                            <label for="">Select Template</label>
+                            <select name="template_id" id="template_id" onchange="getTemplateData(this)"
+                                class="form-control">
+                                <option value="-1">Select Template</option>
+                                @foreach($data as $singleTemplate)
+                                <option value="{{ $singleTemplate['id'] }}">{{ $singleTemplate['plan_name'] }}</option>
+                                @endforeach
+                            </select>
+                            @endif
+                        </div>
                         <div class="col-md-6">
                             <label for="">Diet Date</label>
                             <input type="date" name="diet_chart_date" id="diet_chart_date" class="form-control"
@@ -227,9 +257,11 @@
                             <input type="text" id="plan_intro" name="plan_intro" class="form-control"
                                 placeholder="Enter Plan Intro">
                         </div>
+                    </div><br>
+                    <div class="row">
                         <div class="col-md-12">
                             <label for="">Dite Plan</label>
-                            <textarea id="diet_chart_template" name="diet_chart_template" rows="10" cols="80"
+                            <textarea id="diet_chart_template" name="diet_chart_template" rows="20" cols="80"
                                 class="form-control"></textarea>
                         </div>
 
@@ -256,12 +288,141 @@
 <script src="{{ asset('assets/modules/codemirror/mode/javascript/javascript.js') }}"></script>
 
 <!-- Page Specific JS File -->
+<script src="https://cdn.ckbox.io/ckbox/latest/ckbox.js"></script>
 <script src="{{ asset('assets/js/page/features-setting-detail.js') }}"></script>
 
 <script>
 // Document Tab
 
-CKEDITOR.replace('diet_chart_template');
+CKEDITOR.addCss(
+    'body.document-editor { margin: 0.5cm auto; border: 1px #D3D3D3 solid; border-radius: 5px; background: white; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); }' +
+    'body.document-editor, div.cke_editable { width: 700px; padding: 1cm 2cm 2cm; } ' +
+    'body.document-editor table td > p, div.cke_editable table td > p { margin-top: 0; margin-bottom: 0; padding: 4px 0 3px 5px;} ' +
+    'blockquote { font-family: sans-serif, Arial, Verdana, "Trebuchet MS", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; } '
+);
+
+CKEDITOR.replace('diet_chart_template', {
+    allowedContent: true,
+    toolbarGroups: [{
+            name: 'document',
+            groups: ['mode', 'document', 'doctools']
+        },
+        {
+            name: 'clipboard',
+            groups: ['clipboard', 'undo']
+        },
+        {
+            name: 'editing',
+            groups: ['find', 'selection', 'spellchecker', 'editing']
+        },
+        {
+            name: 'forms',
+            groups: ['forms']
+        },
+        {
+            name: 'paragraph',
+            groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']
+        },
+        {
+            name: 'links',
+            groups: ['links']
+        },
+        {
+            name: 'insert',
+            groups: ['insert']
+        },
+        {
+            name: 'styles',
+            groups: ['styles']
+        },
+        {
+            name: 'basicstyles',
+            groups: ['basicstyles', 'cleanup']
+        },
+        {
+            name: 'colors',
+            groups: ['colors']
+        },
+        {
+            name: 'tools',
+            groups: ['tools']
+        },
+        {
+            name: 'others',
+            groups: ['others']
+        },
+        {
+            name: 'about',
+            groups: ['about']
+        }
+    ],
+    contentsCss: [
+        'http://cdn.ckeditor.com/4.20.2/full-all/contents.css',
+        'https://ckeditor.com/docs/ckeditor4/4.20.2/examples/assets/css/pastefromword.css'
+    ],
+
+    // This is optional, but will let us define multiple different styles for multiple editors using the same CSS file.
+    bodyClass: 'document-editor',
+    stylesSet: [
+        /* Inline Styles */
+        {
+            name: 'Marker',
+            element: 'span',
+            attributes: {
+                'class': 'marker'
+            }
+        },
+        {
+            name: 'Cited Work',
+            element: 'cite'
+        },
+        {
+            name: 'Inline Quotation',
+            element: 'q'
+        },
+
+        /* Object Styles */
+        {
+            name: 'Special Container',
+            element: 'div',
+            styles: {
+                padding: '5px 10px',
+                background: '#eee',
+                border: '1px solid #ccc'
+            }
+        },
+        {
+            name: 'Compact table',
+            element: 'table',
+            attributes: {
+                cellpadding: '8',
+                cellspacing: '0',
+                border: '1',
+                bordercolor: '#ccc'
+            },
+            styles: {
+                'border-collapse': 'collapse'
+            }
+        },
+        {
+            name: 'Borderless Table',
+            element: 'table',
+            styles: {
+                'border-style': 'hidden',
+                'background-color': '#E6E6FA'
+            }
+        },
+        {
+            name: 'Square Bulleted List',
+            element: 'ul',
+            styles: {
+                'list-style-type': 'square'
+            }
+        }
+    ],
+    removeDialogTabs: 'image:advanced;link:advanced',
+
+});
 
 function show_diet_chart_modal(id, diet_chart_date, plan_name, plan_intro, diet_chart_template, process) {
     document.getElementById("diet_plan_form").reset();
@@ -281,6 +442,32 @@ function show_diet_chart_modal(id, diet_chart_date, plan_name, plan_intro, diet_
 
 function close_diet_plan_modal() {
     $('.diet_plan').modal('hide');
+}
+
+function getTemplateData(e) {
+    selectElement = document.querySelector('#template_id');
+    id = selectElement.value;
+    if (id != '-1') {
+        var formdata = new FormData();
+        formdata.append('id', id);
+        axios.post(`${url}/getTemplateData`, formdata, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(function(response) {
+            // handle success
+            data = response.data.templatedata
+
+            $('#diet_chart_date').val(data.diet_chart_date)
+            $('#plan_name').val(data.plan_name)
+            $('#plan_intro').val(data.plan_intro)
+            CKEDITOR.instances.diet_chart_template.setData(data.diet_chart_template)
+
+        }).catch(function(err) {
+            console.log(err);
+            show_Toaster(err.data.message, 'error')
+        })
+    }
 }
 
 function delete_diet_chart(id, client_id, process) {
@@ -333,7 +520,7 @@ let user_id = `{{ $user_id }}`;
 var is_data_changed = false;
 var mobile = `{{ $mobile ?? '' }}`;
 
-$('.nav-link').click(async function() {
+$('.appointment-link').click(async  function() {
     var url = $(this).attr('data-url');
     window.location.href = `{{ url('startAppointment/${mobile}/${url}') }} `
 });

@@ -283,7 +283,7 @@ $(document).ready(function() {
 });
 
 
-$('.nav-link').click(async function() {
+$('.appointment-link').click(async  function() {
     var url = $(this).attr('data-url');
     window.location.href = `{{ url('startAppointment/${mobile}/${url}') }} `
 });

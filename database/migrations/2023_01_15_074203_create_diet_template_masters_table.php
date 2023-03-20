@@ -17,9 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('plan_name');
             $table->string('plan_intro');
-            $table->string('diet_plan');
+            $table->longtext('diet_chart_template');
             $table->timestamps();
-            $table->tinyInteger('status')->default(1);
         });
     }
 

@@ -30,16 +30,6 @@
     padding-inline-start: 5px
 }
 
-.modal-xl {
-    max-width: 800px
-}
-
-@media (min-width:1200px) {
-    .modal-xl {
-        max-width: 1140px
-    }
-}
-
 .nav .nav-item {
     display: grid;
     justify-content: center;
@@ -133,49 +123,194 @@
                             </ul>
                             <div class="tab-content" id="myTabContent2">
                                 <!-- Documents -->
-                                <div class="tab-pane fade show active" id="diet_chart" role="tabpanel"
+                                <div class="tab-pane fade show active" id="diet_recall" role="tabpanel"
                                     aria-labelledby="contact-tab3">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <button class="btn btn-primary"
-                                                onclick="show_diet_chart_modal('','add')">Add New Diet Plan</button>
-                                        </div>
+                                    <button class="btn btn-primary btn-sm"
+                                        onclick="show_diet_recall_modal('','add')">Add
+                                        New
+                                        Diet Recall</button>
+                                    <div class="card followUpAnthroCard">
                                         <div class="card-body">
+                                            <div class="row flex-row flex-nowrap">
 
-                                            <div class="row">
-                                                <table class="table table-bordered table-sm">
-                                                    <thead class="bg-primary">
-                                                        <th>Date</th>
-                                                        <th>Plan Name</th>
-                                                        <th>Plan Intro</th>
-                                                        <th>Action</th>
-                                                    </thead>
-                                                    <tbody>
-                                                        @if (count($user_data) > 0)
-                                                        @foreach ($user_data as $single_data)
-                                                        <tr>
-                                                            <td>{{ $single_data['diet_chart_date'] }}</td>
-                                                            <td>{{ $single_data['plan_name'] }}</td>
-                                                            <td>{{ $single_data['plan_intro'] }}</td>
-                                                            <td><a class="btn btn-danger text-white"
-                                                                    onclick="delete_diet_chart('{{ $single_data['id'] }}','{{ $single_data['client_id'] }}','delete')">Delete</a>
-                                                                <a class="btn btn-primary text-white"
-                                                                    onclick="show_diet_chart_modal('{{ $single_data['id'] }}','{{ $single_data['diet_chart_date'] }}','{{ $single_data['plan_name'] }}','{{ $single_data['plan_intro'] }}',`{{ $single_data['diet_chart_template'] }}`,'update')">Edit</a>
-                                                            </td>
-                                                        </tr>
-                                                        @endforeach
-                                                        @else
-                                                        <th>No Data Found..
-                                                        </th>
-                                                        @endif
-                                                    </tbody>
-                                                </table>
+                                                @if(count($user_data) > 0)
+                                                @foreach($user_data as $single_data)
+                                                <div class="col-md-6 followUpAnthro">
+                                                    <ul>
+                                                        <table class="table table-sm table-bordered">
+                                                            <th colspan='4' class="bg-primary text-white text-center">
+                                                                {{ $single_data['diet_recall_date'] }}
+                                                            </th>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">#</td>
+                                                                <td class="bg-primary text-white">In a week</td>
+                                                                <td class="bg-primary text-white">How much you Consume
+                                                                </td>
+                                                                <td class="bg-primary text-white">What you consume</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Meal Out Freq</td>
+                                                                <td>{{ $single_data['meal_out']['in_week'] }}</td>
+                                                                <td>{{ $single_data['meal_out']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['meal_out']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Water Intake</td>
+                                                                <td>{{ $single_data['water_intake']['in_week'] }}</td>
+                                                                <td>{{ $single_data['water_intake']['you_consume'] }}
+                                                                </td>
+                                                                <td>{{ $single_data['water_intake']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Fried Food</td>
+                                                                <td>{{ $single_data['fried_food']['in_week'] }}</td>
+                                                                <td>{{ $single_data['fried_food']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['fried_food']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">
+                                                                    Choclate/Desserts/Methai</td>
+                                                                <td>{{ $single_data['choclate']['in_week'] }}</td>
+                                                                <td>{{ $single_data['choclate']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['choclate']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Juices/Canned
+                                                                    food/Coldrinks</td>
+                                                                <td>{{ $single_data['juices']['in_week'] }}</td>
+                                                                <td>{{ $single_data['juices']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['juices']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Junk food / Chats</td>
+                                                                <td>{{ $single_data['junk_foods']['in_week'] }}</td>
+                                                                <td>{{ $single_data['junk_foods']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['junk_foods']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Breads</td>
+                                                                <td>{{ $single_data['bread']['in_week'] }}</td>
+                                                                <td>{{ $single_data['bread']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['bread']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Potatoes</td>
+                                                                <td>{{ $single_data['potato']['in_week'] }}</td>
+                                                                <td>{{ $single_data['potato']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['potato']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Chesse</td>
+                                                                <td>{{ $single_data['chesse']['in_week'] }}</td>
+                                                                <td>{{ $single_data['chesse']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['chesse']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Oil</td>
+                                                                <td>{{ $single_data['oil']['in_week'] }}</td>
+                                                                <td>{{ $single_data['oil']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['oil']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Ghee/Butter</td>
+                                                                <td>{{ $single_data['ghee']['in_week'] }}</td>
+                                                                <td>{{ $single_data['ghee']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['ghee']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Alcohol</td>
+                                                                <td>{{ $single_data['alcohol']['in_week'] }}</td>
+                                                                <td>{{ $single_data['alcohol']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['alcohol']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Smoking</td>
+                                                                <td>{{ $single_data['smoking']['in_week'] }}</td>
+                                                                <td>{{ $single_data['smoking']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['smoking']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Crabs</td>
+                                                                <td>{{ $single_data['crabs']['in_week'] }}</td>
+                                                                <td>{{ $single_data['crabs']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['crabs']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Protiens</td>
+                                                                <td>{{ $single_data['protien']['in_week'] }}</td>
+                                                                <td>{{ $single_data['protien']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['protien']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Milk</td>
+                                                                <td>{{ $single_data['milk']['in_week'] }}</td>
+                                                                <td>{{ $single_data['milk']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['milk']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Veg</td>
+                                                                <td>{{ $single_data['veg']['in_week'] }}</td>
+                                                                <td>{{ $single_data['veg']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['veg']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Fruits</td>
+                                                                <td>{{ $single_data['fruits']['in_week'] }}</td>
+                                                                <td>{{ $single_data['fruits']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['fruits']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Protien Powder</td>
+                                                                <td>{{ $single_data['protien_powder']['in_week'] }}</td>
+                                                                <td>{{ $single_data['protien_powder']['you_consume'] }}
+                                                                </td>
+                                                                <td>{{ $single_data['protien_powder']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-primary text-white">Nuts</td>
+                                                                <td>{{ $single_data['nuts']['in_week'] }}</td>
+                                                                <td>{{ $single_data['nuts']['you_consume'] }}</td>
+                                                                <td>{{ $single_data['nuts']['what_you_consume'] }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2"><button class="btn btn-danger"
+                                                                        onclick="delete_diet_recall('{{ $single_data['id'] }}','{{ $single_data['client_id'] }}')">Delete</button>
+                                                                </td>
+                                                                <td colspan="2"><button class="btn btn-primary"
+                                                                        onclick="show_diet_recall_modal('{{ $single_data }}', 'edit')">Edit</button>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </ul>
+                                                </div>
+                                                @endforeach
+                                                @else
+                                                <p>No Data found!!</p>
+                                                @endif
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -187,57 +322,233 @@
 
 <!-- Modal  -->
 <!-- Add New Document -->
-<div class="modal diet_plan bd-example-modal-xl" id="exampleModalCenter" tabindex="-1" role="dialog"
+<div class="modal diet_recall" id="exampleModalCenter" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Add New Diet Plan</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Data</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="" id="diet_plan_form">
-                <div class="modal-body medicine-modal-body">
-                    <div class="row">
-                        @if($data->isEmpty() && count($data) > 0)
-                        <select name="template_id" id="template_id">
-                            @foreach($data as $singleTemplate)
-                            <option value=""></option>
-                            @endforeach
-                        </select>
-                        @endif
-                    </div>
+            <form id="diet_recall_form">
+                <div class="modal-body" style="height:550px;overflow:auto;">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="">Diet Date</label>
-                            <input type="date" name="diet_chart_date" id="diet_chart_date" class="form-control"
-                                placeholder="Enter Client Name">
+                            <label for="">Enter Date</label>
+                            <input type="date" name="diet_recall_date" id="diet_recall_date" class="form-control"
+                                required>
                         </div>
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-md-6">
-                            <label for="">Plan Name</label>
-                            <input type="text" name="plan_name" id="plan_name" class="form-control"
-                                placeholder="Enter Plan Name">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Plan Intro</label>
-                            <input type="text" id="plan_intro" name="plan_intro" class="form-control"
-                                placeholder="Enter Plan Intro">
-                        </div>
                         <div class="col-md-12">
-                            <label for="">Dite Plan</label>
-                            <textarea id="diet_chart_template" name="diet_chart_template" rows="10" cols="80"
-                                class="form-control"></textarea>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <th>Name</th>
+                                    <th>How often in a week</th>
+                                    <th>How much you consume</th>
+                                    <th>What do you consume</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Meal Out Freq</td>
+                                        <td><input type="text" class="form-control" id='meal_out.in_week'
+                                                name="meal_out[in_week]"></td>
+                                        <td><input type="text" class="form-control" id='meal_out.you_consume'
+                                                name="meal_out[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='meal_out.what_you_consume'
+                                                name="meal_out[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Water Intake</td>
+                                        <td><input type="text" class="form-control" id='water_intake.in_week'
+                                                name="water_intake[in_week]"></td>
+                                        <td><input type="text" class="form-control" id='water_intake.you_consume'
+                                                name="water_intake[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='water_intake.what_you_consume'
+                                                name="water_intake[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fried Food</td>
+                                        <td><input type="text" class="form-control" id='fried_food.in_week'
+                                                name="fried_food[in_week]"></td>
+                                        <td><input type="text" class="form-control" id='fried_food.you_consume'
+                                                name="fried_food[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='fried_food.what_you_consume'
+                                                name="fried_food[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Choclate/Desserts/Methai</td>
+                                        <td><input type="text" class="form-control" id='choclate.in_week'
+                                                name="choclate[in_week]"></td>
+                                        <td><input type="text" class="form-control" id='choclate.you_consume'
+                                                name="choclate[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='choclate.what_you_consume'
+                                                name="choclate[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Juices/Canned food/Coldrinks</td>
+                                        <td><input type="text" class="form-control" id='juices.in_week'
+                                                name="juices[in_week]"></td>
+                                        <td><input type="text" class="form-control" id='juices.you_consume'
+                                                name="juices[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='juices.what_you_consume'
+                                                name="juices[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Junk food / Chats</td>
+                                        <td><input type="text" class="form-control" id='junk_foods.in_week'
+                                                name="junk_foods[in_week]"></td>
+                                        <td><input type="text" class="form-control" id='junk_foods.you_consume'
+                                                name="junk_foods[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='junk_foods.what_you_consume'
+                                                name="junk_foods[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Breads</td>
+                                        <td><input type="text" class="form-control" id='bread.in_week'
+                                                name="bread[in_week]">
+                                        </td>
+                                        <td><input type="text" class="form-control" id='bread.you_consume'
+                                                name="bread[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='bread.what_you_consume'
+                                                name="bread[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Potatoes</td>
+                                        <td><input type="text" class="form-control" id='potato.in_week'
+                                                name="potato[in_week]"></td>
+                                        <td><input type="text" class="form-control" id='potato.you_consume'
+                                                name="potato[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='potato.what_you_consume'
+                                                name="potato[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chesse</td>
+                                        <td><input type="text" class="form-control" id='chesse.in_week'
+                                                name="chesse[in_week]"></td>
+                                        <td><input type="text" class="form-control" id='chesse.you_consume'
+                                                name="chesse[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='chesse.what_you_consume'
+                                                name="chesse[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Oil</td>
+                                        <td><input type="text" class="form-control" id='oil.in_week'
+                                                name="oil[in_week]">
+                                        </td>
+                                        <td><input type="text" class="form-control" id='oil.you_consume'
+                                                name="oil[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='oil.what_you_consume'
+                                                name="oil[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ghee/Butter</td>
+                                        <td><input type="text" class="form-control" id='ghee.in_week'
+                                                name="ghee[in_week]">
+                                        </td>
+                                        <td><input type="text" class="form-control" id='ghee.you_consume'
+                                                name="ghee[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='ghee.what_you_consume'
+                                                name="ghee[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alcohol</td>
+                                        <td><input type="text" class="form-control" id='alcohol.in_week'
+                                                name="alcohol[in_week]"></td>
+                                        <td><input type="text" class="form-control" id='alcohol.you_consume'
+                                                name="alcohol[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='alcohol.what_you_consume'
+                                                name="alcohol[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Smoking</td>
+                                        <td><input type="text" class="form-control" id='smoking.in_week'
+                                                name="smoking[in_week]"></td>
+                                        <td><input type="text" class="form-control" id='smoking.you_consume'
+                                                name="smoking[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='smoking.what_you_consume'
+                                                name="smoking[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Crabs</td>
+                                        <td><input type="text" class="form-control" id='crabs.in_week'
+                                                name="crabs[in_week]">
+                                        </td>
+                                        <td><input type="text" class="form-control" id='crabs.you_consume'
+                                                name="crabs[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='crabs.what_you_consume'
+                                                name="crabs[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Protiens</td>
+                                        <td><input type="text" class="form-control" id='protien.in_week'
+                                                name="protien[in_week]"></td>
+                                        <td><input type="text" class="form-control" id='protien.you_consume'
+                                                name="protien[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='protien.what_you_consume'
+                                                name="protien[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Milk</td>
+                                        <td><input type="text" class="form-control" id='milk.in_week'
+                                                name="milk[in_week]">
+                                        </td>
+                                        <td><input type="text" class="form-control" id='milk.you_consume'
+                                                name="milk[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='milk.what_you_consume'
+                                                name="milk[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Veg</td>
+                                        <td><input type="text" class="form-control" id='veg.in_week'
+                                                name="veg[in_week]">
+                                        </td>
+                                        <td><input type="text" class="form-control" id='veg.you_consume'
+                                                name="veg[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='veg.what_you_consume'
+                                                name="veg[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fruits</td>
+                                        <td><input type="text" class="form-control" id='fruits.in_week'
+                                                name="fruits[in_week]"></td>
+                                        <td><input type="text" class="form-control" id='fruits.you_consume'
+                                                name="fruits[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='fruits.what_you_consume'
+                                                name="fruits[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Protien Powder</td>
+                                        <td><input type="text" class="form-control" id='protien_powder.in_week'
+                                                name="protien_powder[in_week]"></td>
+                                        <td><input type="text" class="form-control" id='protien_powder.you_consume'
+                                                name="protien_powder[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='protien_powder.what_you_consume'
+                                                name="protien_powder[what_you_consume]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nuts</td>
+                                        <td><input type="text" class="form-control" id='nuts.in_week'
+                                                name="nuts[in_week]">
+                                        </td>
+                                        <td><input type="text" class="form-control" id='nuts.you_consume'
+                                                name="nuts[you_consume]"></td>
+                                        <td><input type="text" class="form-control" id='nuts.what_you_consume'
+                                                name="nuts[what_you_consume]"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="close_diet_plan_modal()">Close</button>
-                    <button id="saveDietTemplate" type="button" class="btn btn-primary" data-process="add">Save
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        onclick="close_diet_followed_modal()">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveDietRecall" data-process="add"
+                        data-id="0">Save
                         changes</button>
                 </div>
             </form>
@@ -251,7 +562,6 @@
 @include('dev.include.footer')
 
 <!-- JS Libraies -->
-<script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
 <script src="{{ asset('assets/modules/codemirror/lib/codemirror.js') }}"></script>
 <script src="{{ asset('assets/modules/codemirror/mode/javascript/javascript.js') }}"></script>
 
@@ -261,36 +571,46 @@
 <script>
 // Document Tab
 
-CKEDITOR.replace('diet_chart_template');
-
-function show_diet_chart_modal(id, diet_chart_date, plan_name, plan_intro, diet_chart_template, process) {
-    document.getElementById("diet_plan_form").reset();
+function show_diet_recall_modal(data, process) {
+    document.getElementById("diet_recall_form").reset();
     if (process == 'add')
-        $('.diet_plan').modal('show');
+        $('.diet_recall').modal('show');
     else {
-        $('#diet_chart_date').val(diet_chart_date)
-        $('#plan_name').val(plan_name)
-        $('#plan_intro').val(plan_intro)
-        CKEDITOR.instances.diet_chart_template.setData(diet_chart_template)
-        $('#saveDietTemplate').attr('data-process', process)
-        $('#saveDietTemplate').attr('data-id', id)
-        $('.diet_plan').modal('show');
-    }
 
+        data = JSON.parse(data);
+        $(`form#diet_recall_form :input`).each(function() {
+            var input = $(this);
+            if ($(this).attr('type') == 'date')
+                $(this).val(data[$(this).attr('name')]);
+            else if ($(this).attr('type') == 'text') {
+                value = $(this).attr("id");
+                value = value.split('.')
+                $(this).val(data[value[0]][value[1]]);
+
+            } else if ($(this).attr('type') == 'button') {
+                $(this).attr('data-id', data.id)
+                $(this).attr('data-process', 'edit')
+            }
+
+        });
+
+        $('.diet_recall').modal('show');
+    }
 }
 
 function close_diet_plan_modal() {
-    $('.diet_plan').modal('hide');
+    document.getElementById("diet_recall_form").reset();
+    $('.diet_recall').modal('hide');
 }
 
-function delete_diet_chart(id, client_id, process) {
+function delete_diet_recall(id, client_id) {
 
     if (confirm("Are you sure you want to do that?")) {
         var formdata = new FormData();
         formdata.append('id', id);
         formdata.append('client_id', client_id);
-        formdata.append('process', process);
-        axios.post(`${url}/update_diet_chart_template_data`, formdata, {
+        formdata.append('process', 'delete');
+        axios.post(`${url}/update_diet_recall_data`, formdata, {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -305,15 +625,15 @@ function delete_diet_chart(id, client_id, process) {
         })
     }
 }
-$('#saveDietTemplate').on('click', async function() {
 
-    let data = new FormData(document.getElementById('diet_plan_form'));
+$('#saveDietRecall').on('click', async function() {
+
+    let data = new FormData(document.getElementById('diet_recall_form'));
     data.append('client_id', user_id);
-    data.append('process', $('#saveDietTemplate').attr('data-process'));
-    data.append('id', $('#saveDietTemplate').attr('data-id'));
-    data.append('diet_chart_template', CKEDITOR.instances.diet_chart_template.getData());
+    data.append('process', $('#saveDietRecall').attr('data-process'));
+    data.append('id', $('#saveDietRecall').attr('data-id'));
 
-    axios.post(`${url}/update_diet_chart_template_data`, data, {
+    axios.post(`${url}/update_diet_recall_data`, data, {
         headers: {
             'Content-Type': 'application/json',
         }
@@ -333,7 +653,7 @@ let user_id = `{{ $user_id }}`;
 var is_data_changed = false;
 var mobile = `{{ $mobile ?? '' }}`;
 
-$('.nav-link').click(async function() {
+$('.appointment-link').click(async  function() {
     var url = $(this).attr('data-url');
     window.location.href = `{{ url('startAppointment/${mobile}/${url}') }} `
 });

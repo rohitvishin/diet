@@ -309,12 +309,11 @@
 <script src="{{ asset('assets/js/page/features-setting-detail.js') }}"></script>
 
 <script>
-var user_data <?= !empty($user_data) && $user_data != 'null' ? '= '.$user_data : `{}` ?>;
 let user_id = `{{ $user_id }}`;
 var is_data_changed = false;
 var mobile = `{{ $mobile ?? '' }}`;
 
-$('.nav-link').click(async function() {
+$('.appointment-link').click(async  function() {
     var url = $(this).attr('data-url');
     window.location.href = `{{ url('startAppointment/${mobile}/${url}') }} `
 });
